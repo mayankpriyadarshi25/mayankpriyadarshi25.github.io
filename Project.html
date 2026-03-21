@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Projects — Portfolio</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #0a0c12;
+            --sb: #0e1018;
+            --card: #111520;
+            --card2: #151a24;
+            --blue: #00b4ff;
+            --cyan: #00eeff;
+            --pink: #ff2d78;
+            --white: #e8f0ff;
+            --muted: #6a7a9a;
+            --dim: #3a4560;
+            --bdr: rgba(0, 180, 255, .1);
+            --bdr2: rgba(0, 180, 255, .2);
+            --red: #ff4d6d;
+            --green: #00e096;
+            --yellow: #ffd166;
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: "DM Sans", sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sb {
+            background: var(--sb);
+            border-right: 1px solid var(--bdr);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .profile {
+            padding: 28px 22px 22px;
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .av-wrap {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            margin-bottom: 14px;
+        }
+
+        .av-wrap::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan), #7f5af0);
+            z-index: 0;
+        }
+
+        .av-in {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #0a1535;
+        }
+
+        .av-in img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        .pname {
+            font-family: "Syne", sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 3px;
+        }
+
+        .prole {
+            font-size: .78rem;
+            color: var(--muted);
+        }
+
+        .nav-sec {
+            padding: 18px 14px 8px;
+        }
+
+        .nav-lbl {
+            font-size: .62rem;
+            color: var(--dim);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            font-weight: 700;
+            padding: 0 8px;
+            margin-bottom: 8px;
+        }
+
+        .ni {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: .86rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: 2px;
+            border: 1px solid transparent;
+            user-select: none;
+        }
+
+        .ni:hover {
+            background: rgba(0, 180, 255, .06);
+            color: var(--white);
+        }
+
+        .ni.active {
+            background: rgba(0, 180, 255, .1);
+            color: var(--blue);
+            border-color: rgba(0, 180, 255, .2);
+        }
+
+        .ni svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            flex-shrink: 0;
+        }
+
+        .nbadge {
+            margin-left: auto;
+            background: rgba(0, 180, 255, .12);
+            color: var(--blue);
+            font-size: .66rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 5px;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        .sb-foot {
+            margin-top: auto;
+            padding: 14px;
+            border-top: 1px solid var(--bdr);
+        }
+
+        .abtn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 13px;
+            border-radius: 10px;
+            background: rgba(0, 180, 255, .06);
+            border: 1px solid var(--bdr2);
+            color: var(--blue);
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: "DM Sans", sans-serif;
+        }
+
+        .abtn:hover {
+            background: rgba(0, 180, 255, .14);
+        }
+
+        .abtn svg {
+            width: 15px;
+            height: 15px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        /* MAIN */
+        .main {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .mhdr {
+            padding: 20px 36px;
+            border-bottom: 1px solid var(--bdr);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+        }
+
+        .bc {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: .83rem;
+            color: var(--muted);
+        }
+
+        .bc span.hi {
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .bc svg {
+            width: 12px;
+            height: 12px;
+            fill: none;
+            stroke: var(--dim);
+            stroke-width: 2;
+        }
+
+        .srch-wrap {
+            position: relative;
+        }
+
+        .srch {
+            background: var(--card);
+            border: 1px solid var(--bdr);
+            border-radius: 10px;
+            padding: 8px 36px 8px 14px;
+            color: var(--white);
+            font-family: "DM Sans", sans-serif;
+            font-size: .83rem;
+            outline: none;
+            width: 200px;
+            transition: border-color .2s;
+        }
+
+        .srch::placeholder {
+            color: var(--muted);
+        }
+
+        .srch:focus {
+            border-color: var(--blue);
+        }
+
+        .si {
+            position: absolute;
+            right: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 2;
+            pointer-events: none;
+        }
+
+        .ca {
+            padding: 32px 36px;
+            flex: 1;
+        }
+
+        .sh {
+            margin-bottom: 28px;
+        }
+
+        .gl {
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--blue), var(--cyan), transparent);
+            border-radius: 2px;
+            margin-bottom: 14px;
+            box-shadow: 0 0 18px #00b4ffaa;
+        }
+
+        .st {
+            font-family: "Syne", sans-serif;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+
+        .ss {
+            font-size: .85rem;
+            color: var(--muted);
+        }
+
+        /* PROJECT CARDS */
+        .pgrid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pc {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--card);
+            border: 1px solid var(--bdr);
+            border-radius: 14px;
+            padding: 18px 22px;
+            cursor: pointer;
+            transition: all .25s;
+        }
+
+        .pc:hover {
+            border-color: rgba(0, 180, 255, .4);
+            box-shadow: 0 0 28px #00b4ff14;
+            transform: translateX(5px);
+        }
+
+        .pcn {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: rgba(0, 180, 255, .22);
+            min-width: 44px;
+            line-height: 1;
+        }
+
+        .pcb {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pct {
+            font-family: "Syne", sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 4px;
+        }
+
+        .pcd {
+            font-size: .81rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .pcs {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .tag {
+            background: rgba(0, 180, 255, .08);
+            border: 1px solid rgba(0, 180, 255, .18);
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-size: .7rem;
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .pca svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: var(--dim);
+            stroke-width: 2;
+        }
+
+        .pc:hover .pca svg {
+            stroke: var(--blue);
+        }
+
+        /* FOLDER VIEW */
+        .fgrid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .fc {
+            background: var(--card);
+            border: 1px solid var(--bdr);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color .25s;
+        }
+
+        .fc:hover {
+            border-color: rgba(0, 180, 255, .3);
+        }
+
+        .fh {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 22px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .fi {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: rgba(0, 180, 255, .08);
+            border: 1px solid var(--bdr2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .fi svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: var(--blue);
+            stroke-width: 1.8;
+        }
+
+        .finfo {
+            flex: 1;
+        }
+
+        .ftitle {
+            font-family: "Syne", sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 2px;
+        }
+
+        .fmeta {
+            font-size: .75rem;
+            color: var(--muted);
+        }
+
+        .fcnt {
+            background: rgba(0, 180, 255, .1);
+            border: 1px solid var(--bdr2);
+            border-radius: 5px;
+            padding: 2px 9px;
+            font-size: .7rem;
+            color: var(--blue);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .fchev {
+            flex-shrink: 0;
+            transition: transform .3s;
+        }
+
+        .fchev svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: var(--dim);
+            stroke-width: 2;
+        }
+
+        .fc.open .fchev {
+            transform: rotate(90deg);
+        }
+
+        .fnotes {
+            display: none;
+            border-top: 1px solid var(--bdr);
+        }
+
+        .fc.open .fnotes {
+            display: block;
+        }
+
+        .nitem {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 22px;
+            border-bottom: 1px solid rgba(0, 180, 255, .05);
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .nitem:last-child {
+            border-bottom: none;
+        }
+
+        .nitem:hover {
+            background: rgba(0, 180, 255, .05);
+        }
+
+        .ndot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--blue);
+            opacity: .45;
+            flex-shrink: 0;
+        }
+
+        .nitem:hover .ndot {
+            opacity: 1;
+        }
+
+        .ntitle {
+            flex: 1;
+            font-size: .86rem;
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .nitem:hover .ntitle {
+            color: var(--blue);
+        }
+
+        .ndate {
+            font-size: .73rem;
+            color: var(--muted);
+        }
+
+        /* NOTE DETAIL */
+        .ndview {
+            display: none;
+        }
+
+        .ndview.vis {
+            display: block;
+        }
+
+        .bbtn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 15px;
+            border-radius: 8px;
+            background: rgba(0, 180, 255, .06);
+            border: 1px solid var(--bdr2);
+            color: var(--blue);
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 22px;
+            transition: all .2s;
+        }
+
+        .bbtn:hover {
+            background: rgba(0, 180, 255, .14);
+        }
+
+        .bbtn svg {
+            width: 13px;
+            height: 13px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .ndtag {
+            display: inline-block;
+            background: rgba(0, 180, 255, .1);
+            border: 1px solid var(--bdr2);
+            border-radius: 6px;
+            padding: 3px 11px;
+            font-size: .73rem;
+            color: var(--blue);
+            font-weight: 600;
+            margin-bottom: 11px;
+        }
+
+        .ndtitle {
+            font-family: "Syne", sans-serif;
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 9px;
+            line-height: 1.25;
+        }
+
+        .ndmeta {
+            font-size: .8rem;
+            color: var(--muted);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .nddiv {
+            height: 1px;
+            background: var(--bdr);
+            margin-bottom: 24px;
+        }
+
+        .ndbody {
+            font-size: .93rem;
+            line-height: 1.9;
+            color: var(--muted);
+            max-width: 760px;
+        }
+
+        .ndbody h3 {
+            font-family: "Syne", sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--white);
+            margin: 26px 0 9px;
+        }
+
+        .ndbody p {
+            margin-bottom: 12px;
+        }
+
+        .ndbody code {
+            font-family: "JetBrains Mono", monospace;
+            font-size: .8rem;
+            background: rgba(0, 180, 255, .08);
+            border: 1px solid var(--bdr2);
+            border-radius: 4px;
+            padding: 1px 6px;
+            color: var(--cyan);
+        }
+
+        .ndbody ul,
+        .ndbody ol {
+            margin: 8px 0 12px 20px;
+        }
+
+        .ndbody li {
+            margin-bottom: 5px;
+        }
+
+        /* EMPTY */
+        .empty {
+            text-align: center;
+            padding: 70px 20px;
+            color: var(--muted);
+        }
+
+        .empty svg {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 14px;
+            display: block;
+            opacity: .2;
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.2;
+        }
+
+        /* OVERLAY + MODAL */
+        .ov {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, .8);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .ov.open {
+            display: flex;
+        }
+
+        .mbox {
+            background: var(--card);
+            border: 1px solid var(--bdr);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 580px;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 34px 38px;
+            position: relative;
+        }
+
+        .mclose {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, .05);
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
+        }
+
+        .mclose:hover {
+            background: rgba(255, 77, 109, .15);
+            color: var(--red);
+        }
+
+        .mhd {
+            font-family: "Syne", sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mhd svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: var(--blue);
+            stroke-width: 2;
+        }
+
+        .fg {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-bottom: 13px;
+        }
+
+        .fl {
+            font-size: .79rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .fi2,
+        .fta,
+        .fsel {
+            width: 100%;
+            background: var(--card2);
+            border: 1px solid var(--bdr);
+            border-radius: 10px;
+            padding: 11px 13px;
+            color: var(--white);
+            font-family: "DM Sans", sans-serif;
+            font-size: .87rem;
+            outline: none;
+            transition: border-color .2s;
+            resize: none;
+        }
+
+        .fi2::placeholder,
+        .fta::placeholder {
+            color: var(--muted);
+        }
+
+        .fi2:focus,
+        .fta:focus,
+        .fsel:focus {
+            border-color: var(--blue);
+        }
+
+        .fta {
+            height: 130px;
+        }
+
+        .fsel option {
+            background: var(--card2);
+        }
+
+        .frow2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 11px;
+        }
+
+        .bprim {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 22px;
+            border-radius: 9px;
+            background: var(--blue);
+            color: #000;
+            font-family: "DM Sans", sans-serif;
+            font-weight: 700;
+            font-size: .87rem;
+            border: none;
+            cursor: pointer;
+            transition: all .25s;
+        }
+
+        .bprim:hover {
+            background: var(--cyan);
+        }
+
+        .bghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--bdr);
+            font-family: "DM Sans", sans-serif;
+            font-size: .87rem;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .bghost:hover {
+            color: var(--white);
+            border-color: rgba(255, 255, 255, .25);
+        }
+
+        .bdanger {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 12px;
+            border-radius: 7px;
+            background: rgba(255, 77, 109, .07);
+            color: var(--red);
+            border: 1px solid rgba(255, 77, 109, .2);
+            font-family: "DM Sans", sans-serif;
+            font-size: .76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .bdanger:hover {
+            background: rgba(255, 77, 109, .18);
+        }
+
+        .bedit {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 12px;
+            border-radius: 7px;
+            background: rgba(0, 180, 255, .07);
+            color: var(--blue);
+            border: 1px solid var(--bdr2);
+            font-family: "DM Sans", sans-serif;
+            font-size: .76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .bedit:hover {
+            background: rgba(0, 180, 255, .15);
+        }
+
+        .sdiv {
+            height: 1px;
+            background: var(--bdr);
+            margin: 16px 0;
+        }
+
+        .slbl {
+            font-size: .7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        .ai {
+            background: var(--card2);
+            border: 1px solid var(--bdr);
+            border-radius: 9px;
+            padding: 11px 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 7px;
+        }
+
+        .ai-inf {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ai-t {
+            font-size: .85rem;
+            color: var(--white);
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ai-s {
+            font-size: .71rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .ai-act {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .pw-ic {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: rgba(0, 180, 255, .1);
+            border: 1px solid var(--bdr2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .pw-ic svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--blue);
+            stroke-width: 2;
+        }
+
+        .pw-t {
+            font-family: "Syne", sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--white);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .pw-s {
+            font-size: .81rem;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .pw-e {
+            font-size: .78rem;
+            color: var(--red);
+            min-height: 18px;
+            margin-top: 5px;
+        }
+
+        /* SECTION TABS in QA */
+        .qtabs {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .qtab {
+            padding: 6px 12px;
+            border-radius: 7px;
+            border: 1px solid var(--bdr);
+            background: transparent;
+            color: var(--muted);
+            font-family: "DM Sans", sans-serif;
+            font-size: .76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .qtab:hover {
+            color: var(--white);
+        }
+
+        .qtab.active {
+            background: rgba(0, 180, 255, .12);
+            color: var(--blue);
+            border-color: var(--bdr2);
+        }
+
+        /* FAB */
+        .fab {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 9px;
+        }
+
+        .fab-items {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 7px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all .22s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .fab.open .fab-items {
+            pointer-events: all;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fab-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+        }
+
+        .fab-lbl {
+            background: var(--card);
+            border: 1px solid var(--bdr2);
+            border-radius: 7px;
+            padding: 5px 11px;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--white);
+            white-space: nowrap;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .4);
+        }
+
+        .fab-ic {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+            transition: transform .2s;
+            flex-shrink: 0;
+        }
+
+        .fab-ic:hover {
+            transform: scale(1.1);
+        }
+
+        .fab-ic svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: #000;
+            stroke-width: 2;
+        }
+
+        .fab-main {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 0 0 rgba(0, 180, 255, .5);
+            animation: fabp 2.5s infinite;
+            position: relative;
+            transition: background .2s;
+            user-select: none;
+        }
+
+        .fab-main:hover {
+            background: var(--cyan);
+        }
+
+        .fab-main svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #000;
+            stroke-width: 2.5;
+            transition: transform .25s;
+        }
+
+        .fab.open .fab-main svg {
+            transform: rotate(45deg);
+        }
+
+        @keyframes fabp {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 180, 255, .5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(0, 180, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 180, 255, 0);
+            }
+        }
+
+        .fab-lock {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: var(--pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .fab-lock svg {
+            width: 9px;
+            height: 9px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            padding: 11px 20px;
+            border-radius: 11px;
+            font-size: .85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .5);
+            transform: translateY(70px);
+            opacity: 0;
+            transition: all .3s cubic-bezier(.4, 0, .2, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.ok {
+            background: #0d2b1f;
+            border: 1px solid var(--green);
+            color: var(--green);
+        }
+
+        .toast.err {
+            background: #2b0d13;
+            border: 1px solid var(--red);
+            color: var(--red);
+        }
+
+        @media(max-width:860px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sb {
+                position: static;
+                height: auto;
+            }
+
+            .ca {
+                padding: 22px 18px;
+            }
+
+            .mhdr {
+                padding: 16px 18px;
+            }
+
+            .frow2 {
+                grid-template-columns: 1fr;
+            }
+
+            .mbox {
+                padding: 24px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+        <aside class="sb">
+            <div class="profile">
+                <div class="av-wrap">
+                    <div class="av-in"><img
+                            src="image.png"
+                            alt="Profile" /></div>
+                </div>
+                <div class="pname">Mayank Priyadarshi</div>
+                <div class="prole">Cybersecurity Student</div>
+            </div>
+            <div class="nav-sec">
+                <div class="nav-lbl">Navigation</div>
+                <div class="ni active" id="ni-projects" onclick="switchSec('projects',this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h9a2 2 0 012 2z" />
+                    </svg>
+                    Project <span class="nbadge" id="b-projects">0</span>
+                </div>
+                <div class="ni" id="ni-notes" onclick="switchSec('notes',this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    Notes <span class="nbadge" id="b-notes">0</span>
+                </div>
+                <div class="ni" id="ni-summary" onclick="switchSec('summary',this)">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 11l3 3L22 4" />
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+                    </svg>
+                    Summary <span class="nbadge" id="b-summary">0</span>
+                </div>
+                <div class="ni" id="ni-research" onclick="switchSec('research',this)">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    Research Paper <span class="nbadge" id="b-research">0</span>
+                </div>
+                <div class="ni" id="ni-ctf" onclick="switchSec('ctf',this)">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg>
+                    CTF Walkthrough <span class="nbadge" id="b-ctf">0</span>
+                </div>
+            </div>
+            <div class="sb-foot">
+                <button class="abtn" onclick="openAdminLogin()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                    </svg>
+                    Admin Panel
+                </button>
+            </div>
+        </aside>
+
+        <main class="main">
+            <div class="mhdr">
+                <div class="bc">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                    <span class="hi" id="bc-lbl">Projects</span>
+                </div>
+                <div class="srch-wrap">
+                    <input class="srch" id="srchInput" type="text" placeholder="Search..." oninput="renderActive()" />
+                    <svg class="si" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="ca">
+                <!-- Note detail view -->
+                <div class="ndview" id="ndview">
+                    <div class="bbtn" id="backBtn">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                        Back
+                    </div>
+                    <div class="ndtag" id="nd-tag"></div>
+                    <h1 class="ndtitle" id="nd-title"></h1>
+                    <div class="ndmeta" id="nd-meta"></div>
+                    <div class="nddiv"></div>
+                    <div class="ndbody" id="nd-body"></div>
+                </div>
+
+                <!-- Section content -->
+                <div id="secContent">
+                    <div class="sh">
+                        <div class="gl"></div>
+                        <div class="st" id="sec-title">Projects</div>
+                        <div class="ss" id="sec-sub">All projects — click to view details</div>
+                    </div>
+                    <div id="contentList"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PASSWORD MODAL -->
+    <div class="ov" id="loginOv">
+        <div class="mbox" style="max-width:400px;">
+            <button class="mclose" onclick="closeLogin()">&#x2715;</button>
+            <div class="pw-ic"><svg viewBox="0 0 24 24">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg></div>
+            <div class="pw-t">Admin Access</div>
+            <div class="pw-s">Enter admin credentials</div>
+            <input class="fi2" id="unInp" type="text" placeholder="Username..." onkeydown="if(event.key==='Enter') document.getElementById('pwInp').focus()" style="margin-bottom:8px" />
+            <input class="fi2" id="pwInp" type="password" placeholder="Password..."
+                onkeydown="if(event.key==='Enter')checkPw()" />
+            <div class="pw-e" id="pwErr"></div>
+            <div style="display:flex;gap:9px;justify-content:center;margin-top:14px;">
+                <button class="bprim" onclick="checkPw()">Unlock</button>
+                <button class="bghost" onclick="closeLogin()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL -->
+    <div class="ov" id="adminOv">
+        <div class="mbox">
+            <button class="mclose" onclick="closeAdmin()">&#x2715;</button>
+            <div class="mhd">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                Content Manager
+            </div>
+            <div class="fg">
+                <label class="fl">Section</label>
+                <select class="fsel" id="adSec" onchange="adSecChanged()">
+                    <option value="projects">Projects</option>
+                    <option value="notes">Notes</option>
+                    <option value="summary">Summary</option>
+                    <option value="research">Research Paper</option>
+                    <option value="ctf">CTF Walkthrough</option>
+                </select>
+            </div>
+            <div class="sdiv"></div>
+            <div class="slbl" id="adFormLbl">Add New Item</div>
+            <input type="hidden" id="adEditId" />
+            <div class="fg"><label class="fl">Title *</label><input class="fi2" id="ad-title" placeholder="Title..." />
+            </div>
+            <div class="frow2">
+                <div class="fg"><label class="fl">Tag</label><input class="fi2" id="ad-tag"
+                        placeholder="e.g. Security" /></div>
+                <div class="fg"><label class="fl">Date</label><input class="fi2" id="ad-date" type="date" /></div>
+            </div>
+            <div id="adProjF">
+                <div class="fg"><label class="fl">Short Description</label><input class="fi2" id="ad-desc"
+                        placeholder="One-line summary..." /></div>
+                <div class="fg"><label class="fl">Tech Stack (comma separated)</label><input class="fi2" id="ad-stack"
+                        placeholder="React, Node.js, Python" /></div>
+                <div class="fg"><label class="fl">Project URL (optional)</label><input class="fi2" id="ad-link"
+                        placeholder="https://..." /></div>
+            </div>
+            <div id="adFolderF" style="display:none;">
+                <div class="fg"><label class="fl">Folder *</label><input class="fi2" id="ad-folder"
+                        placeholder="e.g. Linux, Web Hacking, React" /></div>
+            </div>
+            <div class="fg"><label class="fl">Full Content *</label><textarea class="fta" id="ad-body"
+                    placeholder="Write content...&#10;### Section Heading&#10;`inline code`&#10;- bullet point"></textarea>
+            </div>
+            <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:6px;">
+                <button class="bprim" onclick="saveItem()"><span id="adSaveLbl">Publish</span></button>
+                <button class="bghost" id="adCancelBtn" style="display:none;" onclick="cancelEdit()">Cancel</button>
+                <button class="bghost" onclick="closeAdmin()">Close</button>
+            </div>
+            <div class="sdiv"></div>
+            <div class="slbl">Existing Items <span id="adCount" style="color:var(--blue)"></span></div>
+            <div id="adList"></div>
+        </div>
+    </div>
+
+    <!-- QUICK ADD MODAL -->
+    <div class="ov" id="qaOv">
+        <div class="mbox">
+            <button class="mclose" onclick="closeQA()">&#x2715;</button>
+            <div class="mhd">
+                <svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span id="qaTitle">Quick Add</span>
+            </div>
+            <div class="qtabs" id="qaTabs">
+                <button class="qtab active" data-sec="projects" onclick="setQASec(this)">Project</button>
+                <button class="qtab" data-sec="notes" onclick="setQASec(this)">Note</button>
+                <button class="qtab" data-sec="summary" onclick="setQASec(this)">Summary</button>
+                <button class="qtab" data-sec="research" onclick="setQASec(this)">Research</button>
+                <button class="qtab" data-sec="ctf" onclick="setQASec(this)">CTF</button>
+            </div>
+            <input type="hidden" id="qa-sec" value="projects" />
+            <div class="fg"><label class="fl">Title *</label><input class="fi2" id="qa-title" placeholder="Title..." />
+            </div>
+            <div class="frow2">
+                <div class="fg"><label class="fl">Tag</label><input class="fi2" id="qa-tag"
+                        placeholder="e.g. Security" /></div>
+                <div class="fg"><label class="fl">Date</label><input class="fi2" id="qa-date" type="date" /></div>
+            </div>
+            <div id="qaProjF">
+                <div class="fg"><label class="fl">Short Description</label><input class="fi2" id="qa-desc"
+                        placeholder="One-line summary..." /></div>
+                <div class="fg"><label class="fl">Tech Stack (comma separated)</label><input class="fi2" id="qa-stack"
+                        placeholder="React, Node.js" /></div>
+                <div class="fg"><label class="fl">URL (optional)</label><input class="fi2" id="qa-link"
+                        placeholder="https://..." /></div>
+            </div>
+            <div id="qaFolderF" style="display:none;">
+                <div class="fg"><label class="fl">Folder *</label><input class="fi2" id="qa-folder"
+                        placeholder="e.g. Linux, Web Hacking" /></div>
+            </div>
+            <div class="fg">
+                <label class="fl">Full Content * <span style="color:var(--dim);font-size:.7rem;">(### Heading, `code`, -
+                        bullet)</span></label>
+                <textarea class="fta" style="height:150px;" id="qa-body" placeholder="Write content here..."></textarea>
+            </div>
+            <div style="display:flex;gap:9px;">
+                <button class="bprim" onclick="saveQA()">Publish</button>
+                <button class="bghost" onclick="closeQA()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAB -->
+    <div class="fab" id="fab">
+        <div class="fab-items" id="fabItems">
+            <div class="fab-row" data-sec="projects">
+                <div class="fab-lbl">Add Project</div>
+                <div class="fab-ic" style="background:var(--blue);"><svg viewBox="0 0 24 24">
+                        <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h9a2 2 0 012 2z" />
+                    </svg></div>
+            </div>
+            <div class="fab-row" data-sec="notes">
+                <div class="fab-lbl">Add Note</div>
+                <div class="fab-ic" style="background:var(--cyan);"><svg viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg></div>
+            </div>
+            <div class="fab-row" data-sec="summary">
+                <div class="fab-lbl">Add Summary</div>
+                <div class="fab-ic" style="background:var(--green);"><svg viewBox="0 0 24 24">
+                        <path d="M9 11l3 3L22 4" />
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+                    </svg></div>
+            </div>
+            <div class="fab-row" data-sec="research">
+                <div class="fab-lbl">Add Research Paper</div>
+                <div class="fab-ic" style="background:var(--yellow);"><svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg></div>
+            </div>
+            <div class="fab-row" data-sec="ctf">
+                <div class="fab-lbl">Add CTF Walkthrough</div>
+                <div class="fab-ic" style="background:var(--pink);"><svg viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+        </div>
+        <div class="fab-main" id="fabMain">
+            <svg viewBox="0 0 24 24" id="fabIcon">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            <div class="fab-lock" id="fabLock"><svg viewBox="0 0 24 24">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><span id="toast-msg"></span></div>
+
+    <script>
+        var API_BASE = "/api";
+        var KEYS = { projects: "pf_proj", notes: "pf_notes", summary: "pf_summ", research: "pf_res", ctf: "pf_ctf" };
+
+        // Default data — defined safely using arrays to avoid quote issues
+        function makeDefaults() {
+            return {
+                projects: [
+                    {
+                        id: 1, title: "Personal Portfolio Website", tag: "Web Dev", date: "2025-06-10",
+                        desc: "Full-stack portfolio with admin panel, contact form, live map and news feed.",
+                        stack: ["Next.js 14", "Tailwind CSS", "PostgreSQL", "EmailJS"], link: "#",
+                        body: "### Overview\nBuilt a complete personal portfolio from scratch with animated hero, admin-protected CMS, EmailJS contact form, Leaflet map, and news system.\n\n### Tech Stack\n- Next.js 14 with App Router\n- Tailwind CSS custom dark theme\n- PostgreSQL via Supabase\n- EmailJS for real contact form delivery\n\n### Key Features\n- Dark/light mode toggle\n- Password-protected admin panel\n- One-click content publishing\n- Fully responsive on all devices"
+                    },
+                    {
+                        id: 2, title: "AI Customer Support Chatbot", tag: "AI / ML", date: "2025-06-05",
+                        desc: "Claude-powered chatbot handling ticket triage, FAQ and human escalation.",
+                        stack: ["Python", "FastAPI", "Claude API", "Redis"], link: "",
+                        body: "### Overview\nIntegrated Claude AI into a customer support pipeline achieving 85% ticket deflection rate.\n\n### Architecture\n- FastAPI backend handling webhook events\n- Claude for intent classification and response generation\n- Redis for conversation memory and rate limiting\n- Auto-escalation when confidence drops below threshold\n\n### Results\n- 85% of tickets resolved without human input\n- Response time reduced from 4 hours to 12 seconds\n- Customer satisfaction up 22%"
+                    },
+                    {
+                        id: 3, title: "Network Vulnerability Scanner", tag: "Security", date: "2025-05-20",
+                        desc: "Automated scanner with CVE matching, PDF reports and Slack notifications.",
+                        stack: ["Python", "Nmap", "SQLite", "ReportLab"], link: "",
+                        body: "### Overview\nComprehensive automated network scanner with CVE correlation and report generation.\n\n### Scanning Pipeline\n1. Host discovery with nmap ping sweep\n2. Full TCP port scan\n3. Service and version detection\n4. CVE lookup against NVD database API\n\n### Reporting\n- Color-coded PDF reports via ReportLab\n- Risk levels: Critical / High / Medium / Low\n- Slack alerts on Critical CVE discovery"
+                    },
+                    {
+                        id: 4, title: "Real-Time Chat Application", tag: "Web Dev", date: "2025-05-10",
+                        desc: "WebSocket chat with rooms, file sharing, emoji reactions and E2E encryption.",
+                        stack: ["React", "Socket.io", "Node.js", "MongoDB"], link: "",
+                        body: "### Overview\nFull-featured real-time chat with multiple rooms, private messages and encryption.\n\n### Features\n- WebSocket via Socket.io\n- End-to-end encryption using Web Crypto API\n- File sharing with drag-and-drop\n- Emoji reactions and typing indicators\n- Message search and pagination\n\n### Performance\nHandles 10,000 concurrent connections on a single Node.js instance"
+                    },
+                    {
+                        id: 5, title: "CTF Automated Recon Tool", tag: "Security", date: "2025-04-28",
+                        desc: "All-in-one recon tool for CTF competitions — port scan to markdown report.",
+                        stack: ["Python", "Bash", "Docker", "SQLite"], link: "",
+                        body: "### Overview\nAutomated recon tool for CTF competitions covering full reconnaissance phase.\n\n### Modules\n- Port scanning and service detection\n- Directory and subdomain enumeration\n- Technology fingerprinting\n- Auto Searchsploit query\n- Web service screenshots\n- Markdown report generation\n\n### Usage\npython recon.py --target 10.10.10.x --mode full"
+                    }
+                ],
+                notes: [
+                    {
+                        id: 1, title: "Active Directory Enumeration", tag: "AD Attacks", folder: "AD Attacks", date: "2025-06-08",
+                        body: "### Overview\nAD enumeration extracts info about users, groups, computers, GPOs and trusts.\n\n### Key Commands\n- net user /domain — list domain users\n- net group /domain — list domain groups\n- net group Domain Admins /domain — DA members\n\n### PowerView\n- Get-DomainUser — all users\n- Get-DomainComputer — all computers\n- Find-LocalAdminAccess — local admin machines\n\n### BloodHound\nRun SharpHound.exe -c All then import into BloodHound for attack path analysis."
+                    },
+                    {
+                        id: 2, title: "Kerberoasting Attack", tag: "AD Attacks", folder: "AD Attacks", date: "2025-06-07",
+                        body: "### What is Kerberoasting\nAbusing Kerberos to request TGS tickets for service accounts and crack offline.\n\n### Attack Steps\n1. Enumerate SPNs via Get-DomainUser -SPN\n2. Request TGS via Invoke-Kerberoast -OutputFormat hashcat\n3. Crack: hashcat -m 13100 hash.txt rockyou.txt\n\n### Impacket Version\npython GetUserSPNs.py domain/user:pass -dc-ip 10.10.10.x -request\n\n### Mitigation\nUse 25+ char random passwords and AES-256 for service accounts."
+                    },
+                    {
+                        id: 3, title: "AS-REP Roasting", tag: "AD Attacks", folder: "AD Attacks", date: "2025-06-06",
+                        body: "### What is AS-REP Roasting\nAttacking accounts with Kerberos pre-auth disabled — no creds needed.\n\n### Find Vulnerable Accounts\nGet-DomainUser -PreauthNotRequired (PowerView)\npython GetNPUsers.py domain/ -usersfile users.txt -no-pass -dc-ip IP\n\n### Crack\nhashcat -m 18200 hash.txt rockyou.txt\n\n### Detection\nEvent ID 4768 with pre-auth type 0."
+                    },
+                    {
+                        id: 4, title: "Linux Privilege Escalation", tag: "Linux", folder: "Linux", date: "2025-06-05",
+                        body: "### SUID Binaries\nfind / -perm -4000 2>/dev/null — find SUID binaries\nCheck GTFOBins for exploitation methods.\n\n### Sudo Abuse\nsudo -l — list permissions\nIf vim allowed: sudo vim -c :!/bin/bash\n\n### Cron Jobs\ncat /etc/crontab — system cron\nLook for writable scripts run by root.\n\n### Capabilities\ngetcap -r / 2>/dev/null — check cap_setuid etc.\n\n### LinPEAS\nRun linpeas.sh — highlights critical findings in red."
+                    },
+                    {
+                        id: 5, title: "Web Application Enumeration", tag: "Web Hacking", folder: "Web Hacking", date: "2025-06-03",
+                        body: "### Directory Bruteforce\ngobuster dir -u http://target -w /usr/share/wordlists/dirb/common.txt\nffuf -w wordlist.txt -u http://target/FUZZ\n\n### Subdomain Enum\nffuf -w subdomains.txt -u https://FUZZ.target.com\namass enum -d target.com\n\n### SQL Injection\nManual: admin or 1=1-- in login forms\nAutomated: sqlmap -u http://target/page?id=1 --dbs\n\n### XSS\nBasic test: alert payload in input fields\nCheck if output is reflected without sanitization."
+                    },
+                    {
+                        id: 6, title: "Git Cheatsheet", tag: "Cheatsheet", folder: "Cheatsheet", date: "2025-06-01",
+                        body: "### Setup\ngit config --global user.name YourName\ngit config --global user.email you@example.com\n\n### Daily Workflow\n- git status — check working tree\n- git add . — stage all\n- git commit -m message — commit\n- git push origin main — push\n\n### Branching\n- git checkout -b feature/name — create branch\n- git merge feature/name — merge\n- git branch -d feature/name — delete\n\n### Undo\n- git reset --soft HEAD~1 — undo commit keep changes\n- git stash — save changes temporarily\n- git stash pop — restore stash"
+                    }
+                ],
+                summary: [
+                    {
+                        id: 1, title: "OWASP Top 10 (2021)", tag: "Web Security", folder: "Web Security", date: "2025-06-09",
+                        body: "### OWASP Top 10 2021\n1. A01 Broken Access Control — 94% of apps\n2. A02 Cryptographic Failures\n3. A03 Injection\n4. A04 Insecure Design\n5. A05 Security Misconfiguration\n6. A06 Vulnerable Components\n7. A07 Auth Failures\n8. A08 Software Integrity Failures\n9. A09 Logging Failures\n10. A10 SSRF\n\n### Quick Fixes\n- Deny access by default\n- Log all auth failures\n- Use parameterized queries\n- Keep dependencies updated"
+                    },
+                    {
+                        id: 2, title: "Docker Security Best Practices", tag: "DevOps", folder: "DevOps", date: "2025-06-04",
+                        body: "### Run as Non-Root\nAdd USER nonroot in Dockerfile — never run as root in production.\n\n### Minimize Image\nUse alpine or distroless base images to reduce attack surface.\n\n### Read-Only Filesystem\ndocker run --read-only prevents attackers from writing to filesystem.\n\n### Limit Resources\ndocker run --memory=512m --cpus=0.5 prevents resource exhaustion.\n\n### Scan Images\nUse Trivy: trivy image myimage"
+                    },
+                    {
+                        id: 3, title: "React Performance Optimization", tag: "Frontend", folder: "Frontend", date: "2025-05-30",
+                        body: "### Code Splitting\nUse React.lazy and Suspense to split bundles and load on demand.\n\n### Memoization\n- React.memo — prevent pure component re-renders\n- useMemo — memoize expensive computations\n- useCallback — memoize callbacks passed to children\n\n### Virtual Lists\nFor long lists use react-window — only renders visible items.\n\n### Bundle Analysis\nnpx next-bundle-analyzer — visualize bundle contents."
+                    }
+                ],
+                research: [
+                    {
+                        id: 1, title: "LLM Prompt Injection Attacks", tag: "AI Security", folder: "AI Security", date: "2025-06-01",
+                        body: "### Abstract\nAnalysis of prompt injection vulnerabilities in production LLM deployments — direct injection, RAG-based indirect injection, and data exfiltration.\n\n### Attack Categories\n- Direct injection: user overwrites system prompt\n- Indirect injection: malicious content in retrieved docs\n- Multi-turn: gradually shifting model behavior\n\n### Key Findings\n1. RAG systems are significantly more vulnerable\n2. Output filtering is more effective than input filtering\n\n### Mitigations\n- Privilege separation between LLM and system\n- Structured output schemas\n- Human-in-the-loop for high-privilege actions"
+                    },
+                    {
+                        id: 2, title: "Zero Trust Architecture", tag: "Network Security", folder: "Network Security", date: "2025-05-25",
+                        body: "### Core Principles\n1. Never trust, always verify\n2. Assume breach at all times\n3. Use least privilege access\n\n### Implementation Phases\n- Phase 1: Identity — MFA, SSO everywhere\n- Phase 2: Devices — endpoint compliance\n- Phase 3: Network — micro-segmentation\n- Phase 4: Apps — per-app access policies\n- Phase 5: Data — classification and DLP\n\n### ROI\nOrganizations report 40-60% reduction in breach impact after ZTA."
+                    }
+                ],
+                ctf: [
+                    {
+                        id: 1, title: "HTB Forest (Windows AD)", tag: "HackTheBox", folder: "HackTheBox", date: "2025-06-06",
+                        body: "### Machine Info\nOS: Windows Server 2019 | Difficulty: Easy | AD\n\n### Enumeration\nnmap -p- -T4 10.10.10.161 — found SMB, LDAP, Kerberos, WinRM\nLDAP null session user enumeration via windapsearch\n\n### Foothold\nAS-REP Roasting on svc-alfresco account\nCrack hash with hashcat rockyou: Password s3rvice\nLogin: evil-winrm -i 10.10.10.161 -u svc-alfresco -p s3rvice\n\n### PrivEsc\nBloodHound path: Account Operators to Exchange Windows Permissions\nAbuse WriteDACL to grant DCSync rights\nRun secretsdump.py to dump all hashes\nPass-the-hash as Administrator."
+                    },
+                    {
+                        id: 2, title: "HTB Lame (Linux Classic)", tag: "HackTheBox", folder: "HackTheBox", date: "2025-06-02",
+                        body: "### Machine Info\nOS: Linux | Difficulty: Easy | CVE exploit\n\n### Enumeration\nnmap -sV 10.10.10.3 — FTP 21, SSH 22, SMB 139/445\nSamba 3.0.20 vulnerable to CVE-2007-2447\n\n### Exploitation\nSamba username map script command injection.\nMetasploit: use exploit/multi/samba/usermap_script\nset RHOSTS 10.10.10.3 then run\n\n### Result\nDirect root shell — no privilege escalation needed."
+                    },
+                    {
+                        id: 3, title: "PicoCTF Web Exploitation", tag: "PicoCTF", folder: "PicoCTF", date: "2025-05-28",
+                        body: "### SQL Injection Login Bypass\nPayload: admin-- in username — comments out password check.\n\n### Cookie Manipulation\nBase64 decode session cookie, change role to admin, re-encode and replace.\n\n### Directory Traversal\n../../etc/passwd in file parameter\nURL encoded: ..%2F..%2Fetc%2Fpasswd\n\n### SSTI\nTest: render 7*7 — if output is 49 then SSTI exists\nJinja2 RCE via config class globals os popen\n\n### XSS\nScript tags in input — exfil cookies to attacker server."
+                    }
+                ]
+            };
+        }
+
+        var activeSec = "projects";
+        var fabOpen = false;
+
+        // DATA
+        let AppData = null;
+        function fetchAppData() {
+            fetch(API_BASE + "/all").then(function(r) { return r.json(); }).then(function(data) {
+                AppData = data;
+                if (!AppData || Object.keys(AppData).length === 0) AppData = makeDefaults();
+                updateBadges();
+                renderProjects();
+                updateFabLock();
+            }).catch(function(e) {
+                AppData = makeDefaults();
+                updateBadges();
+                renderProjects();
+                updateFabLock();
+            });
+        }
+        function getData(k) { return (AppData && AppData[k]) ? AppData[k] : makeDefaults()[k]; }
+        async function setData(k, v) { 
+            if (!AppData) AppData = {};
+            AppData[k] = v;
+            try {
+                await fetch(API_BASE + "/data", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Authorization": sessionStorage.getItem("adm_token") || "" },
+                    body: JSON.stringify({ key: k, value: v })
+                });
+            } catch(e) { console.error("Save error", e); }
+        }
+        function nid(arr) { return arr.length ? Math.max.apply(null, arr.map(function (n) { return n.id; })) + 1 : 1; }
+        function fd(d) { if (!d) return ""; try { return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return d; } }
+        function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+        // RENDER BODY — ### heading, - bullet, `code`
+        function renderBody(raw) {
+            if (!raw) return "";
+            var lines = raw.split("\n");
+            var out = [];
+            for (var i = 0; i < lines.length; i++) {
+                var l = lines[i];
+                if (l.indexOf("### ") === 0) { out.push("<h3>" + esc(l.slice(4)) + "</h3>"); }
+                else if (l.indexOf("## ") === 0) { out.push("<h3>" + esc(l.slice(3)) + "</h3>"); }
+                else if (l === "") { out.push("<br/>"); }
+                else {
+                    // inline code
+                    var lesc = l.replace(/`([^`]+)`/g, function (m, c) { return "<code>" + esc(c) + "</code>"; });
+                    if (lesc.indexOf("- ") === 0 || lesc.indexOf("* ") === 0) { out.push("<li>" + lesc.slice(2) + "</li>"); }
+                    else { out.push("<p>" + lesc + "</p>"); }
+                }
+            }
+            return out.join("");
+        }
+
+        function emptyEl(msg) { return '<div class="empty"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h9a2 2 0 012 2z"/></svg><p>' + msg + '</p></div>'; }
+
+        // BADGES
+        function updateBadges() {
+            var keys = ["projects", "notes", "summary", "research", "ctf"];
+            for (var i = 0; i < keys.length; i++) {
+                var el = document.getElementById("b-" + keys[i]);
+                if (el) el.textContent = getData(keys[i]).length;
+            }
+        }
+
+        // SECTION SWITCH
+        var LABELS = { projects: "Projects", notes: "Notes", summary: "Summary", research: "Research Papers", ctf: "CTF Walkthroughs" };
+        var SUBS = { projects: "All projects — click to view details", notes: "Browse folders — click to read full notes", summary: "Summarized articles and write-ups", research: "Research papers and analysis", ctf: "CTF machine walkthroughs" };
+
+        function switchSec(sec, btn) {
+            activeSec = sec;
+            document.querySelectorAll(".ni").forEach(function (n) { n.classList.remove("active"); });
+            if (btn) btn.classList.add("active");
+            closeNdView();
+            var si = document.getElementById("srchInput"); if (si) si.value = "";
+            document.getElementById("sec-title").textContent = LABELS[sec];
+            document.getElementById("sec-sub").textContent = SUBS[sec];
+            document.getElementById("bc-lbl").textContent = LABELS[sec];
+            renderActive();
+        }
+        function renderActive() {
+            if (activeSec === "projects") renderProjects();
+            else renderFolders(activeSec);
+        }
+        // PROJECTS
+        function renderProjects() {
+            var q = (document.getElementById("srchInput").value || "").toLowerCase();
+            var items = getData("projects").filter(function (p) { return !q || p.title.toLowerCase().indexOf(q) >= 0 || (p.tag || "").toLowerCase().indexOf(q) >= 0; });
+            var el = document.getElementById("contentList");
+            if (!items.length) { el.innerHTML = emptyEl(q ? "No matching projects." : "No projects yet. Click + to add!"); return; }
+            var html = '<div class="pgrid">';
+            for (var i = 0; i < items.length; i++) {
+                var p = items[i];
+                var stacks = (p.stack || []).map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join("");
+                html += '<div class="pc" onclick="openProj(' + p.id + ')">';
+                html += '<div class="pcn">0' + (i + 1) + '</div>';
+                html += '<div class="pcb"><div class="pct">' + esc(p.title) + '</div>';
+                html += '<div class="pcd">' + esc(p.desc || "") + '</div>';
+                if (stacks) html += '<div class="pcs">' + stacks + '</div>';
+                html += '</div><div class="pca"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>';
+            }
+            html += '</div>';
+            el.innerHTML = html;
+        }
+        function openProj(id) {
+            var p = getData("projects").find(function (x) { return x.id === id; });
+            if (!p) return;
+            document.getElementById("nd-tag").textContent = p.tag || "Project";
+            document.getElementById("nd-title").textContent = p.title;
+            var ml = p.link ? ' <a href="' + esc(p.link) + '" target="_blank" style="color:var(--blue);font-weight:600;">View Project</a>' : "";
+            document.getElementById("nd-meta").innerHTML = "<span>" + fd(p.date) + "</span>" + ml;
+            document.getElementById("nd-body").innerHTML = renderBody(p.body || "");
+            document.getElementById("backBtn").onclick = function () { closeNdView(); renderProjects(); };
+            showNdView();
+        }
+        // FOLDERS
+        function renderFolders(sec) {
+            var q = (document.getElementById("srchInput").value || "").toLowerCase();
+            var items = getData(sec);
+            var el = document.getElementById("contentList");
+            if (!items.length) { el.innerHTML = emptyEl("No content yet. Click + to add!"); return; }
+            var folders = {};
+            for (var i = 0; i < items.length; i++) {
+                var f = items[i].folder || items[i].tag || "General";
+                if (!folders[f]) folders[f] = [];
+                folders[f].push(items[i]);
+            }
+            var keys = Object.keys(folders).filter(function (f) {
+                return !q || f.toLowerCase().indexOf(q) >= 0 || folders[f].some(function (n) { return n.title.toLowerCase().indexOf(q) >= 0; });
+            });
+            if (!keys.length) { el.innerHTML = emptyEl("No results found."); return; }
+            var html = '<div class="fgrid">';
+            for (var k = 0; k < keys.length; k++) {
+                var folder = keys[k];
+                var notes = folders[folder];
+                var fid = "fc-" + k;
+                html += '<div class="fc" id="' + fid + '">';
+                html += '<div class="fh" onclick="document.getElementById(\'' + fid + '\').classList.toggle(\'open\')">';
+                html += '<div class="fi"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h9a2 2 0 012 2z"/></svg></div>';
+                html += '<div class="finfo"><div class="ftitle">' + esc(folder) + '</div><div class="fmeta">' + notes.length + ' item' + (notes.length !== 1 ? "s" : "") + '</div></div>';
+                html += '<div class="fcnt">' + notes.length + '</div>';
+                html += '<div class="fchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>';
+                html += '</div><div class="fnotes">';
+                for (var n = 0; n < notes.length; n++) {
+                    var note = notes[n];
+                    html += '<div class="nitem" onclick="openNote(' + note.id + ',\'' + esc(sec) + '\')">';
+                    html += '<div class="ndot"></div>';
+                    html += '<div class="ntitle">' + esc(note.title) + '</div>';
+                    html += '<div class="ndate">' + fd(note.date) + '</div>';
+                    html += '</div>';
+                }
+                html += '</div></div>';
+            }
+            html += '</div>';
+            el.innerHTML = html;
+        }
+        function openNote(id, sec) {
+            var n = getData(sec).find(function (x) { return x.id === id; });
+            if (!n) return;
+            document.getElementById("nd-tag").textContent = n.folder || n.tag || "Note";
+            document.getElementById("nd-title").textContent = n.title;
+            document.getElementById("nd-meta").innerHTML = "<span>" + fd(n.date) + "</span>";
+            document.getElementById("nd-body").innerHTML = renderBody(n.body || "");
+            var savedSec = sec;
+            document.getElementById("backBtn").onclick = function () { closeNdView(); renderFolders(savedSec); };
+            showNdView();
+        }
+        function showNdView() {
+            document.getElementById("ndview").classList.add("vis");
+            document.getElementById("secContent").style.display = "none";
+        }
+        function closeNdView() {
+            document.getElementById("ndview").classList.remove("vis");
+            document.getElementById("secContent").style.display = "block";
+        }
+        // ADMIN LOGIN
+        function openAdminLogin() {
+            if (sessionStorage.getItem("adm_ok") === "1") { openAdmin(); return; }
+            document.getElementById("loginOv").classList.add("open");
+            setTimeout(function () { var p = document.getElementById("unInp"); if (p) p.focus(); }, 80);
+        }
+        function closeLogin() {
+            document.getElementById("loginOv").classList.remove("open");
+            if (document.getElementById("unInp")) document.getElementById("unInp").value = "";
+            if (document.getElementById("pwInp")) document.getElementById("pwInp").value = "";
+            document.getElementById("pwErr").textContent = "";
+        }
+        async function checkPw() {
+            var un = document.getElementById("unInp").value;
+            var val = document.getElementById("pwInp").value;
+            try {
+                let res = await fetch(API_BASE + "/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: un, password: val })
+                });
+                let data = await res.json();
+                if (data.success) {
+                    sessionStorage.setItem("adm_ok", "1");
+                    sessionStorage.setItem("adm_token", data.token);
+                    updateFabLock();
+                    closeLogin();
+                    if (window._fabPending) { window._fabPending = false; openQA(activeSec); }
+                    else { openAdmin(); }
+                } else {
+                    document.getElementById("pwErr").textContent = data.error || "Wrong credentials.";
+                    document.getElementById("pwInp").value = "";
+                    document.getElementById("unInp").focus();
+                }
+            } catch(e) {
+                document.getElementById("pwErr").textContent = "Login server error.";
+            }
+        }
+        // ADMIN PANEL
+        function openAdmin() {
+            document.getElementById("adSec").value = activeSec;
+            adSecChanged();
+            renderAdList();
+            document.getElementById("adminOv").classList.add("open");
+            document.body.style.overflow = "hidden";
+            document.getElementById("ad-date").value = new Date().toISOString().split("T")[0];
+        }
+        function closeAdmin() {
+            document.getElementById("adminOv").classList.remove("open");
+            document.body.style.overflow = "";
+            cancelEdit();
+        }
+        function adSecChanged() {
+            var sec = document.getElementById("adSec").value;
+            document.getElementById("adProjF").style.display = sec === "projects" ? "block" : "none";
+            document.getElementById("adFolderF").style.display = sec === "projects" ? "none" : "block";
+            renderAdList();
+            cancelEdit();
+        }
+        function renderAdList() {
+            var sec = document.getElementById("adSec").value;
+            var items = getData(sec);
+            document.getElementById("adCount").textContent = "(" + items.length + ")";
+            var el = document.getElementById("adList");
+            if (!items.length) { el.innerHTML = '<p style="color:var(--muted);font-size:.82rem;text-align:center;padding:14px;">Nothing here yet.</p>'; return; }
+            var html = "";
+            for (var i = 0; i < items.length; i++) {
+                var n = items[i];
+                html += '<div class="ai"><div class="ai-inf"><div class="ai-t">' + esc(n.title) + '</div><div class="ai-s">' + esc(n.folder || n.tag || "") + " · " + fd(n.date) + '</div></div>';
+                html += '<div class="ai-act"><button class="bedit" onclick="startEdit(' + n.id + ')">Edit</button><button class="bdanger" onclick="delItem(' + n.id + ')">Del</button></div></div>';
+            }
+            el.innerHTML = html;
+        }
+        function saveItem() {
+            var sec = document.getElementById("adSec").value;
+            var title = document.getElementById("ad-title").value.trim();
+            var tag = document.getElementById("ad-tag").value.trim();
+            var date = document.getElementById("ad-date").value;
+            var body = document.getElementById("ad-body").value.trim();
+            var fold = document.getElementById("ad-folder").value.trim();
+            var desc = document.getElementById("ad-desc").value.trim();
+            var st = document.getElementById("ad-stack").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+            var link = document.getElementById("ad-link").value.trim();
+            var eid = document.getElementById("adEditId").value;
+            if (!title || !body) { toast("Title and Content required.", "err"); return; }
+            var items = getData(sec);
+            if (eid) { var idx = items.findIndex(function (n) { return n.id === +eid; }); if (idx >= 0) items[idx] = Object.assign(items[idx], { title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link }); toast("Updated!", "ok"); }
+            else { items.unshift({ id: nid(items), title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link }); toast("Published!", "ok"); }
+            setData(sec, items); clearAdForm(); renderAdList(); updateBadges(); renderActive();
+        }
+        function startEdit(id) {
+            var sec = document.getElementById("adSec").value;
+            var n = getData(sec).find(function (x) { return x.id === id; });
+            if (!n) return;
+            document.getElementById("adEditId").value = n.id;
+            document.getElementById("ad-title").value = n.title || "";
+            document.getElementById("ad-tag").value = n.tag || "";
+            document.getElementById("ad-date").value = n.date || "";
+            document.getElementById("ad-body").value = n.body || "";
+            document.getElementById("ad-folder").value = n.folder || "";
+            document.getElementById("ad-desc").value = n.desc || "";
+            document.getElementById("ad-stack").value = (n.stack || []).join(", ");
+            document.getElementById("ad-link").value = n.link || "";
+            document.getElementById("adFormLbl").textContent = "Edit Item";
+            document.getElementById("adSaveLbl").textContent = "Save Changes";
+            document.getElementById("adCancelBtn").style.display = "inline-flex";
+            document.getElementById("adminOv").scrollTop = 0;
+        }
+        function cancelEdit() {
+            clearAdForm();
+            document.getElementById("adFormLbl").textContent = "Add New Item";
+            document.getElementById("adSaveLbl").textContent = "Publish";
+            document.getElementById("adCancelBtn").style.display = "none";
+        }
+        function clearAdForm() {
+            ["ad-title", "ad-tag", "ad-body", "ad-folder", "ad-desc", "ad-stack", "ad-link", "adEditId"].forEach(function (id) { var e = document.getElementById(id); if (e) e.value = ""; });
+            document.getElementById("ad-date").value = new Date().toISOString().split("T")[0];
+        }
+        function delItem(id) {
+            if (!confirm("Delete this item?")) return;
+            var sec = document.getElementById("adSec").value;
+            setData(sec, getData(sec).filter(function (n) { return n.id !== id; }));
+            renderAdList(); updateBadges(); renderActive(); toast("Deleted.", "err");
+        }
+        // QUICK ADD
+        function openQA(sec) {
+            if (sessionStorage.getItem("adm_ok") !== "1") { window._fabPending = true; document.getElementById("loginOv").classList.add("open"); setTimeout(function () { document.getElementById("unInp").focus(); }, 80); return; }
+            document.getElementById("qaOv").classList.add("open");
+            document.body.style.overflow = "hidden";
+            document.getElementById("qa-date").value = new Date().toISOString().split("T")[0];
+            // set tab
+            document.querySelectorAll(".qtab").forEach(function (t) { t.classList.remove("active"); if (t.dataset.sec === (sec || activeSec)) t.classList.add("active"); });
+            document.getElementById("qa-sec").value = sec || activeSec;
+            updateQAFields(sec || activeSec);
+            clearQAForm();
+        }
+        function closeQA() {
+            document.getElementById("qaOv").classList.remove("open");
+            document.body.style.overflow = "";
+            clearQAForm();
+        }
+        function setQASec(btn) {
+            document.querySelectorAll(".qtab").forEach(function (t) { t.classList.remove("active"); });
+            btn.classList.add("active");
+            var sec = btn.dataset.sec;
+            document.getElementById("qa-sec").value = sec;
+            updateQAFields(sec);
+        }
+        function updateQAFields(sec) {
+            var isProj = sec === "projects";
+            document.getElementById("qaProjF").style.display = isProj ? "block" : "none";
+            document.getElementById("qaFolderF").style.display = isProj ? "none" : "block";
+            var titles = { projects: "Add Project", notes: "Add Note", summary: "Add Summary", research: "Add Research Paper", ctf: "Add CTF Walkthrough" };
+            document.getElementById("qaTitle").textContent = titles[sec] || "Quick Add";
+        }
+        function saveQA() {
+            var sec = document.getElementById("qa-sec").value;
+            var title = document.getElementById("qa-title").value.trim();
+            var tag = document.getElementById("qa-tag").value.trim();
+            var date = document.getElementById("qa-date").value;
+            var body = document.getElementById("qa-body").value.trim();
+            var fold = document.getElementById("qa-folder").value.trim();
+            var desc = document.getElementById("qa-desc").value.trim();
+            var st = document.getElementById("qa-stack").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+            var link = document.getElementById("qa-link").value.trim();
+            if (!title || !body) { toast("Title and Content required.", "err"); return; }
+            var items = getData(sec);
+            items.unshift({ id: nid(items), title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link });
+            setData(sec, items); closeQA(); updateBadges();
+            switchSec(sec, document.getElementById("ni-" + sec));
+            toast("Published!", "ok");
+        }
+        function clearQAForm() {
+            ["qa-title", "qa-tag", "qa-body", "qa-folder", "qa-desc", "qa-stack", "qa-link"].forEach(function (id) { var e = document.getElementById(id); if (e) e.value = ""; });
+            document.getElementById("qa-date").value = new Date().toISOString().split("T")[0];
+        }
+        // FAB
+        function updateFabLock() {
+            var lock = document.getElementById("fabLock");
+            if (lock) lock.style.display = sessionStorage.getItem("adm_ok") === "1" ? "none" : "flex";
+        }
+        document.getElementById("fabMain").addEventListener("click", function (e) {
+            e.stopPropagation();
+            fabOpen = !fabOpen;
+            document.getElementById("fab").classList.toggle("open", fabOpen);
+            document.getElementById("fabIcon").style.transform = fabOpen ? "rotate(45deg)" : "rotate(0)";
+            document.getElementById("fabIcon").style.transition = "transform .25s";
+            if (fabOpen && sessionStorage.getItem("adm_ok") !== "1") {
+                fabOpen = false;
+                document.getElementById("fab").classList.remove("open");
+                document.getElementById("fabIcon").style.transform = "rotate(0)";
+                window._fabPending = true;
+                document.getElementById("loginOv").classList.add("open");
+                setTimeout(function () { document.getElementById("unInp").focus(); }, 80);
+            }
+        });
+        document.getElementById("fabItems").addEventListener("click", function (e) {
+            e.stopPropagation();
+            var row = e.target.closest(".fab-row");
+            if (!row) return;
+            var sec = row.dataset.sec;
+            fabOpen = false;
+            document.getElementById("fab").classList.remove("open");
+            document.getElementById("fabIcon").style.transform = "rotate(0)";
+            openQA(sec);
+        });
+        document.addEventListener("click", function () { if (fabOpen) { fabOpen = false; document.getElementById("fab").classList.remove("open"); document.getElementById("fabIcon").style.transform = "rotate(0)"; } });
+        // CLOSE OVERLAYS on backdrop click
+        ["loginOv", "adminOv", "qaOv"].forEach(function (id) {
+            document.getElementById(id).addEventListener("click", function (e) {
+                if (e.target === this) {
+                    if (id === "loginOv") closeLogin();
+                    else if (id === "adminOv") closeAdmin();
+                    else closeQA();
+                }
+            });
+        });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeLogin(); closeAdmin(); closeQA(); closeNdView(); } });
+        // TOAST
+        function toast(msg, type) { var t = document.getElementById("toast"); document.getElementById("toast-msg").textContent = msg; t.className = "toast " + type; t.classList.add("show"); setTimeout(function () { t.classList.remove("show"); }, 3200); }
+        // INIT
+        fetchAppData();
+    </script>
+</body>
+</html>

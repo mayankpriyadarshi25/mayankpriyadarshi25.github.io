@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #04071a;
+            --blue: #00b4ff;
+            --cyan: #00eeff;
+            --pink: #ff2d78;
+            --white: #e8f0ff;
+            --muted: #7a8ab0;
+            --glow: 0 0 40px #00b4ff55, 0 0 80px #00b4ff22;
+            --glow-sm: 0 0 16px #00b4ff66;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 5%;
+            background: rgba(4, 7, 26, .75);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(0, 180, 255, .1);
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo span {
+            color: var(--blue)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: .9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white)
+        }
+
+        .nav-links a.active {
+            text-decoration: underline;
+            text-decoration-color: var(--blue);
+            text-underline-offset: 6px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(0, 180, 255, .25);
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all .2s;
+        }
+
+        .theme-btn:hover {
+            background: rgba(0, 180, 255, .15)
+        }
+
+        .cv-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 6px;
+            background: var(--pink);
+            border: none;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 0 20px #ff2d7855;
+            transition: all .25s;
+        }
+
+        .cv-btn:hover {
+            background: #ff4d8e;
+            box-shadow: 0 0 32px #ff2d78aa;
+            transform: translateY(-1px)
+        }
+
+        .cv-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 120px 5% 100px;
+            gap: 40px;
+        }
+
+        /* PHOTO SIDE */
+        .photo-side {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 0;
+        }
+
+        /* LAPTOP default size */
+        .glow-ring {
+            position: relative;
+            width: 420px;
+            height: 420px;
+            flex-shrink: 0;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-14px)
+            }
+        }
+
+        .glow-ring::before {
+            content: '';
+            position: absolute;
+            inset: -30px;
+            background: radial-gradient(circle, rgba(0, 180, 255, .35) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(24px);
+            animation: pulse 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .7;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05)
+            }
+        }
+
+        .orbit {
+            position: absolute;
+            top: -18px;
+            left: -18px;
+            right: -18px;
+            bottom: -18px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(0, 200, 255, .3);
+            border-top-color: var(--cyan);
+            border-bottom-color: var(--pink);
+            animation: spin 8s linear infinite;
+            z-index: 1;
+        }
+
+        .orbit2 {
+            position: absolute;
+            top: -38px;
+            left: -38px;
+            right: -38px;
+            bottom: -38px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 180, 255, .12);
+            border-left-color: var(--blue);
+            animation: spin 14s linear infinite reverse;
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .photo-circle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(0, 180, 255, .5);
+            box-shadow: var(--glow), inset 0 0 40px rgba(0, 180, 255, .08);
+            background: linear-gradient(135deg, #0a1535 0%, #0d1f4a 100%);
+            z-index: 2;
+        }
+
+        .photo-circle img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            color: var(--muted);
+            font-size: .9rem;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .photo-placeholder svg {
+            width: 72px;
+            height: 72px;
+            opacity: .3;
+            fill: var(--blue);
+        }
+
+        /* TEXT SIDE */
+        .text-side {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            animation: fadeUp .9s ease both;
+            animation-delay: .2s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .hello {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--muted);
+            letter-spacing: .5px;
+        }
+
+        .hero-name {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--white);
+        }
+
+        .hero-role {
+            font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .hero-role .typed-text {
+            color: var(--blue)
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--blue);
+            margin-left: 2px;
+            animation: blink .7s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        .hero-bio {
+            font-size: .95rem;
+            line-height: 1.8;
+            color: var(--muted);
+            max-width: 480px;
+        }
+
+        /* SOCIALS */
+        .socials {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .soc-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 9px;
+            background: rgba(0, 180, 255, .07);
+            border: 1px solid rgba(0, 180, 255, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+        .soc-icon:hover {
+            background: var(--blue);
+            color: #000;
+            box-shadow: var(--glow-sm)
+        }
+
+        .soc-icon svg {
+            width: 17px;
+            height: 17px;
+            fill: currentColor;
+        }
+
+        /* BUTTONS */
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-hire {
+            padding: 13px 34px;
+            border-radius: 7px;
+            background: var(--blue);
+            color: #000;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: .95rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--glow-sm);
+            transition: all .25s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-hire:hover {
+            background: var(--cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 0 28px #00eeff99
+        }
+
+        .btn-contact {
+            padding: 13px 34px;
+            border-radius: 7px;
+            background: transparent;
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: .95rem;
+            border: 1.5px solid rgba(0, 180, 255, .4);
+            cursor: pointer;
+            transition: all .25s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-contact:hover {
+            border-color: var(--blue);
+            background: rgba(0, 180, 255, .1)
+        }
+
+        /* STATS */
+        .stats-bar {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 36px 7%;
+            background: rgba(6, 12, 36, .85);
+            border-top: 1px solid rgba(0, 180, 255, .1);
+            border-bottom: 1px solid rgba(0, 180, 255, .08);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 16px 0;
+            position: relative;
+        }
+
+        .stat:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(0, 180, 255, .15);
+        }
+
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--white);
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+
+        .stat-num .plus {
+            color: var(--blue);
+            font-size: 2rem;
+        }
+
+        .stat-label {
+            font-size: .8rem;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* LIGHT MODE */
+        body.light {
+            --bg: #f0f4ff;
+            --white: #0a0f2c;
+            --muted: #4a5578;
+            --blue: #0066cc;
+            --cyan: #0088ee;
+            background: var(--bg);
+        }
+
+        body.light nav {
+            background: rgba(240, 244, 255, .88);
+        }
+
+        body.light .stats-bar {
+            background: rgba(232, 238, 255, .92);
+        }
+
+        body.light .photo-circle {
+            background: linear-gradient(135deg, #c8d8ff, #d0e8ff);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1200px) {
+            .glow-ring {
+                width: 360px;
+                height: 360px;
+            }
+        }
+
+        @media(max-width:960px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 100px 5% 60px;
+                text-align: center;
+            }
+
+            .photo-side {
+                order: -1;
+            }
+
+            .glow-ring {
+                width: min(420px, 88vw);
+                height: min(420px, 88vw);
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat:nth-child(2)::after {
+                display: none;
+            }
+
+            .hero-btns,
+            .socials {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media(max-width:480px) {
+            .glow-ring {
+                width: 88vw;
+                height: 88vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <nav>
+        <div class="nav-logo">Port<span>folio</span></div>
+        <ul class="nav-links">
+            <li><a href="" class="active">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Certificate.html">Certification</a></li>
+            <li><a href="news.html">Cyber News</a></li>
+            <li><a href="Project.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+            <a href="your-cv.pdf" download class="cv-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 16l-5-5 1.4-1.4 2.6 2.6V4h2v8.2l2.6-2.6L17 11l-5 5zm-7 4v-2h14v2H5z" />
+                </svg>
+                Download CV
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="photo-side">
+            <div class="glow-ring">
+                <div class="orbit2"></div>
+                <div class="orbit"></div>
+                <div class="photo-circle">
+                    <img src="image.png" alt="Mayank" />
+                </div>
+            </div>
+        </div>
+
+        <div class="text-side">
+            <p class="hello">Hello, I'm</p>
+            <h1 class="hero-name">Mayank Priyadarshi</h1>
+            <p class="hero-role">And I'm a <span class="typed-text" id="typed"></span><span class="cursor"></span></p>
+            <p class="hero-bio">
+                Aspiring Cybersecurity Engineer with a strong foundation in network security, cryptography, and system
+                protection, along with hands-on experience in Linux System. Proficient in AI and Linux
+                administration. Passionate about securing digital systems,Pentesting Enthusiast.
+            </p>
+            <div class="socials">
+                <a href="https://www.kaggle.com/mayank25rajput" class="soc-icon" title="Kaggle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-5.389-1.92 1.838v3.424c0 .248-.117.375-.351.375H4.885c-.234 0-.351-.127-.351-.375V.262c0-.25.117-.375.351-.375h2.579c.234 0 .351.125.351.375v15.222l6.817-7.252c.164-.187.351-.281.562-.281h3.326c.211 0 .304.084.281.252-.06.07-.129.152-.207.248L11.5 15.684l7.208 7.915c.07.093.109.18.117.26z" fill="currentColor"/>
+                    </svg>
+                </a>
+                <a href="https://x.com/Mayank_OnDuety" class="soc-icon" title="Twitter/X">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                    </svg>
+                </a>
+                <a href="https://github.com/MayankPriyadarshiCYS" class="soc-icon" title="GitHub">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/mayank25priyadarshi" class="soc-icon" title="LinkedIn">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                        <circle cx="4" cy="4" r="2" />
+                    </svg>
+                </a>
+                <a href="https://bsky.app/profile/mayankpriyadarshi.bsky.social" class="soc-icon" title="Bluesky">
+                    <svg viewBox="0 0 16 16">
+                        <path d="M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.102.218-.379 1.11-1.855 5.444-5.231 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 6.737 0 3.12 0 2.632 0 .186 2.145.955 3.468 1.948" fill="currentColor"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-btns">
+                <a href="mayankpriyadarshi25@gmail.com" class="btn-hire">Hire Me</a>
+                <a href="contact.html" class="btn-contact">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-num"><span class="count" data-target="10">0</span><span class="plus">+</span></div>
+            <div class="stat-label">No Of<br />Certification</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span class="count" data-target="30">0</span><span class="plus">+</span></div>
+            <div class="stat-label">Projects<br />Completed</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span class="count" data-target="5">0</span><span class="plus">+</span></div>
+            <div class="stat-label">Technologies<br />Mastered</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num"><span class="count" data-target="100">0</span><span class="plus">+</span></div>
+            <div class="stat-label">Consistency<br />Streak</div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, stars = [];
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < 130; i++) {
+                stars.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.5 + 0.3, vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25, o: Math.random() * 0.7 + 0.2 });
+            }
+        }
+        function drawStars() {
+            ctx.clearRect(0, 0, W, H);
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(100,200,255,${s.o})`; ctx.fill();
+                s.x += s.vx; s.y += s.vy;
+                if (s.x < 0) s.x = W; if (s.x > W) s.x = 0;
+                if (s.y < 0) s.y = H; if (s.y > H) s.y = 0;
+            });
+            for (let i = 0; i < stars.length; i++) {
+                for (let j = i + 1; j < stars.length; j++) {
+                    const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y;
+                    const d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0,180,255,${0.15 * (1 - d / 120)})`;
+                        ctx.lineWidth = 0.4;
+                        ctx.moveTo(stars[i].x, stars[i].y);
+                        ctx.lineTo(stars[j].x, stars[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(drawStars);
+        }
+        window.addEventListener('resize', () => { resize(); initStars(); });
+        resize(); initStars(); drawStars();
+
+        const roles = ['Cybersecurity Student', 'Cybersecurity Educator Professional', 'Ethical Hacker', 'Pentesting Enthusiast', 'Cybersecurity Analyst Simulation'];
+        let ri = 0, ci = 0, deleting = false;
+        const typedEl = document.getElementById('typed');
+        function type() {
+            const word = roles[ri];
+            typedEl.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
+            if (!deleting && ci > word.length) { setTimeout(() => { deleting = true; type(); }, 1800); return; }
+            if (deleting && ci < 0) { deleting = false; ri = (ri + 1) % roles.length; ci = 0; }
+            setTimeout(type, deleting ? 55 : 90);
+        }
+        type();
+
+        function animateCounters() {
+            document.querySelectorAll('.count').forEach(el => {
+                const target = +el.dataset.target, dur = 1800;
+                let start = null;
+                function step(ts) {
+                    if (!start) start = ts;
+                    const progress = Math.min((ts - start) / dur, 1);
+                    el.textContent = Math.floor(progress * target);
+                    if (progress < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            });
+        }
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { animateCounters(); observer.disconnect(); } });
+        }, { threshold: 0.4 });
+        observer.observe(document.querySelector('.stats-bar'));
+
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            document.getElementById('themeBtn').textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+        }
+    </script>
+</body>
+
+</html>

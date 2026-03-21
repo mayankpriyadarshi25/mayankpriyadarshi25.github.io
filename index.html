@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Access // Welcome</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #010408;
+            background-image:
+                radial-gradient(circle at center, #020816 0%, #000000 100%),
+                linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            overflow: hidden;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #00aaff;
+        }
+
+        /* Hacker Background Shadow */
+        .hacker-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url('hacker_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            filter: contrast(1.2) brightness(0.8) hue-rotate(180deg);
+        }
+
+        /* Diagonal Falling Hacker Stars */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: #00aaff;
+            box-shadow: 0 0 5px #00aaff, 0 0 10px #00ffff;
+            opacity: 0.8;
+            border-radius: 50%;
+            /* Moving from top-right to bottom-left */
+            animation: fall-diagonal linear infinite;
+        }
+
+        @keyframes fall-diagonal {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-150vw, 150vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Hacker Glitch Welcome Text */
+        .welcome-text {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #00aaff, 0 0 20px #0055aa;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem;
+                padding: 0 20px;
+            }
+        }
+
+        .welcome-text::before,
+        .welcome-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .welcome-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff0055;
+            background: #010408;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .welcome-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            background: transparent;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% {
+                clip-path: inset(20% 0 80% 0);
+            }
+
+            20% {
+                clip-path: inset(60% 0 10% 0);
+            }
+
+            40% {
+                clip-path: inset(10% 0 50% 0);
+            }
+
+            60% {
+                clip-path: inset(80% 0 5% 0);
+            }
+
+            80% {
+                clip-path: inset(30% 0 40% 0);
+            }
+
+            100% {
+                clip-path: inset(50% 0 30% 0);
+            }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% {
+                clip-path: inset(10% 0 60% 0);
+            }
+
+            20% {
+                clip-path: inset(30% 0 20% 0);
+            }
+
+            40% {
+                clip-path: inset(70% 0 10% 0);
+            }
+
+            60% {
+                clip-path: inset(40% 0 50% 0);
+            }
+
+            80% {
+                clip-path: inset(80% 0 5% 0);
+            }
+
+            100% {
+                clip-path: inset(20% 0 30% 0);
+            }
+        }
+
+        /* The Stucked Space Rocket */
+        .ship-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Struggling/stuck hover animation towards top-right */
+            animation: hover-stuck 0.8s infinite alternate ease-in-out;
+        }
+
+        .spaceship {
+            width: 100%;
+            height: auto;
+            /* Native image already points top-right, no rotation needed */
+            transform: rotate(0deg);
+            /* Tint it slightly hacker blue while preserving its look */
+            filter: drop-shadow(0 0 20px rgba(0, 170, 255, 0.6)) sepia(0.8) hue-rotate(180deg) saturate(300%) brightness(0.9);
+            mix-blend-mode: screen;
+        }
+
+        @keyframes hover-stuck {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(15px, -15px);
+            }
+        }
+
+        /* Hacker Term Terminal Button */
+        .terminal-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 50px;
+            background: rgba(0, 170, 255, 0.05);
+            color: #00aaff;
+            font-family: inherit;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid #00aaff;
+            text-decoration: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.2), inset 0 0 10px rgba(0, 170, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .terminal-btn:hover {
+            background: rgba(0, 170, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 170, 255, 0.8), inset 0 0 15px rgba(0, 170, 255, 0.5);
+            text-shadow: 0 0 8px #ffffff;
+            transform: scale(1.05);
+        }
+
+        .terminal-btn::after {
+            content: '_';
+            animation: blink 1s infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            49% {
+                opacity: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* System Info Text */
+        .subtext {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse-text 2s infinite alternate;
+        }
+
+        @keyframes pulse-text {
+            0% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Dynamic Background Words */
+        .bg-word {
+            position: absolute;
+            color: #00aaff;
+            font-family: 'Share Tech Mono', monospace;
+            white-space: nowrap;
+            user-select: none;
+            opacity: 0.15;
+            z-index: 1;
+            pointer-events: none;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+            animation: float-word 20s linear infinite alternate;
+        }
+
+        @keyframes float-word {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+
+            100% {
+                transform: translateY(-20px) translateX(20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hacker-bg"></div>
+    <div class="stars" id="stars-container"></div>
+
+
+    <div class="content">
+        <!-- Welcome text positioned ABOVE the rocket -->
+        <h1 class="welcome-text" data-text="I MAYANK WELCOME YOU">I MAYANK WELCOME YOU</h1>
+
+        <!-- Central stuck rocket -->
+        <div class="ship-container">
+            <img src="rocket.png" alt="Hacker Space Rocket" class="spaceship">
+        </div>
+
+        <!-- System Entry Button -->
+        <a href="portfolio.html" class="terminal-btn">
+            PORTFOLIO_ENTRY_POINT
+        </a>
+        <div class="subtext">> system awaiting authorization _</div>
+    </div>
+
+    <!-- Diagonal Falling Stars Script -->
+    <script>
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            const starCount = 180;
+
+            for (let i = 0; i < starCount; i++) {
+                let star = document.createElement('div');
+                star.className = 'star';
+
+                // Spread stars in the top and right quadrants so they have room to fall
+                let startPosX = (Math.random() * 200) + 'vw';
+                let startPosY = (Math.random() * -100) - 50 + 'vh';
+
+                let size = Math.random() * 3 + 1 + 'px';
+                let duration = Math.random() * 3 + 1.5 + 's'; // Fast moving streams
+                let delay = Math.random() * -5 + 's'; // Negative delay so they are instantly visible on load
+
+                star.style.width = size;
+                star.style.height = size;
+                star.style.left = startPosX;
+                star.style.top = startPosY;
+
+                star.style.animationDuration = duration;
+                star.style.animationDelay = delay;
+
+                container.appendChild(star);
+            }
+        }
+
+        function createWords() {
+            const container = document.body;
+            const words = [
+                "RED_TEAM", "BLUE_TEAM", "CRYPTOGRAPHY", "PEN_TESTING", "EXPLOIT",
+                "PAYLOAD", "ZERO_DAY", "MALWARE_ANALYSIS", "FIREWALL", "SOC",
+                "VULNERABILITY", "ENCRYPTION", "REVERSE_ENGINEERING", "0xBADF00D",
+                "PACKET_SNIFFING", "SOCIAL_ENGINEERING", "BUFFER_OVERFLOW", "ROOTKIT",
+                "OSINT", "PHISHING", "CYBER_THREAT", "FORENSICS", "DECRYPT", "HASH"
+            ];
+
+            for (let i = 0; i < 35; i++) {
+                let wordEl = document.createElement('div');
+                wordEl.className = 'bg-word';
+                wordEl.innerText = words[Math.floor(Math.random() * words.length)];
+
+                let startPosX = Math.random() * 95 + 'vw';
+                let startPosY = Math.random() * 95 + 'vh';
+
+                let size = (Math.random() * 1.5 + 0.8) + 'rem';
+                let opacity = Math.random() * 0.1 + 0.05;
+                let animDuration = (Math.random() * 20 + 10) + 's';
+
+                wordEl.style.left = startPosX;
+                wordEl.style.top = startPosY;
+                wordEl.style.fontSize = size;
+                wordEl.style.opacity = opacity;
+                wordEl.style.animationDuration = animDuration;
+
+                container.appendChild(wordEl);
+            }
+        }
+
+        // Initialize background elements on load
+        window.onload = function () {
+            createStars();
+            createWords();
+        };
+    </script>
+</body>
+
+</html>
