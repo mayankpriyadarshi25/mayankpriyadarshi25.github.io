@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,9 +12,9 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(__dirname));
 
-const ADMIN_USER = process.env.ADMIN_USER || 'mayank';
-const ADMIN_PASS = process.env.ADMIN_PASS || 'mayank';
-const TOKEN = process.env.TOKEN || 'secret-portfolio-token-2026';
+const ADMIN_USER = process.env.ADMIN_USER;
+const ADMIN_PASS = process.env.ADMIN_PASS;
+const TOKEN = process.env.TOKEN;
 
 function loadData() {
   if (fs.existsSync(DATA_FILE)) {
@@ -53,9 +54,9 @@ app.post('/api/contact', async (req, res) => {
     return res.status(400).json({ error: 'Missing fields' });
   }
 
-  const EJ_SERVICE = process.env.EJ_SERVICE || "service_1pisfbg";
-  const EJ_TEMPLATE = process.env.EJ_TEMPLATE || "template_r5vcths";
-  const EJ_KEY = process.env.EJ_KEY || "AF0_nDsvw7a1KgKcq";
+  const EJ_SERVICE = process.env.EJ_SERVICE;
+  const EJ_TEMPLATE = process.env.EJ_TEMPLATE;
+  const EJ_KEY = process.env.EJ_KEY;
 
   try {
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
