@@ -8,7 +8,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
   <style>
@@ -646,27 +646,7 @@
   </div>
 
   <script>
-    // ══════════════════════════════════════════
-    // To receive real emails in your inbox:
-    // 1. Sign up free at https://www.emailjs.com
-    // 2. Connect your Gmail → get Service ID
-    // 3. Create a template with {{from_name}} {{reply_to}} {{message}} → get Template ID
-    // 4. Copy your Public Key → Account > API Keys
-    // 5. Replace the 3 values below:
-    // ══════════════════════════════════════════
-    const EJ_KEY = "AF0_nDsvw7a1KgKcq";
-    const EJ_SERVICE = "service_1pisfbg";
-    const EJ_TEMPLATE = "template_r5vcths";
     const MY_EMAIL = "mayankpriyadarshi25@gmail.com";
-
-    // Safe init — page never crashes with placeholder keys
-    let ejReady = false;
-    try {
-      if (EJ_KEY !== "AF0_nDsvw7a1KgKcq") {
-        emailjs.init({ publicKey: EJ_KEY });
-        ejReady = true;
-      }
-    } catch (e) { console.warn("EmailJS not configured:", e); }
 
     // TOAST helper
     function showToast(msg, type) {
@@ -716,21 +696,25 @@
     <path d="M21 12a9 9 0 00-9-9"/>
   </svg> Sending...`;
 
-      if (ejReady) {
-        try {
-          await emailjs.send(EJ_SERVICE, EJ_TEMPLATE, { from_name: name, reply_to: email, message: msg });
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, msg })
+        });
+        
+        if (res.ok) {
           showToast("Message sent successfully! I will reply soon.", "success");
           document.getElementById("inp_name").value = "";
           document.getElementById("inp_email").value = "";
           document.getElementById("inp_msg").value = "";
-        } catch (e) {
-          console.error(e);
-          mailtoFallback(name, email, msg);
-          showToast("Opening your mail app as fallback.", "error");
+        } else {
+          throw new Error('Server error');
         }
-      } else {
+      } catch (e) {
+        console.error(e);
         mailtoFallback(name, email, msg);
-        showToast("Opening your mail app to send the message!", "success");
+        showToast("Opening your mail app as fallback.", "error");
       }
 
       setTimeout(() => {

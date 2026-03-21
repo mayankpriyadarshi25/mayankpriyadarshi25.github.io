@@ -47,6 +47,43 @@ app.post('/api/data', (req, res) => {
   res.json({ success: true });
 });
 
+app.post('/api/contact', async (req, res) => {
+  const { name, email, msg } = req.body;
+  if (!name || !email || !msg) {
+    return res.status(400).json({ error: 'Missing fields' });
+  }
+
+  const EJ_SERVICE = process.env.EJ_SERVICE || "service_1pisfbg";
+  const EJ_TEMPLATE = process.env.EJ_TEMPLATE || "template_r5vcths";
+  const EJ_KEY = process.env.EJ_KEY || "AF0_nDsvw7a1KgKcq";
+
+  try {
+    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id: EJ_SERVICE,
+        template_id: EJ_TEMPLATE,
+        user_id: EJ_KEY,
+        template_params: {
+          from_name: name,
+          reply_to: email,
+          message: msg
+        }
+      })
+    });
+
+    if (response.ok) {
+      res.json({ success: true });
+    } else {
+      const text = await response.text();
+      res.status(500).json({ success: false, error: text });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
