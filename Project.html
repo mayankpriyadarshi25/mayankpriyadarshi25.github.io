@@ -1523,34 +1523,40 @@
             return {
                 projects: [
                     {
-                        id: 1, title: "Personal Portfolio Website", tag: "Web Dev", date: "2025-06-10",
-                        desc: "Full-stack portfolio with admin panel, contact form, live map and news feed.",
-                        stack: ["Next.js 14", "Tailwind CSS", "PostgreSQL", "EmailJS"], link: "#",
-                        body: "### Overview\nBuilt a complete personal portfolio from scratch with animated hero, admin-protected CMS, EmailJS contact form, Leaflet map, and news system.\n\n### Tech Stack\n- Next.js 14 with App Router\n- Tailwind CSS custom dark theme\n- PostgreSQL via Supabase\n- EmailJS for real contact form delivery\n\n### Key Features\n- Dark/light mode toggle\n- Password-protected admin panel\n- One-click content publishing\n- Fully responsive on all devices"
+                        id: 1, title: "Medical Image Encryption Using AES", tag: "Cryptography", date: "2025-05-01",
+                        desc: "A secure encryption framework designed to safeguard sensitive medical images by combining AES-256 cryptography with chaos-based randomness.",
+                        stack: ["Python", "MATLAB"], link: "https://github.com/mayankpriyadarshi25/CRYPTOGRAPHY.git",
+                        body: "### Overview\nDeveloped a secure encryption framework for medical images utilizing AES-256 combined with chaotic systems, specifically logistic and Henon maps.\n\n### Key Contributions\n- Enhanced overall data protection by integrating chaos-based randomness with cryptographic strength to ensure robust security.\n- Implemented rigorous evaluation metrics, including SSIM (Structural Similarity Index) and entropy, to validate encryption–decryption accuracy and security levels.\n- Applied core principles of cryptography, image processing, and algorithm design to effectively safeguard sensitive medical data.\n\n### Tech Stack\n- Python for implementation and evaluation metrics\n- MATLAB for image processing and algorithm validation"
                     },
                     {
-                        id: 2, title: "AI Customer Support Chatbot", tag: "AI / ML", date: "2025-06-05",
-                        desc: "Claude-powered chatbot handling ticket triage, FAQ and human escalation.",
-                        stack: ["Python", "FastAPI", "Claude API", "Redis"], link: "",
-                        body: "### Overview\nIntegrated Claude AI into a customer support pipeline achieving 85% ticket deflection rate.\n\n### Architecture\n- FastAPI backend handling webhook events\n- Claude for intent classification and response generation\n- Redis for conversation memory and rate limiting\n- Auto-escalation when confidence drops below threshold\n\n### Results\n- 85% of tickets resolved without human input\n- Response time reduced from 4 hours to 12 seconds\n- Customer satisfaction up 22%"
+                        id: 2, title: "Handwritten Digit Recognition System", tag: "Machine Learning", date: "2026-01-10",
+                        desc: "A machine learning model built to accurately classify handwritten digits from the MNIST dataset using deep learning architectures.",
+                        stack: ["Python", "TensorFlow", "Keras", "NumPy", "Matplotlib"], link: "https://github.com/mayankpriyadarshi25/project.git",
+                        body: "### Overview\nDeveloped a machine learning model for handwritten digit recognition using the MNIST dataset, implementing neural network architecture with TensorFlow and Keras for accurate image classification.\n\n### Key Contributions\n- Trained, validated, and optimized the model to improve prediction accuracy and performance on unseen handwritten digit samples.\n\n### Tech Stack\n- Python, TensorFlow, Keras for model development\n- NumPy for data processing\n- Matplotlib for visualization\n\n### Links\n- GitHub: https://github.com/mayankpriyadarshi25/project.git\n- LinkedIn: https://www.linkedin.com/posts/mayank25priyadarshi_just-completed-a-project-where-i-built-a-activity-7272179371744854016-5fM_"
                     },
                     {
-                        id: 3, title: "Network Vulnerability Scanner", tag: "Security", date: "2025-05-20",
-                        desc: "Automated scanner with CVE matching, PDF reports and Slack notifications.",
-                        stack: ["Python", "Nmap", "SQLite", "ReportLab"], link: "",
-                        body: "### Overview\nComprehensive automated network scanner with CVE correlation and report generation.\n\n### Scanning Pipeline\n1. Host discovery with nmap ping sweep\n2. Full TCP port scan\n3. Service and version detection\n4. CVE lookup against NVD database API\n\n### Reporting\n- Color-coded PDF reports via ReportLab\n- Risk levels: Critical / High / Medium / Low\n- Slack alerts on Critical CVE discovery"
+                        id: 3, title: "Advanced Network Port Scanner", tag: "Cybersecurity", date: "2025-12-05",
+                        desc: "A GUI-based network discovery tool featuring multi-threaded scanning, real-time visualization, and automated JSON reporting for security analysis.",
+                        stack: ["Python", "Tkinter"], link: "https://github.com/mayankpriyadarshi25/Network-Port-Scanner.git",
+                        body: "### Overview\nBuilt a GUI-based Network Discovery Tool using Python and Tkinter that performs ping sweeps, multi-threaded network scanning, reverse DNS lookups, open port detection, and service banner enumeration with real-time results visualization.\n\n### Key Contributions\n- Improved network assessment efficiency by implementing multi-threading for faster large-scale scans.\n- Enabled structured JSON report generation to streamline security analysis and documentation.\n\n### Tech Stack\n- Python for core logic and multi-threading\n- Tkinter for the graphical user interface"
                     },
                     {
-                        id: 4, title: "Real-Time Chat Application", tag: "Web Dev", date: "2025-05-10",
-                        desc: "WebSocket chat with rooms, file sharing, emoji reactions and E2E encryption.",
-                        stack: ["React", "Socket.io", "Node.js", "MongoDB"], link: "",
-                        body: "### Overview\nFull-featured real-time chat with multiple rooms, private messages and encryption.\n\n### Features\n- WebSocket via Socket.io\n- End-to-end encryption using Web Crypto API\n- File sharing with drag-and-drop\n- Emoji reactions and typing indicators\n- Message search and pagination\n\n### Performance\nHandles 10,000 concurrent connections on a single Node.js instance"
+                        id: 4, title: "Automated Reconnaissance & OSINT Suite", tag: "Ethical Hacking", date: "2025-05-05",
+                        desc: "A Python-based information gathering utility designed to automate domain footprinting, DNS enumeration, and target geolocation for security assessments.",
+                        stack: ["Python", "dnspython", "python-whois", "REST APIs"], link: "",
+                        body: "### Overview\nDeveloped an automated reconnaissance tool to streamline the information gathering phase of security assessments.\n\n### Key Contributions\n- Implemented programmatic WHOIS lookups and DNS record enumeration to extract registrar details, mail servers, and nameservers.\n- Integrated external REST APIs to perform real-time IP address resolution and geographical tracing.\n- Designed the tool to rapidly aggregate open-source intelligence (OSINT), reducing manual footprinting time during ethical hacking engagements.\n\n### Tech Stack\n- Python for core automation\n- dnspython for DNS enumeration\n- python-whois for WHOIS lookups\n- REST APIs for IP geolocation"
                     },
                     {
-                        id: 5, title: "CTF Automated Recon Tool", tag: "Security", date: "2025-04-28",
-                        desc: "All-in-one recon tool for CTF competitions — port scan to markdown report.",
-                        stack: ["Python", "Bash", "Docker", "SQLite"], link: "",
-                        body: "### Overview\nAutomated recon tool for CTF competitions covering full reconnaissance phase.\n\n### Modules\n- Port scanning and service detection\n- Directory and subdomain enumeration\n- Technology fingerprinting\n- Auto Searchsploit query\n- Web service screenshots\n- Markdown report generation\n\n### Usage\npython recon.py --target 10.10.10.x --mode full"
+                        id: 5, title: "AI-Based Intrusion Detection System", tag: "Cybersecurity", date: "2026-01-20",
+                        desc: "A deep learning framework designed to analyze network traffic patterns and automatically detect anomalous behavior and potential security intrusions.",
+                        stack: ["Python", "TensorFlow", "Keras", "Pandas", "Scikit-learn"], link: "https://github.com/mayankpriyadarshi25/AI-Based-Intrusion-Detection-System.git",
+                        body: "### Overview\nDeveloped a deep learning model to identify anomalous network behavior, moving beyond traditional signature-based methods to improve zero-day threat detection.\n\n### Key Contributions\n- Processed and analyzed large-scale network traffic datasets, engineering features to train the neural network for high-accuracy classification.\n- Authored a comprehensive research synopsis detailing the methodology, dataset processing, and performance evaluation of the AI-driven security framework.\n- Validated the model's effectiveness in distinguishing between benign traffic and various forms of malicious network attacks.\n\n### Tech Stack\n- Python, TensorFlow, Keras for deep learning model\n- Pandas for dataset processing and feature engineering\n- Scikit-learn for evaluation metrics"
+                    },
+                    {
+                        id: 6, title: "Vulnerable Web App & Automated Exploit Suite", tag: "Application Security", date: "2025-10-10",
+                        desc: "A custom-built vulnerable web application accompanied by a suite of automated Python scripts designed to detect and exploit common OWASP vulnerabilities.",
+                        stack: ["Python", "Flask", "SQLite", "Requests", "BeautifulSoup"], link: "https://github.com/mayankpriyadarshi25/Vulnerable-Web-App-Automated-Exploit-Suite.git",
+                        body: "### Overview\nEngineered a deliberately vulnerable web application using Flask and SQLite to serve as a localized, controlled environment for ethical hacking and security testing.\n\n### Key Contributions\n- Integrated core web vulnerabilities into the application architecture, including SQL Injection (SQLi), Cross-Site Scripting (XSS), and broken authentication mechanisms based on OWASP Top 10 guidelines.\n- Developed a suite of automated Python exploit scripts to programmatically detect, target, and exploit the engineered vulnerabilities without relying on pre-built commercial tools.\n- Demonstrated a comprehensive understanding of both offensive and defensive application security by analyzing the exploit payloads and documenting effective remediation and patching strategies.\n\n### Tech Stack\n- Python & Flask for the vulnerable web application backend\n- SQLite for the database layer\n- Requests & BeautifulSoup for automated exploit scripting"
                     }
                 ],
                 notes: [
