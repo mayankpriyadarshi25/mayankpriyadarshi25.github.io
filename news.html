@@ -363,16 +363,86 @@ const STORAGE_KEY = "portfolio_news_v1";
 
 // Default sample news (shown until admin adds real ones)
 const DEFAULT_NEWS = [
-  { id: 1, title: "Next.js 15 Released with Turbopack", tag: "Technology", date: "2025-06-10", body: "Next.js 15 brings major performance improvements including stable Turbopack support, improved caching strategies, and React 19 compatibility. Developers can now enjoy faster local development builds and better production optimization.", link: "https://nextjs.org" },
-  { id: 2, title: "AI Takes Over Software Testing Industry", tag: "AI / ML", date: "2025-06-09", body: "Artificial intelligence tools are now capable of writing, running, and evaluating test suites with minimal human input. Leading companies report up to 70% reduction in QA time using AI-assisted testing pipelines.", link: "" },
-  { id: 3, title: "React Server Components Best Practices", tag: "Frontend", date: "2025-06-08", body: "A comprehensive guide on when and how to use React Server Components in production applications. Key takeaways include avoiding over-fetching, structuring data flows correctly, and mixing client/server components efficiently.", link: "" },
-  { id: 4, title: "PostgreSQL 17 Performance Benchmarks", tag: "Database", date: "2025-06-07", body: "The latest PostgreSQL release shows remarkable query performance improvements — up to 2x faster on write-heavy workloads. Connection pooling and parallel query execution receive the biggest upgrades.", link: "" },
-  { id: 5, title: "India's Tech Sector Grows 18% in 2025", tag: "Industry News", date: "2025-06-06", body: "India's technology sector continues its explosive growth trajectory, driven by AI adoption, cloud infrastructure investment, and a surge in startup funding. Delhi NCR and Bangalore remain the two largest tech hubs.", link: "" },
-  { id: 6, title: "CSS Container Queries Now Fully Supported", tag: "Frontend", date: "2025-06-05", body: "All major browsers now fully support CSS Container Queries, enabling developers to build truly component-responsive designs without JavaScript. This marks a major milestone in modern CSS capabilities.", link: "" },
-  { id: 7, title: "Node.js 22 LTS — What You Need to Know", tag: "Backend", date: "2025-06-04", body: "Node.js 22 enters Long Term Support status. Key features include native WebSocket support, improved ESM compatibility, and the experimental permission model for enhanced security in server environments.", link: "" },
-  { id: 8, title: "Open Source AI Models Overtaking Proprietary", tag: "AI / ML", date: "2025-06-03", body: "The open source AI ecosystem is rapidly closing the gap with proprietary models. Llama 3, Mistral and Phi-3 are now beating GPT-3.5 benchmarks, democratizing access to powerful language models.", link: "" },
-  { id: 9, title: "Cloud Costs Spike 40% — Tips to Reduce Bills", tag: "DevOps", date: "2025-06-02", body: "Organizations worldwide are seeing significant increases in cloud spending. Experts recommend right-sizing instances, using reserved capacity, implementing autoscaling, and auditing unused resources monthly.", link: "" },
-  { id: 10, title: "TypeScript 5.5 Improves Type Inference", tag: "Technology", date: "2025-06-01", body: "TypeScript 5.5 introduces inferred type predicates, making complex type narrowing patterns more intuitive. Developers also get isolated declarations for better monorepo performance.", link: "" },
+  {
+    id: 1,
+    title: "Critical RCE in AI Framework Langflow (CVE-2026-33017)",
+    tag: "Vulnerability",
+    date: "2026-03-28",
+    body: "A CVSS 9.3-rated vulnerability (CVE-2026-33017) in Langflow — a popular open-source AI workflow builder — is being actively exploited in the wild. The flaw allows unauthenticated Remote Code Execution (RCE) via a specific API endpoint that unsafely evaluates Python code, enabling attackers to fully hijack AI agent workflows and underlying data environments without any credentials.\n\nSecurity teams on LinkedIn's AI and InfoSec groups are flagging this as a top-priority patch. Organizations running self-hosted Langflow instances are urged to update immediately, restrict API endpoint exposure, and audit logs for unauthorized execution attempts. Proof-of-concept exploit code has already surfaced on underground forums.",
+    link: "https://nvd.nist.gov/vuln/search/results?query=CVE-2026-33017"
+  },
+  {
+    id: 2,
+    title: "TeamPCP's Supply Chain Attack & \"CanisterWorm\" Malware",
+    tag: "Threat Intel",
+    date: "2026-03-27",
+    body: "The threat group TeamPCP executed a sophisticated two-pronged attack this week. First, they compromised the official GitHub releases of Trivy — a widely-used open-source vulnerability scanner — injecting credential-stealing malware into its binary distributions, affecting thousands of CI/CD pipelines that rely on automated Trivy downloads.\n\nSimultaneously, researchers discovered \"CanisterWorm,\" a self-propagating wiper malware deployed by the same group that specifically targets exposed Docker APIs and Kubernetes clusters. Once inside a container environment, CanisterWorm enumerates nodes, exfiltrates secrets, and then executes destructive wipe commands. Security researchers on X (formerly Twitter) are actively reverse-engineering samples. Defenders are advised to verify all tool checksums, restrict Docker API exposure, and rotate cloud credentials immediately.",
+    link: ""
+  },
+  {
+    id: 3,
+    title: "DarkSword Spyware Targets Apple Devices — CISA Issues Deadline",
+    tag: "Spyware",
+    date: "2026-03-27",
+    body: "CISA has issued a strict patch deadline for all federal agencies to remediate against \"DarkSword,\" a highly sophisticated exploit kit targeting iOS and macOS devices. The campaign is attributed to the threat actor UNC6353, believed to be a state-nexus group that is reportedly leveraging Large Language Models (LLMs) to rapidly extend DarkSword's capabilities and generate evasion variants faster than traditional AV signatures can respond.\n\nDarkSword uses a zero-click delivery mechanism via malicious calendar invites and iMessage payloads. Once installed, it achieves persistent access, exfiltrates encrypted communications, activates microphone/camera, and beacons C2 servers over encrypted channels. Apple has released emergency patches in iOS 19.3.2 and macOS Tahoe 15.3.1. All users — not just federal employees — are urged to update their Apple devices immediately.",
+    link: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+  },
+  {
+    id: 4,
+    title: "Oracle Fusion Middleware Critical RCE (CVE-2026-21992) — CVSS 9.8",
+    tag: "Vulnerability",
+    date: "2026-03-26",
+    body: "Enterprise security teams are scrambling after Oracle disclosed CVE-2026-21992, a CVSS 9.8 unauthenticated Remote Code Execution vulnerability in Oracle Identity Manager, a core component of Oracle Fusion Middleware. The flaw allows any attacker with HTTP network access to execute arbitrary code on the server without requiring user interaction or credentials.\n\nThis makes it an ideal entry point for privilege escalation and lateral movement across enterprise Active Directory environments. Oracle has released an out-of-band patch outside its regular quarterly CPU cycle, signaling the severity. Enterprises are advised to apply the patch immediately, restrict Identity Manager network exposure, and monitor for unusual outbound connections. Security professionals on LinkedIn are calling this one of the most dangerous Oracle vulnerabilities in years.",
+    link: "https://www.oracle.com/security-alerts/"
+  },
+  {
+    id: 5,
+    title: "Malicious AI Browser Extensions Exfiltrate Corporate Data",
+    tag: "Malware",
+    date: "2026-03-26",
+    body: "Microsoft's threat intelligence team has published a detailed report on a growing wave of malicious browser extensions disguised as AI assistants in official Chromium-based browser stores. These fake extensions — mimicking tools like ChatGPT helpers, Copilot enhancers, and DeepSeek utilities — amassed over 900,000 installs before detection.\n\nOnce installed, the extensions silently harvest all browsing session data, intercept HTTP requests, and specifically target internal corporate prompts and code pasted into AI platforms like ChatGPT, DeepSeek, and Claude. Exfiltrated data is transmitted to attacker-controlled infrastructure via obfuscated HTTPS calls that blend with legitimate traffic. Developers and corporate employees are advised to audit all installed browser extensions immediately, restrict extension installs to allowlisted items via enterprise policy, and avoid pasting sensitive code or prompts into browser-based AI tools.",
+    link: ""
+  },
+  {
+    id: 6,
+    title: "Tycoon 2FA PhaaS Platform Dismantled by Europol Coalition",
+    tag: "Law Enforcement",
+    date: "2026-03-25",
+    body: "In a major win for global law enforcement, a Europol-led international coalition has disrupted \"Tycoon 2FA,\" one of the most prolific Phishing-as-a-Service (PhaaS) platforms ever discovered. Tycoon 2FA allowed low-skill cybercriminals to bypass Multi-Factor Authentication (MFA) at industrial scale using adversary-in-the-middle (AitM) techniques — inserting a reverse proxy between victims and legitimate services to intercept and relay session cookies in real time.\n\nThe platform was responsible for tens of thousands of successful account takeovers targeting Microsoft 365, Google Workspace, and banking portals. Law enforcement seized backend infrastructure across five countries, arrested three key operators, and obtained decryption keys for victim logs. Security experts emphasize this takedown underscores that MFA alone is insufficient and that phishing-resistant authentication (FIDO2/Passkeys) is the way forward.",
+    link: ""
+  },
+  {
+    id: 7,
+    title: "Pro-Iran Hacktivists Wipe Medical Giant Stryker's Devices",
+    tag: "Incident",
+    date: "2026-03-25",
+    body: "The Iran-linked hacktivist group Handala has claimed responsibility for a devastating attack on Stryker Corporation, a global medical technology manufacturer. According to CISA's emergency advisory, the attackers gained access to Stryker's Microsoft Intune device management console using compromised administrator credentials — likely obtained via commercially available infostealer malware like Redline or Lumma.\n\nUsing Intune's legitimate remote management capabilities, Handala issued mass remote wipe commands across corporate device fleets, destroying data on an undisclosed number of endpoints. CISA has issued urgent guidance on hardening endpoint management systems — including enforcing Conditional Access for Intune admin portals, enabling phishing-resistant MFA for all privileged accounts, and auditing Intune device compliance policies. This is one of the first major incidents where an MDM platform was weaponized at scale for destructive purposes.",
+    link: "https://www.cisa.gov/news-events/alerts"
+  },
+  {
+    id: 8,
+    title: "BoryptGrab Info-Stealer Floods GitHub via 100+ Fake Repos",
+    tag: "Malware",
+    date: "2026-03-24",
+    body: "Attackers have deployed over 100 deceptive GitHub repositories carefully crafted to mimic popular developer utilities, CLI tools, and security frameworks. These repositories feature convincing READMEs, fake star counts manipulated via bot networks, and plausible commit histories to appear legitimate to unsuspecting developers.\n\nCloning and running the projects executes BoryptGrab, a sophisticated info-stealer that targets developer environments specifically — harvesting SSH keys, cloud provider credentials (AWS, GCP, Azure), npm auth tokens, Git credentials, .env files, browser-saved passwords, and active shell sessions. Security researchers note BoryptGrab employs reflective DLL injection for stealth and communicates with its C2 over Telegram's Bot API to evade network detection. All developers are urged to verify repository authenticity, use signed commits, and audit their credential stores immediately.",
+    link: ""
+  },
+  {
+    id: 9,
+    title: "Cascading Breaches: Navia Exposes 2.7M Records, HackerOne Impacted",
+    tag: "Data Breach",
+    date: "2026-03-24",
+    body: "A prolonged and previously undetected intrusion at Navia Benefit Solutions has exposed the Personally Identifiable Information (PII) and Protected Health Information (PHI) of approximately 2.7 million individuals, including names, Social Security Numbers, insurance policy details, and medical claim records. The breach is believed to have persisted for over 14 months before discovery.\n\nIn an alarming downstream effect, the aggregated data from this breach has cascaded into the broader tech sector: employee PII from the bug bounty platform HackerOne was found in the leaked dataset, resulting in a secondary exposure of security researchers and HackerOne staff data. This incident highlights the severe risks of third-party data aggregators in the healthcare and benefits management space. Affected individuals are being notified and offered credit monitoring services.",
+    link: ""
+  },
+  {
+    id: 10,
+    title: "EU Sanctions Cyber-Espionage Companies in China and Iran",
+    tag: "Geopolitics",
+    date: "2026-03-23",
+    body: "In an unprecedented geopolitical move, the European Union has imposed direct economic sanctions on specific private companies based in China and Iran that were definitively linked to state-sponsored cyber espionage and destructive cyber operations targeting EU member states' critical infrastructure and government systems.\n\nThis marks a significant escalation in how the EU responds to digital attribution — moving beyond naming threat actors to directly sanctioning the corporate entities that provide technical infrastructure, tooling, and personnel for offensive cyber programs. Sanctions include asset freezes, travel bans on company executives, and prohibitions on EU entities conducting business with the named organizations. Cybersecurity policy experts are calling this a landmark precedent that may reshape how democratic nations use economic tools to deter nation-state cyber aggression.",
+    link: "https://www.consilium.europa.eu/en/policies/cybersecurity/"
+  },
 ];
 
 // ── DATA HELPERS ──
