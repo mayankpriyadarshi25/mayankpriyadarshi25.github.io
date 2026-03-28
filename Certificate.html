@@ -401,85 +401,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 <div class="toast" id="toast"><span id="toast-msg"></span></div>
 
 <script>
-var API_BASE = "https://mayankpriyadarshi.xyz/api";
-var STORE_KEY = "portfolio_certs_v2";
+var API_BASE = window.location.origin + "/api";
 var activeCat = "all";
 var fabOpen = false;
 var pendingFabAction = null;
 
-function makeDefaults() {
-  return [
-    {id:1,featured:true,verified:true,title:"AWS Solutions Architect Associate",cat:"Cloud",issuer:"Amazon Web Services",issuerSub:"Cloud Provider",date:"2025-05-15",duration:"3 months",examDur:"130 min",score:"72%",level:"Associate",imgData:"",
-     desc:"Comprehensive cloud architecture certification covering AWS core services, networking, security, and cost optimization.",
-     overview:"The AWS Solutions Architect Associate certification validates your ability to design resilient, high-performing, secure, and cost-optimized architectures on AWS. Recognized by enterprises worldwide as a benchmark for cloud expertise.",
-     learnings:["Design highly available architectures using EC2, RDS, and S3","Configure VPCs, subnets, NAT gateways and security groups","Implement IAM roles, policies and security best practices","Choose appropriate storage: EBS, EFS, S3, Glacier","Design decoupled architectures using SQS, SNS and Lambda","Optimize costs using Reserved and Spot Instances"],
-     prereqs:["Basic networking fundamentals","Linux command line","General cloud concepts"],
-     skills:["AWS","EC2","S3","IAM","VPC","Route53","RDS","Lambda","SQS","CloudWatch"],
-     tags:["#aws","#cloud","#architecture","#devops"],link:"https://aws.amazon.com/certification/certified-solutions-architect-associate/"},
-    {id:2,featured:false,verified:true,title:"Certified Ethical Hacker (CEH)",cat:"Security",issuer:"EC-Council",issuerSub:"Cybersecurity Body",date:"2025-03-20",duration:"2 months",examDur:"240 min",score:"70%",level:"Professional",imgData:"",
-     desc:"Industry-recognized ethical hacking certification covering penetration testing methodologies, tools, and countermeasures.",
-     overview:"The CEH certification validates knowledge of hacking techniques across 20 domains — footprinting, scanning, enumeration, vulnerability analysis, system hacking, web app attacks, and more. Globally recognized by enterprises and government agencies.",
-     learnings:["Perform ethical hacking using the CEH methodology","Conduct network scanning with Nmap and Nessus","Execute web application attacks including SQLi and XSS","Perform password cracking using Hashcat and John the Ripper","Understand malware and countermeasures","Conduct social engineering assessments"],
-     prereqs:["Networking fundamentals TCP/IP","Basic Linux skills","Security+ or 2 years IT security experience"],
-     skills:["Penetration Testing","Nmap","Metasploit","Wireshark","Burp Suite","John the Ripper","Social Engineering"],
-     tags:["#security","#ethicalhacking","#pentesting","#ceh"],link:"https://www.eccouncil.org/train-certify/certified-ethical-hacker-ceh/"},
-    {id:3,featured:true,verified:true,title:"Google Professional Data Engineer",cat:"Data",issuer:"Google Cloud",issuerSub:"Technology Company",date:"2025-01-10",duration:"4 months",examDur:"120 min",score:"70%",level:"Professional",imgData:"",
-     desc:"Validates ability to design, build, operationalize, secure and monitor data processing systems on Google Cloud Platform.",
-     overview:"The Google Professional Data Engineer cert demonstrates ability to build data processing pipelines and ML models on GCP. Covers BigQuery, Dataflow, Pub/Sub, Dataproc, and Vertex AI.",
-     learnings:["Design data processing systems using Cloud Dataflow","Analyze data with BigQuery and optimize performance","Build ML models using Vertex AI and AutoML","Implement streaming pipelines with Pub/Sub","Ensure data governance using Cloud Data Catalog","Monitor and troubleshoot data pipelines"],
-     prereqs:["Python programming","SQL proficiency","Basic ML concepts","1+ year GCP experience"],
-     skills:["BigQuery","Dataflow","Pub/Sub","Vertex AI","Dataproc","Cloud Storage","TensorFlow","Apache Beam"],
-     tags:["#gcp","#dataengineering","#bigquery","#ml"],link:"https://cloud.google.com/certification/data-engineer"},
-    {id:4,featured:false,verified:true,title:"CompTIA Security+",cat:"Security",issuer:"CompTIA",issuerSub:"IT Certification Body",date:"2024-11-05",duration:"6 weeks",examDur:"90 min",score:"750/900",level:"Associate",imgData:"",
-     desc:"Foundation-level security certification covering network security, compliance, threats, cryptography, and identity management.",
-     overview:"CompTIA Security+ is the globally trusted vendor-neutral certification validating baseline security skills. DoD 8570 compliant, required for many government and enterprise roles.",
-     learnings:["Identify and mitigate network threats and vulnerabilities","Implement PKI, certificates and encryption protocols","Configure firewalls, IDS/IPS and NAC","Apply risk management and compliance frameworks","Perform incident response and forensic analysis","Implement IAM solutions"],
-     prereqs:["CompTIA Network+ or equivalent","Basic IT knowledge","2 years IT administration experience"],
-     skills:["Network Security","Cryptography","PKI","SIEM","IDS/IPS","Risk Management","Compliance","Forensics"],
-     tags:["#security+","#comptia","#networksecurity","#compliance"],link:"https://www.comptia.org/certifications/security"},
-    {id:5,featured:false,verified:true,title:"Certified Kubernetes Administrator (CKA)",cat:"DevOps",issuer:"CNCF / Linux Foundation",issuerSub:"Open Source Foundation",date:"2024-09-18",duration:"2 months",examDur:"120 min",score:"66%",level:"Professional",imgData:"",
-     desc:"Hands-on performance-based exam validating skills to install, configure and manage Kubernetes clusters in production.",
-     overview:"The CKA is a performance-based exam requiring candidates to solve real Kubernetes problems in a live cluster. No multiple choice — everything is hands-on in a terminal environment.",
-     learnings:["Deploy and manage clusters from scratch using kubeadm","Configure network policies and ingress controllers","Implement persistent storage with PVs and PVCs","Perform cluster upgrades and etcd backups","Troubleshoot application and cluster-level failures","Configure RBAC and security contexts"],
-     prereqs:["Docker and containerization fundamentals","Linux system administration","Basic networking TCP/IP DNS"],
-     skills:["Kubernetes","kubectl","etcd","kubeadm","Helm","RBAC","Networking","Storage","Monitoring"],
-     tags:["#kubernetes","#cka","#devops","#containers"],link:"https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/"},
-    {id:6,featured:false,verified:true,title:"TensorFlow Developer Certificate",cat:"AI / ML",issuer:"Google",issuerSub:"Technology Company",date:"2024-07-22",duration:"3 months",examDur:"300 min",score:"Pass",level:"Associate",imgData:"",
-     desc:"Validates ability to build and train neural networks using TensorFlow for CV, NLP, and time series problems.",
-     overview:"The TensorFlow Developer Certificate validates practical ML skills. The exam involves building models in four areas: basic ML, computer vision with CNNs, NLP with text data, and sequence models for time series.",
-     learnings:["Build and train neural networks using TensorFlow and Keras","Implement CNNs for image classification","Build NLP models using tokenization and LSTMs","Develop sequence models for time series forecasting","Use transfer learning with pre-trained models","Optimize models for production deployment"],
-     prereqs:["Python programming proficiency","Basic linear algebra and statistics","Understanding of ML fundamentals"],
-     skills:["TensorFlow","Keras","CNNs","RNNs","LSTMs","Transfer Learning","NumPy","Pandas","Matplotlib"],
-     tags:["#tensorflow","#machinelearning","#deeplearning","#python"],link:"https://www.tensorflow.org/certificate"}
-  ];
-}
+// In-memory cache of certificates fetched from the server
+var _certs = [];
+function getData() { return _certs; }
 
-let AppData = null;
 function fetchAppData() {
-  fetch(API_BASE + "/all").then(function(r) { return r.json(); }).then(function(data) {
-    AppData = data;
-    if (!AppData || Object.keys(AppData).length === 0) { AppData = {}; AppData[STORE_KEY] = makeDefaults(); }
-    buildSidebar();
-    renderList();
-    updateFabLock();
-  }).catch(function(e) {
-    AppData = {}; AppData[STORE_KEY] = makeDefaults();
-    buildSidebar();
-    renderList();
-    updateFabLock();
-  });
-}
-function getData() { return (AppData && AppData[STORE_KEY]) ? AppData[STORE_KEY] : makeDefaults(); }
-async function setData(v) { 
-  if (!AppData) AppData = {};
-  AppData[STORE_KEY] = v;
-  try {
-    await fetch(API_BASE + "/data", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": sessionStorage.getItem("adm_token") || "" },
-      body: JSON.stringify({ key: STORE_KEY, value: v })
+  fetch(API_BASE + "/certs")
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      _certs = Array.isArray(data) ? data : [];
+      buildSidebar();
+      renderList();
+      updateFabLock();
+    })
+    .catch(function(e) {
+      console.error("Could not load certs from server:", e);
+      _certs = [];
+      buildSidebar();
+      renderList();
+      updateFabLock();
     });
-  } catch(e) { console.error("Save error", e); }
 }
 function nid(arr){return arr.length?Math.max.apply(null,arr.map(function(x){return x.id;}))+1:1;}
 function fd(d){if(!d)return"";try{return new Date(d).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}catch(e){return d;}}
@@ -660,14 +606,13 @@ function renderAdList(){
   }).join("");
 }
 
-function saveItem(){
+async function saveItem(){
   var title=document.getElementById("ad-title").value.trim();
   var issuer=document.getElementById("ad-issuer").value.trim();
   var desc=document.getElementById("ad-desc").value.trim();
   if(!title||!issuer||!desc){toast("Title, Issuer and Description required.","err");return;}
   var sp=function(s){return s.split(",").map(function(x){return x.trim();}).filter(Boolean);};
   var sl=function(s){return s.split("\n").map(function(x){return x.trim();}).filter(Boolean);};
-  // get image
   var imgData="";
   var prev=document.getElementById("imgPreview");
   if(prev&&prev.src&&prev.src.indexOf("data:")===0)imgData=prev.src;
@@ -692,15 +637,33 @@ function saveItem(){
     verified:document.getElementById("ad-verified").checked,
     imgData:imgData
   };
-  var items=getData();
-  if(eid){
-    var idx=items.findIndex(function(x){return x.id===+eid;});
-    if(idx>=0){obj.id=+eid;if(!imgData&&items[idx].imgData)obj.imgData=items[idx].imgData;items[idx]=obj;}
-    toast("Updated!","ok");
-  } else {
-    obj.id=nid(items);items.unshift(obj);toast("Published!","ok");
+  var token = sessionStorage.getItem("adm_token")||"";
+  try {
+    if(eid){
+      // Keep existing image if no new one uploaded
+      if(!imgData){
+        var existing=_certs.find(function(x){return x.id===+eid;});
+        if(existing&&existing.imgData)obj.imgData=existing.imgData;
+      }
+      var r=await fetch(API_BASE+"/certs/"+eid,{method:"PUT",headers:{"Content-Type":"application/json","Authorization":token},body:JSON.stringify(obj)});
+      if(!r.ok)throw new Error(await r.text());
+      // Update local cache
+      var idx=_certs.findIndex(function(x){return x.id===+eid;});
+      if(idx>=0){obj.id=+eid;_certs[idx]=obj;}
+      toast("Updated!","ok");
+    } else {
+      var r=await fetch(API_BASE+"/certs",{method:"POST",headers:{"Content-Type":"application/json","Authorization":token},body:JSON.stringify(obj)});
+      var result=await r.json();
+      if(!r.ok)throw new Error(result.error||"Server error");
+      obj.id=result.id;
+      _certs.unshift(obj);
+      toast("Published!","ok");
+    }
+  } catch(e){
+    toast("Save failed: "+e.message,"err");
+    return;
   }
-  setData(items);clearAdForm();renderAdList();renderList();buildSidebar();
+  clearAdForm();renderAdList();renderList();buildSidebar();
 }
 
 function startEdit(id){
@@ -747,10 +710,17 @@ function clearAdForm(){
   var prev=document.getElementById("imgPreview");prev.src="";prev.style.display="none";
   document.getElementById("imgFileInput").value="";
 }
-function delItem(id){
+async function delItem(id){
   if(!confirm("Delete this certification?"))return;
-  setData(getData().filter(function(x){return x.id!==id;}));
-  renderAdList();renderList();buildSidebar();toast("Deleted.","err");
+  var token=sessionStorage.getItem("adm_token")||"";
+  try {
+    var r=await fetch(API_BASE+"/certs/"+id,{method:"DELETE",headers:{"Authorization":token}});
+    if(!r.ok)throw new Error(await r.text());
+    _certs=_certs.filter(function(x){return x.id!==id;});
+    renderAdList();renderList();buildSidebar();toast("Deleted.","err");
+  } catch(e){
+    toast("Delete failed: "+e.message,"err");
+  }
 }
 
 // FAB
