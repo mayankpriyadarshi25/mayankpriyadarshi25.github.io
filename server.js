@@ -110,6 +110,70 @@ app.delete('/api/certs/:id', auth, async (req, res) => {
   }
 });
 
+// ─── Project Schema ───────────────────────────────────────────────────────────
+const VALID_SECTIONS = ['projects', 'notes', 'summary', 'research', 'ctf'];
+
+const projectSchema = new mongoose.Schema({
+  section:  { type: String, required: true, enum: VALID_SECTIONS },
+  itemId:   { type: Number, required: true },
+  title:    { type: String, required: true },
+  tag:      { type: String, default: '' },
+  date:     { type: String, default: '' },
+  body:     { type: String, default: '' },
+  folder:   { type: String, default: '' },
+  desc:     { type: String, default: '' },
+  stack:    { type: [String], default: [] },
+  link:     { type: String, default: '' }
+}, { timestamps: true });
+
+projectSchema.index({ section: 1, itemId: 1 }, { unique: true });
+const ProjectItem = mongoose.model('ProjectItem', projectSchema);
+
+// GET all items in a section
+app.get('/api/projects/:section', async (req, res) => {
+  const section = req.params.section;
+  if (!VALID_SECTIONS.includes(section)) return res.status(400).json({ error: 'Invalid section' });
+  try {
+    const items = await ProjectItem.find({ section }).sort({ itemId: 1 }).lean();
+    res.json(items.map(i => ({ ...i, id: i.itemId, _id: undefined, __v: undefined, section: undefined })));
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST create item in a section
+app.post('/api/projects/:section', auth, async (req, res) => {
+  const section = req.params.section;
+  if (!VALID_SECTIONS.includes(section)) return res.status(400).json({ error: 'Invalid section' });
+  try {
+    const last = await ProjectItem.findOne({ section }).sort({ itemId: -1 }).lean();
+    const itemId = last ? last.itemId + 1 : 1;
+    const item = new ProjectItem({ ...req.body, section, itemId });
+    await item.save();
+    res.json({ success: true, id: itemId });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// PUT update item in a section
+app.put('/api/projects/:section/:id', auth, async (req, res) => {
+  const section = req.params.section;
+  const itemId = parseInt(req.params.id);
+  if (!VALID_SECTIONS.includes(section)) return res.status(400).json({ error: 'Invalid section' });
+  try {
+    await ProjectItem.findOneAndUpdate({ section, itemId }, req.body, { new: true });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// DELETE item in a section
+app.delete('/api/projects/:section/:id', auth, async (req, res) => {
+  const section = req.params.section;
+  const itemId = parseInt(req.params.id);
+  if (!VALID_SECTIONS.includes(section)) return res.status(400).json({ error: 'Invalid section' });
+  try {
+    await ProjectItem.findOneAndDelete({ section, itemId });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // Contact form (EmailJS proxy)
 app.post('/api/contact', async (req, res) => {
   const { name, email, msg } = req.body;

@@ -1227,9 +1227,7 @@
         <aside class="sb">
             <div class="profile">
                 <div class="av-wrap">
-                    <div class="av-in"><img
-                            src="image.png"
-                            alt="Profile" /></div>
+                    <div class="av-in"><img src="image.png" alt="Profile" /></div>
                 </div>
                 <div class="pname">Mayank Priyadarshi</div>
                 <div class="prole">Cybersecurity Student</div>
@@ -1287,9 +1285,14 @@
         <main class="main">
             <div class="mhdr">
                 <div class="bc">
-                    <a href="portfolio.html" style="color:var(--muted); text-decoration:none; letter-spacing:0.1em; font-family:'JetBrains Mono', monospace; font-size:0.85rem; transition:color 0.2s;" onmouseover="this.style.color='var(--white)';" onmouseout="this.style.color='var(--muted)';">HOME</a>
-                    <span style="color:var(--cyan); font-family:'JetBrains Mono', monospace; font-size:0.85rem; font-weight:800; margin:0 4px;">&gt;</span>
-                    <span class="hi" id="bc-lbl" style="letter-spacing:0.1em; font-family:'JetBrains Mono', monospace; font-size:0.85rem; text-transform:uppercase; color:var(--cyan);">Projects</span>
+                    <a href="portfolio.html"
+                        style="color:var(--muted); text-decoration:none; letter-spacing:0.1em; font-family:'JetBrains Mono', monospace; font-size:0.85rem; transition:color 0.2s;"
+                        onmouseover="this.style.color='var(--white)';"
+                        onmouseout="this.style.color='var(--muted)';">HOME</a>
+                    <span
+                        style="color:var(--cyan); font-family:'JetBrains Mono', monospace; font-size:0.85rem; font-weight:800; margin:0 4px;">&gt;</span>
+                    <span class="hi" id="bc-lbl"
+                        style="letter-spacing:0.1em; font-family:'JetBrains Mono', monospace; font-size:0.85rem; text-transform:uppercase; color:var(--cyan);">Projects</span>
                 </div>
                 <div class="srch-wrap">
                     <input class="srch" id="srchInput" type="text" placeholder="Search..." oninput="renderActive()" />
@@ -1339,7 +1342,9 @@
                 </svg></div>
             <div class="pw-t">Admin Access</div>
             <div class="pw-s">Enter admin credentials</div>
-            <input class="fi2" id="unInp" type="text" placeholder="Username..." onkeydown="if(event.key==='Enter') document.getElementById('pwInp').focus()" style="margin-bottom:8px" />
+            <input class="fi2" id="unInp" type="text" placeholder="Username..."
+                onkeydown="if(event.key==='Enter') document.getElementById('pwInp').focus()"
+                style="margin-bottom:8px" />
             <input class="fi2" id="pwInp" type="password" placeholder="Password..."
                 onkeydown="if(event.key==='Enter')checkPw()" />
             <div class="pw-e" id="pwErr"></div>
@@ -1510,8 +1515,8 @@
     <div class="toast" id="toast"><span id="toast-msg"></span></div>
 
     <script>
-        var API_BASE = "https://mayankpriyadarshi25-github-io.onrender.com/api";
-        var KEYS = { projects: "pf_proj", notes: "pf_notes", summary: "pf_summ", research: "pf_res", ctf: "pf_ctf" };
+        var API_BASE = "https://mayankpriyadarshi.xyz/api";
+        var KEYS = ["projects", "notes", "summary", "research", "ctf"];
 
         // Default data — defined safely using arrays to avoid quote issues
         function makeDefaults() {
@@ -1619,33 +1624,40 @@
         var fabOpen = false;
 
         // DATA
-        let AppData = null;
-        function fetchAppData() {
-            fetch(API_BASE + "/all").then(function(r) { return r.json(); }).then(function(data) {
-                AppData = data;
-                if (!AppData || Object.keys(AppData).length === 0) AppData = makeDefaults();
+        let AppData = {};
+
+        async function fetchAppData() {
+            try {
+                // Fetch all sections in parallel
+                const promises = KEYS.map(sec => fetch(API_BASE + "/projects/" + sec).then(r => {
+                    if (!r.ok) throw new Error("Failed to fetch " + sec);
+                    return r.json();
+                }));
+                const results = await Promise.all(promises);
+
+                KEYS.forEach((sec, i) => {
+                    AppData[sec] = Array.isArray(results[i]) ? results[i] : [];
+                });
+
+                // If everything is completely empty, populate defaults locally just for display
+                const hasData = KEYS.some(k => AppData[k] && AppData[k].length > 0);
+                if (!hasData) {
+                    AppData = makeDefaults();
+                }
+
                 updateBadges();
                 renderProjects();
                 updateFabLock();
-            }).catch(function(e) {
+            } catch (e) {
+                console.error("Could not load data from server:", e);
                 AppData = makeDefaults();
                 updateBadges();
                 renderProjects();
                 updateFabLock();
-            });
+            }
         }
-        function getData(k) { return (AppData && AppData[k]) ? AppData[k] : makeDefaults()[k]; }
-        async function setData(k, v) { 
-            if (!AppData) AppData = {};
-            AppData[k] = v;
-            try {
-                await fetch(API_BASE + "/data", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "Authorization": sessionStorage.getItem("adm_token") || "" },
-                    body: JSON.stringify({ key: k, value: v })
-                });
-            } catch(e) { console.error("Save error", e); }
-        }
+
+        function getData(k) { return AppData[k] || []; }
         function nid(arr) { return arr.length ? Math.max.apply(null, arr.map(function (n) { return n.id; })) + 1 : 1; }
         function fd(d) { if (!d) return ""; try { return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return d; } }
         function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
@@ -1825,7 +1837,7 @@
                     document.getElementById("pwInp").value = "";
                     document.getElementById("unInp").focus();
                 }
-            } catch(e) {
+            } catch (e) {
                 document.getElementById("pwErr").textContent = "Login server error.";
             }
         }
@@ -1864,7 +1876,7 @@
             }
             el.innerHTML = html;
         }
-        function saveItem() {
+        async function saveItem() {
             var sec = document.getElementById("adSec").value;
             var title = document.getElementById("ad-title").value.trim();
             var tag = document.getElementById("ad-tag").value.trim();
@@ -1876,10 +1888,34 @@
             var link = document.getElementById("ad-link").value.trim();
             var eid = document.getElementById("adEditId").value;
             if (!title || !body) { toast("Title and Content required.", "err"); return; }
-            var items = getData(sec);
-            if (eid) { var idx = items.findIndex(function (n) { return n.id === +eid; }); if (idx >= 0) items[idx] = Object.assign(items[idx], { title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link }); toast("Updated!", "ok"); }
-            else { items.unshift({ id: nid(items), title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link }); toast("Published!", "ok"); }
-            setData(sec, items); clearAdForm(); renderAdList(); updateBadges(); renderActive();
+
+            var obj = { title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link };
+            var token = sessionStorage.getItem("adm_token") || "";
+
+            try {
+                if (eid) {
+                    var r = await fetch(API_BASE + "/projects/" + sec + "/" + eid, { method: "PUT", headers: { "Content-Type": "application/json", "Authorization": token }, body: JSON.stringify(obj) });
+                    if (!r.ok) throw new Error(await r.text());
+
+                    var items = getData(sec);
+                    var idx = items.findIndex(function (n) { return n.id === +eid; });
+                    if (idx >= 0) { obj.id = +eid; items[idx] = obj; }
+                    toast("Updated!", "ok");
+                } else {
+                    var r = await fetch(API_BASE + "/projects/" + sec, { method: "POST", headers: { "Content-Type": "application/json", "Authorization": token }, body: JSON.stringify(obj) });
+                    var result = await r.json();
+                    if (!r.ok) throw new Error(result.error || "Server error");
+
+                    obj.id = result.id;
+                    getData(sec).unshift(obj);
+                    toast("Published!", "ok");
+                }
+            } catch (e) {
+                toast("Save failed: " + e.message, "err");
+                return;
+            }
+
+            clearAdForm(); renderAdList(); updateBadges(); renderActive();
         }
         function startEdit(id) {
             var sec = document.getElementById("adSec").value;
@@ -1909,11 +1945,20 @@
             ["ad-title", "ad-tag", "ad-body", "ad-folder", "ad-desc", "ad-stack", "ad-link", "adEditId"].forEach(function (id) { var e = document.getElementById(id); if (e) e.value = ""; });
             document.getElementById("ad-date").value = new Date().toISOString().split("T")[0];
         }
-        function delItem(id) {
+        async function delItem(id) {
             if (!confirm("Delete this item?")) return;
             var sec = document.getElementById("adSec").value;
-            setData(sec, getData(sec).filter(function (n) { return n.id !== id; }));
-            renderAdList(); updateBadges(); renderActive(); toast("Deleted.", "err");
+            var token = sessionStorage.getItem("adm_token") || "";
+
+            try {
+                var r = await fetch(API_BASE + "/projects/" + sec + "/" + id, { method: "DELETE", headers: { "Authorization": token } });
+                if (!r.ok) throw new Error(await r.text());
+
+                AppData[sec] = getData(sec).filter(function (n) { return n.id !== id; });
+                renderAdList(); updateBadges(); renderActive(); toast("Deleted.", "err");
+            } catch (e) {
+                toast("Delete failed: " + e.message, "err");
+            }
         }
         // QUICK ADD
         function openQA(sec) {
@@ -1946,7 +1991,7 @@
             var titles = { projects: "Add Project", notes: "Add Note", summary: "Add Summary", research: "Add Research Paper", ctf: "Add CTF Walkthrough" };
             document.getElementById("qaTitle").textContent = titles[sec] || "Quick Add";
         }
-        function saveQA() {
+        async function saveQA() {
             var sec = document.getElementById("qa-sec").value;
             var title = document.getElementById("qa-title").value.trim();
             var tag = document.getElementById("qa-tag").value.trim();
@@ -1957,11 +2002,23 @@
             var st = document.getElementById("qa-stack").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
             var link = document.getElementById("qa-link").value.trim();
             if (!title || !body) { toast("Title and Content required.", "err"); return; }
-            var items = getData(sec);
-            items.unshift({ id: nid(items), title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link });
-            setData(sec, items); closeQA(); updateBadges();
-            switchSec(sec, document.getElementById("ni-" + sec));
-            toast("Published!", "ok");
+
+            var obj = { title: title, tag: tag, date: date, body: body, folder: fold, desc: desc, stack: st, link: link };
+            var token = sessionStorage.getItem("adm_token") || "";
+
+            try {
+                var r = await fetch(API_BASE + "/projects/" + sec, { method: "POST", headers: { "Content-Type": "application/json", "Authorization": token }, body: JSON.stringify(obj) });
+                var result = await r.json();
+                if (!r.ok) throw new Error(result.error || "Server error");
+
+                obj.id = result.id;
+                getData(sec).unshift(obj);
+                closeQA(); updateBadges();
+                switchSec(sec, document.getElementById("ni-" + sec));
+                toast("Published!", "ok");
+            } catch (e) {
+                toast("Save failed: " + e.message, "err");
+            }
         }
         function clearQAForm() {
             ["qa-title", "qa-tag", "qa-body", "qa-folder", "qa-desc", "qa-stack", "qa-link"].forEach(function (id) { var e = document.getElementById(id); if (e) e.value = ""; });
@@ -2015,4 +2072,5 @@
         fetchAppData();
     </script>
 </body>
+
 </html>
