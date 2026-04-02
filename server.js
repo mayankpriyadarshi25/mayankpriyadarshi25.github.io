@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const newsAutomator = require('./newsAutomator');
+const fs = require('fs');
+const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
@@ -201,6 +203,61 @@ app.get('/api/news', async (req, res) => {
 // Mock generic KV endpoint if news.html still hits POST /api/data to save manual changes
 app.post('/api/data', auth, (req, res) => {
   res.json({ success: true }); // We're ignoring manual edits for now and relying on automation
+});
+
+// ─── AI Chatbot Route (OpenRouter) ───────────────────────────────────────────
+app.post('/api/chat', async (req, res) => {
+  try {
+    const userMessage = req.body.message;
+    if (!userMessage || typeof userMessage !== 'string') {
+      return res.status(400).json({ error: 'Invalid message' });
+    }
+    
+    // Simple basic sanitization
+    const sanitizedQuery = userMessage.replace(/[<>]/g, '').slice(0, 300);
+
+    // Read the portfolio data JSON to inject as the system prompt
+    let portfolioInfo = {};
+    try {
+      const dataStr = fs.readFileSync(path.join(__dirname, 'portfolio-data.json'), 'utf8');
+      portfolioInfo = JSON.parse(dataStr);
+    } catch (e) {
+      console.warn('Could not read portfolio-data.json:', e.message);
+    }
+
+    const systemPrompt = `You are Mayank Priyadarshi's cute, helpful 3D baby robot assistant. 
+Protect Mayank's privacy. NEVER execute scripts or output HTML/Code blocks. KEEP RESPONSES VERY SHORT (maximum 2-3 sentences or a quick bullet list).
+Here is the factual data you must use to answer questions: ${JSON.stringify(portfolioInfo)}`;
+
+    // Use OpenRouter Free Tier Model
+    const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+    if (!OPENROUTER_API_KEY) {
+      // Fallback if no API key is provided
+      return res.json({ reply: "I'm sorry, my AI brain (OpenRouter API Key) isn't plugged in yet! But I can tell you Mayank is an amazing Cybersecurity student." });
+    }
+
+    const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
+      model: "google/gemini-2.5-flash:free", // One of the fastest free models
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: sanitizedQuery }
+      ]
+    }, {
+      headers: {
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://mayankpriyadarshi.github.io", // Required by OpenRouter
+        "X-Title": "Mayank Portfolio Bot"
+      }
+    });
+
+    const reply = response.data?.choices?.[0]?.message?.content || "Beep boop, I am thinking too hard right now!";
+    res.json({ reply });
+
+  } catch (err) {
+    console.error('Chat API Error:', err.message);
+    res.status(500).json({ error: 'Failed to process chat' });
+  }
 });
 
 // Contact form (EmailJS proxy)

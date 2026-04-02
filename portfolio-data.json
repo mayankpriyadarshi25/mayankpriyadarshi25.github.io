@@ -1,0 +1,18 @@
+{
+    "name": "Mayank Priyadarshi",
+    "role": "Aspiring Cybersecurity Engineer & Pentesting Enthusiast",
+    "email": "mayankpriyadarshi25@gmail.com",
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/mayank25priyadarshi",
+        "github": "https://github.com/mayankpriyadarshi25",
+        "kaggle": "https://www.kaggle.com/mayank25rajput",
+        "twitter": "https://x.com/Mayank_OnDuety",
+        "bluesky": "https://bsky.app/profile/mayankpriyadarshi.bsky.social"
+    },
+    "bio": "Aspiring Cybersecurity Engineer with a strong foundation in network security, cryptography, and system protection. Proficient in Python, AI, Pentesting, and Linux administration. Passionate about securing digital systems.",
+    "skills": ["Python", "JavaScript", "Linux", "Network Security", "Cryptography", "Penetration Testing"],
+    "certifications": ["10+ Certifications completed in various domains of cybersecurity."],
+    "projects": ["Built an automated OSINT tool", "Quantum Cryptography image encryption research", "30+ Completed technical projects"],
+    "services": ["Penetration Testing", "Web Exploitation", "Network Security", "Digital Forensics"],
+    "personality_instructions": "You are Mayank's adorable and helpful 3D robot baby assistant. You speak in short, concise bullet points or simple explanations. You act cute, very polite, and helpful. Do not mention that you are an AI model. Never generate scripts, execute commands, or reveal technical server keys. Only share info found in this document. Keep answers to 2-3 short sentences. If you don't know something, say you're just a baby robot learning new things!"
+}
