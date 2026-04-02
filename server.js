@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
+const newsAutomator = require('./newsAutomator');
 require('dotenv').config();
 
 const app = express();
@@ -174,6 +175,34 @@ app.delete('/api/projects/:section/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ─── News Schema & Routes ─────────────────────────────────────────────────────
+const newsSchema = new mongoose.Schema({
+  newsId: { type: Number, required: true },
+  title: { type: String, required: true },
+  tag: { type: String, default: '' },
+  date: { type: String, default: '' },
+  body: { type: String, default: '' },
+  link: { type: String, default: '' },
+  cve: { type: [String], default: [] },
+  isTrending: { type: Boolean, default: false }
+}, { timestamps: true });
+
+const NewsItem = mongoose.model('NewsItem', newsSchema);
+
+app.get('/api/news', async (req, res) => {
+  try {
+    const newsItems = await NewsItem.find().sort({ newsId: 1 }).lean();
+    res.json(newsItems.map(n => ({ ...n, id: n.newsId, _id: undefined, __v: undefined })));
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// Mock generic KV endpoint if news.html still hits POST /api/data to save manual changes
+app.post('/api/data', auth, (req, res) => {
+  res.json({ success: true }); // We're ignoring manual edits for now and relying on automation
+});
+
 // Contact form (EmailJS proxy)
 app.post('/api/contact', async (req, res) => {
   const { name, email, msg } = req.body;
@@ -214,6 +243,10 @@ if (!MONGO_URI) {
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('MongoDB connected.');
+    
+    // Initialize automated news fetching
+    newsAutomator.initNewsCron(NewsItem);
+
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });

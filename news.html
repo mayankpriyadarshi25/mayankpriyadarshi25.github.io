@@ -448,9 +448,10 @@ const DEFAULT_NEWS = [
 // ── DATA HELPERS ──
 let AppData = null;
 function fetchAppData() {
-  fetch(API_BASE + "/all").then(function(r) { return r.json(); }).then(function(data) {
-    AppData = data;
-    if (!AppData || Object.keys(AppData).length === 0) { AppData = {}; AppData[STORAGE_KEY] = DEFAULT_NEWS; }
+  fetch(API_BASE + "/news").then(function(r) { return r.json(); }).then(function(data) {
+    AppData = {};
+    AppData[STORAGE_KEY] = data;
+    if (!data || data.length === 0) { AppData[STORAGE_KEY] = DEFAULT_NEWS; }
     renderNews();
   }).catch(function(e) {
     AppData = {}; AppData[STORAGE_KEY] = DEFAULT_NEWS;
@@ -499,7 +500,11 @@ function renderNews() {
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       </div>
       <div class="news-card-body">
-        <div class="news-card-title">${escHtml(n.title)}</div>
+        <div class="news-card-title">
+          ${n.cve && n.cve.length ? '<span style="color:var(--red); font-size:0.85em; margin-right:4px;">⚠️ Cyber Alert</span>' : ''}
+          ${n.isTrending ? '<span style="color:var(--yellow); font-size:0.85em; margin-right:4px;">🔥 Trending</span>' : ''}
+          ${escHtml(n.title).replace(/(CVE-\d{4}-\d{4,7})/gi, '<span style="color:var(--red); font-weight:bold;">$1</span>')}
+        </div>
         <div class="news-card-meta">
           <span class="news-card-tag">${escHtml(n.tag)}</span>
           <span>${fmtDate(n.date)}</span>
@@ -518,7 +523,7 @@ function openDetail(id) {
   const n = news.find(x => x.id === id);
   if (!n) return;
   document.getElementById("modal-tag").textContent = n.tag;
-  document.getElementById("modal-title").textContent = n.title;
+  document.getElementById("modal-title").innerHTML = escHtml(n.title).replace(/(CVE-\d{4}-\d{4,7})/gi, '<span style="color:var(--red); font-weight:bold;">$1</span>');
   document.getElementById("modal-meta").innerHTML = `<span>${fmtDate(n.date)}</span>`;
   document.getElementById("modal-body").textContent = n.body;
   const lw = document.getElementById("modal-link-wrap");
