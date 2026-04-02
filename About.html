@@ -540,6 +540,69 @@
             transition: width 1.2s cubic-bezier(.4, 0, .2, 1);
         }
 
+        .tool-list {
+            margin-top: 14px;
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-list li {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tool-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 180, 255, 0.05);
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: .78rem;
+            color: var(--blue);
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-badge:hover {
+            background: rgba(0, 180, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 180, 255, 0.2);
+            border-color: rgba(0, 180, 255, 0.4);
+        }
+
+        .tool-item.open {
+            flex-basis: 100%;
+        }
+
+        .tool-desc {
+            display: none;
+            font-size: .85rem;
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid var(--blue);
+            border-radius: 0 8px 8px 0;
+            line-height: 1.6;
+            color: var(--muted);
+            animation: fadeIn .3s ease forwards;
+        }
+
+        .tool-item.open .tool-desc {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* RESPONSIVE */
         @media(max-width:900px) {
             .page {
@@ -710,8 +773,18 @@
                             </svg></div>
                         <div class="service-info">
                             <div class="service-title">Penetration Testing</div>
-                            <div class="service-desc">Simulating cyber attacks to detect security flaws and identify
-                                vulnerabilities in various systems and networks.</div>
+                            <div class="service-desc">
+                                Simulating cyber attacks to detect security flaws and identify vulnerabilities in various systems and networks.
+                                <ul class="tool-list">
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Gobuster</span> <span class="tool-desc">Finds hidden directories, files, and subdomains</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Amass</span> <span class="tool-desc">Discovers subdomains and attack surfaces</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">theHarvester</span> <span class="tool-desc">Collects emails, domains, and metadata</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Nmap</span> <span class="tool-desc">Discovers hosts and services on a network</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Wireshark</span> <span class="tool-desc">Analyzes network traffic for security issues</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Burp Suite</span> <span class="tool-desc">Used for testing web application security</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Metasploit</span> <span class="tool-desc">Framework to simulate cyber attacks and exploit vulnerabilities</span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="service-card">
@@ -722,8 +795,14 @@
                             </svg></div>
                         <div class="service-info">
                             <div class="service-title">Modern Cryptography</div>
-                            <div class="service-desc">Exploring Post-Quantum computing impacts and advanced encryption
-                                algorithms to secure data against next-generation threats.</div>
+                            <div class="service-desc">
+                                Exploring Post-Quantum computing impacts and advanced encryption algorithms to secure data against next-generation threats.
+                                <ul class="tool-list">
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Core Algorithms</span> <span class="tool-desc">RSA, AES, ECC</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Quantum Threats</span> <span class="tool-desc">Shor’s Algorithm (breaks RSA/ECC), Grover’s Algorithm (affects symmetric crypto)</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Post-Quantum</span> <span class="tool-desc">Lattice-based, Hash-based signatures, Code-based cryptography</span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="service-card">
@@ -733,8 +812,15 @@
                             </svg></div>
                         <div class="service-info">
                             <div class="service-title">Network Security</div>
-                            <div class="service-desc">Analyzing network traffic using advanced tools and implementing
-                                defenses to secure critical infrastructure.</div>
+                            <div class="service-desc">
+                                Analyzing network traffic using advanced tools and implementing defenses to secure critical infrastructure.
+                                <ul class="tool-list">
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Wireshark</span> <span class="tool-desc">GUI tool for deep packet inspection and protocol analysis</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">tcpdump</span> <span class="tool-desc">Lightweight CLI tool for capturing and filtering live traffic</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Snort</span> <span class="tool-desc">Detects suspicious traffic patterns using rule-based signatures</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">IDS/IPS</span> <span class="tool-desc">Deploy systems like Snort and Suricata for real-time alerts</span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="service-card">
@@ -745,8 +831,18 @@
                             </svg></div>
                         <div class="service-info">
                             <div class="service-title">Web Exploitation & Digital Forensics</div>
-                            <div class="service-desc">Hunting for web vulnerabilities and analyzing digital evidence to
-                                investigate incidents and mitigate ongoing cyber threats.</div>
+                            <div class="service-desc">
+                                Hunting for web vulnerabilities and analyzing digital evidence to investigate incidents and mitigate ongoing cyber threats.
+                                <ul class="tool-list">
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Burp Suite</span> <span class="tool-desc">Intercepts HTTP/S traffic, modifies requests, automates vulnerability scans</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">OWASP ZAP</span> <span class="tool-desc">Finds common web vulnerabilities like XSS and SQL injection</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Metasploit</span> <span class="tool-desc">Used to exploit discovered vulnerabilities and simulate attacks</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">sqlmap</span> <span class="tool-desc">Automates detection and exploitation of SQL injection flaws</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Nikto</span> <span class="tool-desc">Scans for outdated software, misconfigurations, and known vulnerabilities</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">Autopsy</span> <span class="tool-desc">Analyzes disk images, recovers files, and handles timeline analysis</span></li>
+                                    <li class="tool-item"><span class="tool-badge" title="Click to show description" onclick="toggleTool(this)">FTK</span> <span class="tool-desc">Advanced commercial tool for deep forensic investigations</span></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -903,6 +999,10 @@
     </div>
 
     <script>
+        function toggleTool(btn) {
+            btn.closest('.tool-item').classList.toggle('open');
+        }
+
         function switchTab(name, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
