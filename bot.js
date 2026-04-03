@@ -68,9 +68,9 @@ function initBot() {
         #ai-chat-window {
             position: absolute;
             bottom: 0px; 
-            right: 270px; /* Position it to the left of the bot */
-            width: 250px;
-            height: 300px;
+            right: 280px; /* Position it to the left of the bot */
+            width: 280px;
+            height: 350px;
             background: rgba(4, 7, 26, 0.85);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 180, 255, 0.2);
@@ -339,8 +339,9 @@ async function sendMsg() {
 
         document.getElementById(thinkingId).remove();
         addMessage(data.reply || "Sorry, I glitch sometimes!", 'bot');
-        speak(data.reply);
-
+        
+        // Audio auto-reading has been disabled per user request
+        
         // Happy animation
         fadeToAction('ThumbsUp', 0.2, true);
 
@@ -361,28 +362,6 @@ function addMessage(text, sender) {
     return div.id;
 }
 
-// Web Speech API
-function speak(text) {
-    if (!window.speechSynthesis) return;
-    // Strip emojis for speech
-    const cleanText = text.replace(/([\\u2700-\\u27BF]|[\\uE000-\\uF8FF]|\\uD83C\[\\uDC00-\\uDFFF\]|\\uD83D\[\\uDC00-\\uDFFF\]|[\\u2011-\\u26FF]|\\uD83E\[\\uDD10-\\uDDFF\])/g, '');
-
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.pitch = 1.8; // High pitch like a baby/robot
-    utterance.rate = 1.1;
-
-    // Try to find a good english voice
-    const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find(v => v.name.includes('Google US English') || v.lang === 'en-US');
-    if (voice) utterance.voice = voice;
-
-    window.speechSynthesis.speak(utterance);
-}
-
-// Start tracking voices loading
-if (window.speechSynthesis) {
-    window.speechSynthesis.onvoiceschanged = () => { /* caches voices */ };
-}
 
 // Execute when DOM ready
 document.addEventListener('DOMContentLoaded', initBot);
