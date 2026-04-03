@@ -9,7 +9,8 @@ let activeAction, previousAction;
 
 // AI State
 let isChatOpen = false;
-const CHAT_API = 'https://mayankpriyadarshi25-github-io.onrender.com/api/chat';
+// Use relative URL so it hits whichever server is hosting the site (localhost or Render)
+const CHAT_API = '/api/chat';
 
 function initBot() {
     // 1. Setup Wrapper
@@ -49,8 +50,8 @@ function initBot() {
             gap: 10px;
         }
         #bot-container {
-            width: 150px;
-            height: 180px;
+            width: 300px;
+            height: 360px;
             cursor: grab;
             filter: drop-shadow(0px 10px 15px rgba(0, 180, 255, 0.4));
             transition: transform 0.2s;
@@ -194,7 +195,7 @@ function initBot() {
 
         // Center Model
         botModel.position.set(0, -1, 0);
-        botModel.scale.set(1.5, 1.5, 1.5);
+        botModel.scale.set(3.0, 3.0, 3.0); // Doubled from 1.5
 
         // Setup Animations
         if (gltf.animations && gltf.animations.length > 0) {

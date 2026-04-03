@@ -234,6 +234,51 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+// Bot AI Chat (OpenRouter)
+app.post('/api/chat', async (req, res) => {
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ error: 'Message required' });
+
+  const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+  if (!OPENROUTER_API_KEY) {
+    return res.json({ reply: "I'm sorry, my AI brain (OpenRouter API Key) isn't plugged in yet! But I can tell you Mayank is an amazing Cybersecurity student." });
+  }
+
+  try {
+    // Dynamic import of node-fetch since native fetch may not be robust in older Node, 
+    // or we can use native fetch if Node version supports it.
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://mayankpriyadarshi25.github.io", 
+        "X-Title": "Mayank Portfolio Bot"
+      },
+      body: JSON.stringify({
+        "model": "google/gemini-2.5-flash", // Fast and powerful default
+        "messages": [
+          {"role": "system", "content": "You are Mayank's helpful 3D AI baby robot assistant on his portfolio website. You keep answers concise, friendly, and relevant to cybersecurity and his skills."},
+          {"role": "user", "content": message}
+        ]
+      })
+    });
+    
+    if(!response.ok) {
+         return res.json({ reply: "My AI network is experiencing interference!" });
+    }
+
+    const data = await response.json();
+    if (data.choices && data.choices.length > 0) {
+      res.json({ reply: data.choices[0].message.content });
+    } else {
+      res.json({ reply: "My circuits are feeling a bit clogged right now!" });
+    }
+  } catch (e) {
+    res.json({ reply: "Glitch in the matrix! Connection failed." });
+  }
+});
+
 // ─── Connect to MongoDB then start server ─────────────────────────────────────
 if (!MONGO_URI) {
   console.error('ERROR: MONGODB_URI is not set in .env — please add it and restart.');
