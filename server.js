@@ -267,7 +267,17 @@ app.post('/api/chat', async (req, res) => {
     if(!response.ok) {
          const errorText = await response.text();
          console.error("OpenRouter API Error:", errorText);
-         return res.json({ reply: "My AI network is experiencing interference! (Tell Mayank to check the server logs)" });
+         
+         // Parse the error if possible to give a cleaner message
+         let msg = "Unknown Error";
+         try {
+             const j = JSON.parse(errorText);
+             msg = JSON.stringify(j.error || j).substring(0, 100);
+         } catch(e) {
+             msg = errorText.substring(0, 100);
+         }
+
+         return res.json({ reply: `OpenRouter Rejected the request! Error: ${msg}` });
     }
 
     const data = await response.json();
