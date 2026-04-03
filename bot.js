@@ -42,11 +42,11 @@ function initBot() {
         #ai-bot-wrapper {
             position: fixed;
             bottom: 30px;
-            left: 30px;
+            right: 30px;
             z-index: 10000;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: flex-end;
             gap: 10px;
         }
         #bot-container {
@@ -74,7 +74,7 @@ function initBot() {
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: opacity 0.3s, transform 0.3s;
-            transform-origin: bottom left;
+            transform-origin: bottom right;
         }
         #ai-chat-window.hidden {
             opacity: 0;
@@ -195,7 +195,7 @@ function initBot() {
 
         // Center Model
         botModel.position.set(0, -1, 0);
-        botModel.scale.set(3.0, 3.0, 3.0); // Doubled from 1.5
+        botModel.scale.set(2.25, 2.25, 2.25); // Set to 2.25 as requested
 
         // Setup Animations
         if (gltf.animations && gltf.animations.length > 0) {

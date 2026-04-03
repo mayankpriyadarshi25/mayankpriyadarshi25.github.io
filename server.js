@@ -256,7 +256,7 @@ app.post('/api/chat', async (req, res) => {
         "X-Title": "Mayank Portfolio Bot"
       },
       body: JSON.stringify({
-        "model": "google/gemini-2.5-flash", // Fast and powerful default
+        "model": "google/gemini-2.5-flash:free", // Guaranteeing you hit the free tier
         "messages": [
           {"role": "system", "content": "You are Mayank's helpful 3D AI baby robot assistant on his portfolio website. You keep answers concise, friendly, and relevant to cybersecurity and his skills."},
           {"role": "user", "content": message}
