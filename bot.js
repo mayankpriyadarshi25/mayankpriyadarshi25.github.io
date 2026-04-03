@@ -57,6 +57,7 @@ function initBot() {
             cursor: grab;
             filter: drop-shadow(0px 10px 15px rgba(0, 180, 255, 0.4));
             transition: transform 0.2s;
+            position: relative;
         }
         #bot-container:active {
             cursor: grabbing;
@@ -65,8 +66,11 @@ function initBot() {
             transform: scale(1.05);
         }
         #ai-chat-window {
-            width: 320px;
-            height: 400px;
+            position: absolute;
+            bottom: 0px; 
+            right: 270px; /* Position it to the left of the bot */
+            width: 250px;
+            height: 300px;
             background: rgba(4, 7, 26, 0.85);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 180, 255, 0.2);
