@@ -9,8 +9,10 @@ let activeAction, previousAction;
 
 // AI State
 let isChatOpen = false;
-// Use relative URL so it hits whichever server is hosting the site (localhost or Render)
-const CHAT_API = '/api/chat';
+
+// Dynamically choose API depending on where the site is running
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+const CHAT_API = isLocal ? 'http://localhost:3000/api/chat' : 'https://mayankpriyadarshi25-github-io.onrender.com/api/chat';
 
 function initBot() {
     // 1. Setup Wrapper
@@ -27,7 +29,7 @@ function initBot() {
                 <div class="msg bot">Hi! I'm Mayank's baby robot! Drag me around or ask me anything!</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Ask about Mayank..." />
+                <input type="text" id="chat-input" placeholder="Ask what is in your MIND..." />
                 <button id="chat-send">Send</button>
             </div>
         </div>
@@ -193,8 +195,8 @@ function initBot() {
         botModel = gltf.scene;
         scene.add(botModel);
 
-        // Center Model
-        botModel.position.set(0, -1, 0);
+        // Center Model - Lowered the Y position to shift it down into the empty space
+        botModel.position.set(0, -2.8, 0);
         botModel.scale.set(2.25, 2.25, 2.25); // Set to 2.25 as requested
 
         // Setup Animations
