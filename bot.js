@@ -15,7 +15,7 @@ function initBot() {
     // 1. Setup Wrapper
     const wrapper = document.createElement('div');
     wrapper.id = 'ai-bot-wrapper';
-    
+
     const uiHTML = `
         <div id="ai-chat-window" class="hidden">
             <div class="chat-header">
@@ -41,11 +41,11 @@ function initBot() {
         #ai-bot-wrapper {
             position: fixed;
             bottom: 30px;
-            right: 30px;
+            left: 30px;
             z-index: 10000;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: flex-start;
             gap: 10px;
         }
         #bot-container {
@@ -73,7 +73,7 @@ function initBot() {
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: opacity 0.3s, transform 0.3s;
-            transform-origin: bottom right;
+            transform-origin: bottom left;
         }
         #ai-chat-window.hidden {
             opacity: 0;
@@ -164,6 +164,17 @@ function initBot() {
     renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(renderer.domElement);
 
+    // Orbit Controls for 360 rotation
+    if (typeof THREE.OrbitControls !== 'undefined') {
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = false; // Keeps the bot size consistent
+        controls.enablePan = false;
+    } else {
+        console.warn("THREE.OrbitControls is not defined. Make sure to include the script.");
+    }
+
     // Lighting
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
     hemiLight.position.set(0, 20, 0);
@@ -177,7 +188,7 @@ function initBot() {
 
     // Load Model
     const loader = new THREE.GLTFLoader();
-    loader.load('RobotExpressive.glb', function (gltf) {
+    loader.load('a.glb', function (gltf) {
         botModel = gltf.scene;
         scene.add(botModel);
 
@@ -186,15 +197,19 @@ function initBot() {
         botModel.scale.set(1.5, 1.5, 1.5);
 
         // Setup Animations
-        mixer = new THREE.AnimationMixer(botModel);
-        
-        gltf.animations.forEach((clip) => {
-            actions[clip.name] = mixer.clipAction(clip);
-        });
+        if (gltf.animations && gltf.animations.length > 0) {
+            mixer = new THREE.AnimationMixer(botModel);
 
-        // Start Idle
-        if (actions['Idle']) {
-            activeAction = actions['Idle'];
+            gltf.animations.forEach((clip) => {
+                actions[clip.name] = mixer.clipAction(clip);
+            });
+
+            // Start Idle or fallback to first animation
+            if (actions['Idle']) {
+                activeAction = actions['Idle'];
+            } else {
+                activeAction = mixer.clipAction(gltf.animations[0]);
+            }
             activeAction.play();
         }
 
@@ -212,15 +227,11 @@ function initBot() {
         ease: "sine.inOut"
     });
 
-    // 4. Interactivity
-    container.addEventListener('dblclick', toggleChat);
-    container.addEventListener('click', () => fadeToAction('Wave', 0.2, true));
+    // 4. Interactivity - Single click toggles chat
+    container.addEventListener('click', toggleChat);
 
     // Handle Window Resize
     window.addEventListener('resize', onWindowResize, false);
-
-    // Drag Logic
-    makeDraggable(wrapper, container);
 
     // Chat Logic
     setupChat();
@@ -242,7 +253,7 @@ function fadeToAction(name, duration, returnToIdle = false) {
         .setEffectiveWeight(1)
         .fadeIn(duration)
         .play();
-        
+
     if (returnToIdle) {
         mixer.addEventListener('finished', restoreIdle);
         activeAction.loop = THREE.LoopOnce;
@@ -274,74 +285,6 @@ function animate() {
         // botModel.rotation.y = Math.sin(clock.elapsedTime) * 0.1;
     }
     renderer.render(scene, camera);
-}
-
-// ==========================
-// DRAGGABLE LOGIC
-// ==========================
-function makeDraggable(wrapper, handle) {
-    let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
-    let xOffset = 0;
-    let yOffset = 0;
-
-    // Load saved pos
-    const saved = localStorage.getItem('botPos');
-    if (saved) {
-        const p = JSON.parse(saved);
-        wrapper.style.right = 'auto'; // override default right
-        wrapper.style.bottom = 'auto';
-        xOffset = p.x;
-        yOffset = p.y;
-        setTranslate(xOffset, yOffset, wrapper);
-    }
-
-    handle.addEventListener("mousedown", dragStart, false);
-    document.addEventListener("mouseup", dragEnd, false);
-    document.addEventListener("mousemove", drag, false);
-
-    function dragStart(e) {
-        if (e.type === "touchstart") {
-            initialX = e.touches[0].clientX - xOffset;
-            initialY = e.touches[0].clientY - yOffset;
-        } else {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-        }
-        if (e.target.closest('#bot-container')) {
-            isDragging = true;
-        }
-    }
-
-    function dragEnd(e) {
-        initialX = currentX;
-        initialY = currentY;
-        isDragging = false;
-        localStorage.setItem('botPos', JSON.stringify({ x: xOffset, y: yOffset }));
-    }
-
-    function drag(e) {
-        if (isDragging) {
-            e.preventDefault();
-            if (e.type === "touchmove") {
-                currentX = e.touches[0].clientX - initialX;
-                currentY = e.touches[0].clientY - initialY;
-            } else {
-                currentX = e.clientX - initialX;
-                currentY = e.clientY - initialY;
-            }
-            xOffset = currentX;
-            yOffset = currentY;
-            setTranslate(currentX, currentY, wrapper);
-        }
-    }
-
-    function setTranslate(xPos, yPos, el) {
-        el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-    }
 }
 
 // ==========================
@@ -386,11 +329,11 @@ async function sendMsg() {
             body: JSON.stringify({ message: msg })
         });
         const data = await res.json();
-        
+
         document.getElementById(thinkingId).remove();
         addMessage(data.reply || "Sorry, I glitch sometimes!", 'bot');
         speak(data.reply);
-        
+
         // Happy animation
         fadeToAction('ThumbsUp', 0.2, true);
 
@@ -416,11 +359,11 @@ function speak(text) {
     if (!window.speechSynthesis) return;
     // Strip emojis for speech
     const cleanText = text.replace(/([\\u2700-\\u27BF]|[\\uE000-\\uF8FF]|\\uD83C\[\\uDC00-\\uDFFF\]|\\uD83D\[\\uDC00-\\uDFFF\]|[\\u2011-\\u26FF]|\\uD83E\[\\uDD10-\\uDDFF\])/g, '');
-    
+
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.pitch = 1.8; // High pitch like a baby/robot
     utterance.rate = 1.1;
-    
+
     // Try to find a good english voice
     const voices = window.speechSynthesis.getVoices();
     const voice = voices.find(v => v.name.includes('Google US English') || v.lang === 'en-US');
