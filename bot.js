@@ -29,7 +29,7 @@ function initBot() {
                 <div class="msg bot">Hi! I'm Mayank's baby robot! Drag me around or ask me anything!</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Ask what is in your MIND..." />
+                <input type="text" id="chat-input" placeholder="Ask what's in your MIND..." />
                 <button id="chat-send">Send</button>
             </div>
         </div>
