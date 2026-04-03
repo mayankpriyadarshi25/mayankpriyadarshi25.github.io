@@ -258,7 +258,7 @@ app.post('/api/chat', async (req, res) => {
       body: JSON.stringify({
         "model": "openrouter/free", // Universal auto-routing to whichever free AI model is available
         "messages": [
-          {"role": "system", "content": "You are Mayank's helpful 3D AI baby robot assistant on his portfolio website. You keep answers concise, friendly, and relevant to cybersecurity and his skills."},
+          {"role": "system", "content": "You are Mayank's helpful hacker bot assistant on his portfolio website. You keep answers concise, friendly, and relevant to cybersecurity and his skills."},
           {"role": "user", "content": message}
         ]
       })

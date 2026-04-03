@@ -26,7 +26,7 @@ function initBot() {
                 <button id="close-chat" style="background:none;border:none;color:white;cursor:pointer;font-weight:bold;">✕</button>
             </div>
             <div id="chat-messages">
-                <div class="msg bot">Hi! I'm Mayank's baby robot! Drag me around or ask me anything!</div>
+                <div class="msg bot">Hi! I'm MetX! Drag me around or ask me anything!</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chat-input" placeholder="Ask what's in your MIND..." />
