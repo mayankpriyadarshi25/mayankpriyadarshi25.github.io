@@ -157,96 +157,85 @@ function initBot() {
             background: #00eeff;
         }
         /* ---- Welcome Popup Bubble ---- */
+        /* ---- Welcome Popup (compact) ---- */
         #bot-welcome-popup {
             position: absolute;
-            bottom: 235px;
+            bottom: 240px;
             right: 0;
-            background: linear-gradient(135deg, rgba(0,20,50,0.97) 0%, rgba(0,40,80,0.95) 100%);
-            border: 1px solid rgba(0,180,255,0.4);
-            border-radius: 18px 18px 4px 18px;
-            padding: 14px 18px 12px;
-            width: 230px;
-            box-shadow: 0 8px 32px rgba(0,180,255,0.25), 0 2px 8px rgba(0,0,0,0.5);
+            background: rgba(4, 15, 40, 0.95);
+            border: 1px solid rgba(0,180,255,0.35);
+            border-radius: 12px 12px 4px 12px;
+            padding: 9px 12px 8px;
+            width: 170px;
+            box-shadow: 0 4px 20px rgba(0,180,255,0.2);
             color: #e8f4ff;
             font-family: 'Outfit', 'Inter', sans-serif;
-            font-size: 0.82rem;
-            line-height: 1.5;
+            font-size: 0.72rem;
+            line-height: 1.45;
             z-index: 10001;
-            animation: botPopIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+            animation: botPopIn 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
             pointer-events: auto;
         }
         #bot-welcome-popup.hiding {
-            animation: botPopOut 0.35s ease-in forwards;
+            animation: botPopOut 0.3s ease-in forwards;
         }
         @keyframes botPopIn {
-            from { opacity: 0; transform: scale(0.7) translateY(20px); }
+            from { opacity: 0; transform: scale(0.75) translateY(12px); }
             to   { opacity: 1; transform: scale(1) translateY(0); }
         }
         @keyframes botPopOut {
             from { opacity: 1; transform: scale(1) translateY(0); }
-            to   { opacity: 0; transform: scale(0.75) translateY(15px); }
+            to   { opacity: 0; transform: scale(0.8) translateY(10px); }
         }
-        #bot-welcome-popup .popup-title {
-            font-size: 0.88rem;
-            font-weight: 700;
+        #bot-welcome-popup .popup-text {
+            color: #c8e0ff;
+            margin-bottom: 7px;
+        }
+        #bot-welcome-popup .popup-text strong {
             color: #00d4ff;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        #bot-welcome-popup .popup-title span.icon {
-            font-size: 1rem;
-        }
-        #bot-welcome-popup .popup-desc {
-            color: #b0d4f0;
-            margin-bottom: 10px;
         }
         #bot-welcome-popup .popup-cta {
-            display: inline-block;
-            background: linear-gradient(90deg, #00b4ff, #0066ff);
+            display: block;
+            width: 100%;
+            background: linear-gradient(90deg, #00b4ff, #0055dd);
             color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 6px 14px;
-            font-size: 0.78rem;
+            border-radius: 6px;
+            padding: 5px 0;
+            font-size: 0.7rem;
             font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.15s;
-            letter-spacing: 0.03em;
+            text-align: center;
+            transition: opacity 0.2s;
         }
         #bot-welcome-popup .popup-cta:hover {
-            opacity: 0.88;
-            transform: scale(1.04);
+            opacity: 0.85;
         }
         #bot-welcome-popup .popup-close {
             position: absolute;
-            top: 8px;
-            right: 10px;
+            top: 5px;
+            right: 7px;
             background: none;
             border: none;
-            color: rgba(180,210,255,0.6);
-            font-size: 0.8rem;
+            color: rgba(150,195,255,0.55);
+            font-size: 0.65rem;
             cursor: pointer;
-            line-height: 1;
             padding: 0;
+            line-height: 1;
             transition: color 0.2s;
         }
-        #bot-welcome-popup .popup-close:hover {
-            color: #00d4ff;
-        }
-        #bot-welcome-popup .popup-timer-bar {
-            height: 3px;
-            background: rgba(0,180,255,0.2);
-            border-radius: 3px;
-            margin-top: 10px;
+        #bot-welcome-popup .popup-close:hover { color: #00d4ff; }
+        #bot-welcome-popup .popup-bar {
+            height: 2px;
+            background: rgba(0,180,255,0.15);
+            border-radius: 2px;
+            margin-top: 7px;
             overflow: hidden;
         }
-        #bot-welcome-popup .popup-timer-bar-fill {
+        #bot-welcome-popup .popup-bar-fill {
             height: 100%;
             width: 100%;
-            background: linear-gradient(90deg, #00b4ff, #0044cc);
-            border-radius: 3px;
+            background: linear-gradient(90deg,#00b4ff,#0044cc);
             animation: timerShrink 5s linear forwards;
         }
         @keyframes timerShrink {
@@ -296,9 +285,9 @@ function initBot() {
         botModel = gltf.scene;
         scene.add(botModel);
 
-        // Center Model - Lowered the Y position to shift it down into the empty space
-        botModel.position.set(0, -2.8, 0);
-        botModel.scale.set(2.0, 2.25, 2.25); // Set to 2.25
+        // Center Model - positioned to show full body in smaller container
+        botModel.position.set(0, -1.2, 0);
+        botModel.scale.set(1.3, 1.3, 1.3);
 
         // Setup Animations
         if (gltf.animations && gltf.animations.length > 0) {
@@ -476,10 +465,9 @@ function showWelcomePopup() {
     popup.id = 'bot-welcome-popup';
     popup.innerHTML = `
         <button class="popup-close" id="popup-dismiss" title="Dismiss">✕</button>
-        <div class="popup-title"><span class="icon">🤖</span> Hey there, I'm MetX!</div>
-        <div class="popup-desc">Not just a 3D model — I'm a <strong style="color:#00d4ff">smart AI chatbot</strong> powered by real intelligence. Ask me anything about Mayank!</div>
+        <div class="popup-text">🤖 I'm <strong>MetX</strong> — a <strong>smart AI chatbot</strong>! Ask me anything about Mayank.</div>
         <button class="popup-cta" id="popup-open-chat">💬 Chat with me!</button>
-        <div class="popup-timer-bar"><div class="popup-timer-bar-fill"></div></div>
+        <div class="popup-bar"><div class="popup-bar-fill"></div></div>
     `;
     wrapper.appendChild(popup);
 
