@@ -201,7 +201,7 @@ function initBot() {
 
         // Center Model - Lowered the Y position to shift it down into the empty space
         botModel.position.set(0, -2.8, 0);
-        botModel.scale.set(2.25, 2.25, 2.25); // Set to 2.25 as requested
+        botModel.scale.set(2.0, 2.25, 2.25); // Set to 2.25 as requested
 
         // Setup Animations
         if (gltf.animations && gltf.animations.length > 0) {
