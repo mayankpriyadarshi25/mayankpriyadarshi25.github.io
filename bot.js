@@ -249,7 +249,7 @@ function initBot() {
     const container = document.getElementById('bot-container');
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.25, 100);
-    camera.position.set(0, 1.8, 6.5); // Adjusted for smaller 190x230 container
+    camera.position.set(0, 0.8, 7.5); // Lowered and pulled back slightly to show full body
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -286,7 +286,7 @@ function initBot() {
         scene.add(botModel);
 
         // Center Model - positioned to show full body in smaller container
-        botModel.position.set(0, -1.2, 0);
+        botModel.position.set(0, -0.6, 0);
         botModel.scale.set(1.3, 1.3, 1.3);
 
         // Setup Animations
