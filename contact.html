@@ -699,8 +699,8 @@
                 showToast("Message sent successfully! Thank you.", "success");
                 this.reset();
             } else {
-                const err = await response.text();
-                showToast("Failed to send: " + err, "error");
+                const errData = await response.json();
+                showToast("Failed to send: " + (errData.error || "Unknown Error"), "error");
             }
         } catch (error) {
             showToast("Failed to send: " + error.message, "error");

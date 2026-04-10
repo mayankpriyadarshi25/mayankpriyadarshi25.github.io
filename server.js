@@ -212,6 +212,12 @@ app.post('/api/contact', async (req, res) => {
   const EJ_SERVICE  = process.env.EJ_SERVICE;
   const EJ_TEMPLATE = process.env.EJ_TEMPLATE;
   const EJ_KEY      = process.env.EJ_KEY;
+  const EJ_PRIVATE  = process.env.EJ_PRIVATE_KEY;
+
+  if (!EJ_PRIVATE) {
+    return res.status(500).json({ success: false, error: 'Server configuration error: EJ_PRIVATE_KEY is missing. Please add it to your .env file.' });
+  }
+
   try {
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
@@ -220,6 +226,7 @@ app.post('/api/contact', async (req, res) => {
         service_id: EJ_SERVICE,
         template_id: EJ_TEMPLATE,
         user_id: EJ_KEY,
+        accessToken: EJ_PRIVATE,
         template_params: { from_name: name, reply_to: email, message: msg }
       })
     });
