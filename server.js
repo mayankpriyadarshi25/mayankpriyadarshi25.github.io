@@ -221,7 +221,10 @@ app.post('/api/contact', async (req, res) => {
   try {
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Origin': 'https://mayankpriyadarshi25.github.io'
+      },
       body: JSON.stringify({
         service_id: EJ_SERVICE,
         template_id: EJ_TEMPLATE,
