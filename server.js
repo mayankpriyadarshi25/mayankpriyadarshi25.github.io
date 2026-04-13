@@ -17,6 +17,11 @@ app.use(cors());
 app.use(express.json({ limit: '20mb' }));
 app.use(express.static(__dirname));
 
+// ─── Health Check / Ping Endpoint for Uptime Monitors ─────────
+app.get('/ping', (req, res) => {
+  res.status(200).send('pong');
+});
+
 // ─── Mongoose Schema ──────────────────────────────────────────────────────────
 const certSchema = new mongoose.Schema({
   certId:     { type: Number, required: true, unique: true },
