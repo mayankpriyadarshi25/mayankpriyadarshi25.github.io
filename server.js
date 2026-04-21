@@ -19,7 +19,9 @@ const MONGO_URI = process.env.MONGODB_URI;
 
 // ── Allowed Origins ───────────────────────────────────────────────────────────
 const ALLOWED_ORIGINS = [
-  'https://mayankpriyadarshi25.github.io',
+  'https://mayankpriyadarshi.xyz',           // custom domain (primary)
+  'https://www.mayankpriyadarshi.xyz',        // with www
+  'https://mayankpriyadarshi25.github.io',   // GitHub Pages fallback
   'http://localhost:3000',
   'http://127.0.0.1:3000',
   'http://localhost:5500',
