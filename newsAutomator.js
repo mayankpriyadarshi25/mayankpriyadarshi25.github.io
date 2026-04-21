@@ -36,6 +36,16 @@ const KEYWORD_WEIGHTS = {
 };
 
 /**
+ * Sanitize an external link — only allow http/https, cap length.
+ */
+function sanitizeLink(url) {
+  if (!url || typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  if (!/^https?:\/\//i.test(trimmed)) return ''; // block javascript:, data:, etc.
+  return trimmed.substring(0, 2000);
+}
+
+/**
  * Strips HTML tags and gets a clean snippet.
  */
 function cleanText(text) {
@@ -99,10 +109,10 @@ async function fetchNews(NewsItemModel) {
                     tag: cves.length > 0 ? 'Vulnerability' : feed.tag,
                     date: new Date(item.pubDate).toISOString(),
                     body: cleanText(item.contentEncoded || item.contentSnippet),
-                    link: item.link,
+                    link: sanitizeLink(item.link),   // SECURITY: only allow http/https URLs
                     score: score,
                     cve: cves,
-                    isTrending: score > 60 // Simple threshold for 🔥 Trending
+                    isTrending: score > 60
                 };
 
                 // Add to aggregate list

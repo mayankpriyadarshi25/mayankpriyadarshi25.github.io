@@ -527,7 +527,8 @@ function openDetail(id) {
   document.getElementById("modal-meta").innerHTML = `<span>${fmtDate(n.date)}</span>`;
   document.getElementById("modal-body").textContent = n.body;
   const lw = document.getElementById("modal-link-wrap");
-  lw.innerHTML = n.link ? `<a class="modal-link" href="${escHtml(n.link)}" target="_blank" rel="noopener">
+  // SECURITY: safeUrl() blocks javascript: URIs before escHtml() encodes for the attribute
+  lw.innerHTML = n.link ? `<a class="modal-link" href="${escHtml(safeUrl(n.link))}" target="_blank" rel="noopener noreferrer">
     <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
     Read Source
   </a>` : "";
@@ -676,6 +677,13 @@ function deletePost(id) {
 // ── HELPERS ──
 function escHtml(s) {
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+// SECURITY: block javascript: and data:text/html URIs in href attributes (VULN-05)
+function safeUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  var u = url.trim().toLowerCase();
+  if (u.startsWith('javascript:') || u.startsWith('data:text/html') || u.startsWith('vbscript:')) return '#';
+  return url.trim();
 }
 function showToast(msg, type) {
   const t = document.getElementById("toast");

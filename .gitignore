@@ -2,3 +2,6 @@ node_modules/
 .env
 data.json
 .DS_Store
+
+# Temp / build artifact directories (contain large binary GLB files)
+4b907a12-c781-4a11-90f1-64e121ef9e86/

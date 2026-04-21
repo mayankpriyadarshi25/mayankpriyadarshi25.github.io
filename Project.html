@@ -1691,12 +1691,15 @@
             var out = [];
             for (var i = 0; i < lines.length; i++) {
                 var l = lines[i];
-                if (l.indexOf("### ") === 0) { out.push("<h3>" + esc(l.slice(4)) + "</h3>"); }
-                else if (l.indexOf("## ") === 0) { out.push("<h3>" + esc(l.slice(3)) + "</h3>"); }
-                else if (l === "") { out.push("<br/>"); }
+                // SECURITY: escape the entire line FIRST, then apply safe inline patterns.
+                // This prevents XSS — raw HTML tags in l are neutralised before innerHTML insertion.
+                var le = esc(l);
+                if (le.indexOf("### ") === 0) { out.push("<h3>" + le.slice(4) + "</h3>"); }
+                else if (le.indexOf("## ") === 0) { out.push("<h3>" + le.slice(3) + "</h3>"); }
+                else if (le === "") { out.push("<br/>"); }
                 else {
-                    // inline code
-                    var lesc = l.replace(/`([^`]+)`/g, function (m, c) { return "<code>" + esc(c) + "</code>"; });
+                    // inline code — backticks are not escaped by esc(), so regex still works
+                    var lesc = le.replace(/`([^`]+)`/g, function (m, c) { return "<code>" + c + "</code>"; });
                     if (lesc.indexOf("- ") === 0 || lesc.indexOf("* ") === 0) { out.push("<li>" + lesc.slice(2) + "</li>"); }
                     else { out.push("<p>" + lesc + "</p>"); }
                 }
