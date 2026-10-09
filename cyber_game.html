@@ -157,9 +157,9 @@
 <body>
 
     <!-- Audio Placeholders -->
-    <audio id="sfx-hover" src=""></audio>
-    <audio id="sfx-click" src=""></audio>
-    <audio id="sfx-bg" loop src=""></audio>
+    <audio id="sfx-hover"></audio>
+    <audio id="sfx-click"></audio>
+    <audio id="sfx-bg" loop></audio>
 
     <div id="canvas-container"></div>
     
@@ -405,7 +405,7 @@
         const sfxClick = document.getElementById('sfx-click');
 
         function playSound(audioEl) {
-            if (audioEl.src && audioEl.src !== window.location.href) {
+            if (audioEl && audioEl.getAttribute('src')) {
                 audioEl.currentTime = 0;
                 audioEl.play().catch(e=>console.log("Audio play prevented", e));
             }

@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TERMINAL//ZERO — Cyber Hacker Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#03050A;--panel:#080F1C;--panel2:#0B1424;--panel3:#0E1830;--line:#12233D;--line2:#1B3355;--blue:#00A6FF;--cyan:#39E7FF;--txt:#C9D6E9;--dim:#74879F;--dim2:#54688A;--white:#EAF2FF;--red:#FF4D5E;--amber:#FFB454;--green:#3DDC84;--mono:'JetBrains Mono',ui-monospace,monospace;--disp:'Rajdhani',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:var(--disp);font-size:16px;line-height:1.55;overflow:hidden}
+::selection{background:rgba(0,166,255,.35);color:#fff}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#05080F}::-webkit-scrollbar-thumb{background:#152A47;border-radius:4px}::-webkit-scrollbar-thumb:hover{background:#1F4470}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}input,select{font-family:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:2px}.hidden{display:none!important}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none}
+#scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(57,231,255,.018) 0 1px,transparent 1px 3px)}
+#scan::after{content:"";position:absolute;left:0;right:0;height:120px;background:linear-gradient(180deg,transparent,rgba(0,166,255,.05),transparent);animation:scanmove 9s linear infinite}
+@keyframes scanmove{0%{top:-15%}100%{top:110%}}
+body.rm #scan::after,body.rm #fx{display:none}body.nopfx #fx{display:none}
+#vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(2,4,9,.85))}
+#app{position:relative;z-index:2;display:flex;height:100vh}
+#rail{width:232px;flex:none;background:linear-gradient(180deg,#050A14,#04070E);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:width .25s ease}
+body.railmin #rail{width:60px}
+#rail .logo{display:flex;align-items:center;gap:10px;padding:18px 16px 14px;border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap}
+#rail .logo .glyph{flex:none;width:30px;height:30px;color:var(--blue)}
+#rail .logo b{font-size:17px;letter-spacing:.06em;color:var(--white)}#rail .logo b i{font-style:normal;color:var(--cyan)}
+body.railmin #rail .logo b,body.railmin .navlbl,body.railmin #railfoot{display:none}
+#rail nav{flex:1;padding:10px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.navbtn{display:flex;align-items:center;gap:11px;padding:9px 10px;border-left:2px solid transparent;color:var(--dim);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;border-radius:0 4px 4px 0;transition:color .15s,background .15s;white-space:nowrap}
+.navbtn svg{flex:none;width:17px;height:17px}.navbtn:hover{color:var(--txt);background:rgba(0,166,255,.06)}
+.navbtn.on{color:var(--cyan);border-left-color:var(--blue);background:linear-gradient(90deg,rgba(0,166,255,.12),transparent)}
+#railfoot{padding:12px 16px;border-top:1px solid var(--line);font:500 10px var(--mono);color:var(--dim2);letter-spacing:.08em;white-space:nowrap;overflow:hidden}
+#railmin{margin:8px auto 6px;color:var(--dim2);padding:4px}#railmin:hover{color:var(--cyan)}
+#main{flex:1;min-width:0;display:flex;flex-direction:column}
+#view{flex:1;min-height:0;overflow-y:auto;position:relative}
+#view.glitching{animation:vg .18s steps(3)}@keyframes vg{0%{transform:translateX(2px);filter:hue-rotate(15deg)}50%{transform:translateX(-2px);clip-path:inset(6% 0 4% 0)}100%{clip-path:none;transform:none}}
+.panel{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:6px;position:relative}
+.panel::before{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;box-shadow:inset 0 1px 0 rgba(57,231,255,.05)}
+.plabel{font:700 10.5px var(--mono);letter-spacing:.22em;color:var(--dim2);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.plabel::before{content:"";width:8px;height:1px;background:var(--blue)}
+.btn{display:inline-flex;align-items:center;gap:9px;font:700 13px var(--disp);letter-spacing:.16em;text-transform:uppercase;padding:12px 22px;border:1px solid var(--line2);color:var(--txt);border-radius:4px;background:linear-gradient(180deg,#0C1930,#081226);transition:all .15s;position:relative}
+.btn:hover{border-color:var(--blue);color:var(--white);box-shadow:0 0 18px rgba(0,166,255,.18),inset 0 0 14px rgba(0,166,255,.07)}
+.btn.primary{border-color:var(--blue);color:#02131F;background:linear-gradient(180deg,var(--cyan),var(--blue));text-shadow:none}
+.btn.primary:hover{box-shadow:0 0 26px rgba(0,166,255,.45)}
+.btn.danger{border-color:#5A2530;color:#FF8B95}.btn.danger:hover{border-color:var(--red);box-shadow:0 0 16px rgba(255,77,94,.2)}
+.btn.sm{padding:7px 13px;font-size:11px;letter-spacing:.12em}.btn.ghost{background:transparent}.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.chip{font:600 10px var(--mono);letter-spacing:.1em;padding:2px 7px;border:1px solid var(--line2);border-radius:3px;color:var(--dim)}
+.chip.cy{color:var(--cyan);border-color:#1E5E78}.chip.gr{color:var(--green);border-color:#1E6B47}.chip.am{color:var(--amber);border-color:#6B5426}.chip.rd{color:var(--red);border-color:#6B2A31}
+.field{background:#050B16;border:1px solid var(--line);border-radius:4px;color:var(--white);font:500 14px var(--mono);padding:10px 12px;width:100%}.field:focus{border-color:var(--blue);outline:none}
+.hr{height:1px;background:var(--line);border:0;margin:14px 0}
+#toast-root{position:fixed;right:18px;bottom:18px;z-index:90;display:flex;flex-direction:column-reverse;gap:10px;max-width:340px}
+.toast{background:linear-gradient(180deg,#0C1830,#081221);border:1px solid var(--line2);border-left:3px solid var(--blue);border-radius:4px;padding:11px 14px;font:600 12.5px var(--mono);letter-spacing:.04em;color:var(--txt);box-shadow:0 8px 30px rgba(0,0,0,.6);animation:tin .25s ease}
+.toast.gr{border-left-color:var(--green)}.toast.rd{border-left-color:var(--red)}.toast.am{border-left-color:var(--amber)}
+@keyframes tin{from{transform:translateX(30px);opacity:0}}.toast.out{opacity:0;transform:translateX(30px);transition:all .3s}
+#modal-root{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(2,4,9,.78);backdrop-filter:blur(4px);padding:20px}
+#modal-root.open{display:flex}
+.modal{width:min(680px,100%);max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,#0A1526,#060D1A);border:1px solid var(--line2);border-radius:8px;box-shadow:0 0 60px rgba(0,166,255,.12),0 30px 80px rgba(0,0,0,.7);animation:min .2s ease}
+@keyframes min{from{transform:translateY(14px);opacity:0}}
+.modal .mhead{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.modal .mhead h3{font:700 16px var(--disp);letter-spacing:.14em;color:var(--white);text-transform:uppercase;flex:1}
+.modal .mhead .x{color:var(--dim);padding:4px}.modal .mhead .x:hover{color:var(--red)}
+.modal .mbody{padding:20px}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 34px 70px}
+.hero{position:relative;border:1px solid var(--line);border-radius:8px;background:linear-gradient(160deg,rgba(8,15,28,.92),rgba(4,7,13,.96));padding:44px;overflow:hidden}
+.flamefield{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.flame{position:absolute;border-radius:50%;filter:blur(34px);mix-blend-mode:screen;opacity:.4}
+.flame.f1{width:340px;height:200px;left:8%;bottom:-90px;background:radial-gradient(closest-side,rgba(0,166,255,.5),transparent 70%);animation:fl1 7s ease-in-out infinite}
+.flame.f2{width:260px;height:160px;right:12%;bottom:-70px;background:radial-gradient(closest-side,rgba(57,231,255,.35),transparent 70%);animation:fl1 9s ease-in-out -3s infinite}
+.flame.f3{width:180px;height:120px;left:45%;bottom:-60px;background:radial-gradient(closest-side,rgba(0,90,180,.45),transparent 70%);animation:fl1 6s ease-in-out -1.5s infinite}
+@keyframes fl1{0%,100%{transform:translateY(0) scaleX(1)}50%{transform:translateY(-26px) scaleX(1.15)}}
+body.rm .flame{animation:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.25fr .85fr;gap:40px;align-items:start}
+.sysdot{display:inline-flex;align-items:center;gap:8px;font:700 10.5px var(--mono);letter-spacing:.24em;color:var(--green)}
+.sysdot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1.title{font:700 clamp(34px,4.6vw,56px)/1.04 var(--disp);letter-spacing:.015em;color:var(--white);margin:18px 0 6px;text-transform:uppercase}
+h1.title .t2{color:var(--cyan);text-shadow:0 0 26px rgba(57,231,255,.35)}
+.hero p.lead{max-width:560px;color:var(--dim);font-size:16.5px;margin:14px 0 28px}.hero p.lead b{color:var(--txt)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.side-col{display:flex;flex-direction:column;gap:14px}
+.pcard{padding:18px 20px}.pcard .rows{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-top:14px}
+.kv{font:600 11px var(--mono);letter-spacing:.06em}.kv .k{color:var(--dim2);display:block;font-size:9.5px;letter-spacing:.2em;margin-bottom:2px}.kv .v{color:var(--white);font-size:13px}
+.xpbar{height:5px;background:#0A1322;border:1px solid var(--line);border-radius:3px;margin-top:8px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));box-shadow:0 0 8px rgba(57,231,255,.6);transition:width .8s ease}
+.metric{display:flex;align-items:center;gap:12px;margin-top:12px;font:600 11px var(--mono)}
+.metric .mlabel{width:74px;color:var(--dim2);letter-spacing:.14em}.metric .mbar{flex:1;height:4px;background:#0A1322;border-radius:2px;overflow:hidden}
+.metric .mbar i{display:block;height:100%;background:var(--blue);transition:width .6s}.metric .mval{width:44px;text-align:right;color:var(--cyan)}
+.queue{margin-top:26px;padding:22px 24px}
+.queue .qitem{display:flex;align-items:center;gap:16px;padding:14px 4px;border-bottom:1px solid var(--line)}.queue .qitem:last-child{border-bottom:none}
+.queue .qnum{font:700 22px var(--mono);color:var(--line2);flex:none;width:44px}.queue .qnum.avail{color:var(--cyan)}
+.queue .qt{flex:1;min-width:0}.queue .qt b{display:block;color:var(--white);font:700 15px var(--disp);letter-spacing:.1em}
+.queue .qt span{font:500 11px var(--mono);color:var(--dim)}
+.homelinks{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.hlink{flex:1;min-width:170px;display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;background:rgba(8,15,28,.7);color:var(--dim);font:700 12px var(--disp);letter-spacing:.14em;text-transform:uppercase;transition:all .15s}
+.hlink svg{color:var(--blue);flex:none}.hlink:hover{border-color:var(--blue);color:var(--white);transform:translateY(-2px)}
+.pagehead{margin-bottom:22px}.pagehead h2{font:700 26px var(--disp);letter-spacing:.1em;color:var(--white);text-transform:uppercase}
+.pagehead p{color:var(--dim);max-width:640px;margin-top:4px}
+.mrow{display:flex;align-items:center;gap:18px;padding:18px 20px;border:1px solid var(--line);border-radius:6px;background:linear-gradient(180deg,var(--panel2),var(--panel));margin-bottom:12px;transition:border-color .15s;cursor:pointer}
+.mrow:hover{border-color:var(--line2)}.mrow.locked{opacity:.55;cursor:default}.mrow .mnum{font:700 24px var(--mono);color:var(--dim2);width:52px;flex:none}
+.mrow.avail .mnum{color:var(--cyan)}.mrow.done{border-left:3px solid var(--green)}
+.mrow .mmain{flex:1;min-width:0}.mrow .mmain b{font:700 16px var(--disp);letter-spacing:.1em;color:var(--white);text-transform:uppercase}
+.mrow .mtags{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.mrow .mside{text-align:right;flex:none;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.mrow .mxp{font:700 12px var(--mono);color:var(--amber)}.mrow .mbest{font:500 10px var(--mono);color:var(--dim2)}
+.sandbox{border:1px dashed var(--line2);border-radius:6px;padding:18px 20px;display:flex;gap:16px;align-items:center;margin-top:22px;background:rgba(0,166,255,.03);cursor:pointer}
+.sandbox svg{color:var(--cyan)}
+.lib-top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}.lib-top .field{max-width:320px}
+.catbtn{font:600 11px var(--mono);letter-spacing:.1em;padding:6px 12px;border:1px solid var(--line);border-radius:3px;color:var(--dim)}.catbtn.on{color:var(--cyan);border-color:var(--blue)}
+.lib-grid{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+.lib-list{max-height:62vh;overflow-y:auto}
+.lib-item{display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);color:var(--dim);font:500 13px var(--mono)}
+.lib-item:hover{color:var(--txt);background:rgba(0,166,255,.05)}.lib-item.on{color:var(--cyan);background:rgba(0,166,255,.09)}
+.lib-detail{padding:22px 24px}.lib-detail h3{font:700 20px var(--mono);color:var(--cyan)}
+.lib-detail .syn{font:500 13.5px var(--mono);color:var(--white);background:#050B16;border:1px solid var(--line);border-radius:4px;padding:10px 14px;margin:12px 0}
+.lib-detail p{color:var(--txt);margin:10px 0}
+.lib-detail .ex{font:500 12.5px var(--mono);color:var(--cyan);background:#04101C;border:1px solid var(--line);border-radius:4px;padding:8px 12px;margin:6px 0}
+/* ---------- CERTIFICATE GENERATOR (TUI) ---------- */
+.cg-wrap{max-width:1240px;margin:0 auto;padding:14px 20px 60px}
+.cg-term-head{background:#02050B;border:1px solid var(--line2);border-bottom:none;padding:10px 16px;font:600 13px var(--mono);color:var(--cyan);display:flex;align-items:center;justify-content:space-between;border-radius:6px 6px 0 0}
+.cg-term-box{background:#040813;border:1px solid var(--line2);padding:22px;border-radius:0 0 6px 6px}
+.cg-top-grid{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.cg-ascii{font:700 10.5px/1.18 var(--mono);color:var(--cyan);white-space:pre;letter-spacing:-0.5px;text-shadow:0 0 10px rgba(57,231,255,.4);overflow-x:auto}
+.cg-sub{font:500 12.5px var(--mono);color:var(--dim);margin-top:6px}
+.cg-meta{background:#02050D;border:1px solid var(--line);border-radius:4px;padding:10px 16px;font:500 11.5px var(--mono);color:var(--txt);line-height:1.75;min-width:240px}
+.cg-meta .cy{color:var(--cyan);font-weight:700}
+.cg-badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.08em}
+.cg-badge.ok{background:rgba(61,220,132,.15);color:var(--green);border:1px solid var(--green)}
+.cg-badge.warn{background:rgba(255,180,84,.15);color:var(--amber);border:1px solid var(--amber)}
+.cg-grid{display:grid;grid-template-columns:370px 1fr;gap:22px;align-items:start}
+@media(max-width:1100px){.cg-grid{grid-template-columns:1fr}.cg-top-grid{grid-template-columns:1fr}}
+.cg-box{background:#060C19;border:1px solid var(--line2);border-radius:5px;padding:14px 16px;margin-bottom:14px}
+.cg-box-title{font:700 11.5px var(--mono);color:var(--cyan);letter-spacing:.16em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.cg-box-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.cg-field-row{margin-bottom:11px}
+.cg-label{display:block;font:600 11px var(--mono);color:var(--dim);margin-bottom:4px;letter-spacing:.08em}
+.cg-input{background:#030711;border:1px solid var(--line);border-radius:3px;color:var(--white);font:500 12.5px var(--mono);padding:8px 10px;width:100%;transition:all .15s}
+.cg-input:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(57,231,255,.25);outline:none}
+.cg-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.cg-chip{font:500 9.5px var(--mono);padding:2px 6px;border:1px solid var(--line);border-radius:3px;color:var(--dim2);cursor:pointer;background:#030711}
+.cg-chip:hover{color:var(--cyan);border-color:var(--blue)}
+.cg-color-row{display:flex;gap:8px;align-items:center}
+.cg-color-btn{width:26px;height:26px;border-radius:4px;border:2px solid transparent;cursor:pointer;transition:transform .15s}
+.cg-color-btn.on{border-color:#fff;transform:scale(1.15);box-shadow:0 0 10px currentColor}
+.cg-color-btn.c-cyan{background:#39E7FF;color:#39E7FF}
+.cg-color-btn.c-green{background:#3DDC84;color:#3DDC84}
+.cg-color-btn.c-amber{background:#FFB454;color:#FFB454}
+.cg-color-btn.c-red{background:#FF4D5E;color:#FF4D5E}
+.cg-actions{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.cg-log-box{margin-top:14px;background:#02050B;border:1px solid var(--line);border-radius:4px;padding:9px 12px;font:500 11.5px var(--mono);color:var(--green);min-height:42px}
+.cert-preview-wrap{position:sticky;top:16px}
+.cert-card{background:radial-gradient(ellipse 90% 80% at 50% 40%,#061122 0%,#030712 85%);border:2px solid var(--cyan);border-radius:6px;padding:26px 28px;position:relative;box-shadow:0 0 35px rgba(0,166,255,.18),inset 0 0 25px rgba(0,166,255,.05);color:var(--white);font-family:var(--disp);text-align:center;overflow:hidden}
+.cert-card::before{content:"";position:absolute;inset:7px;border:1px solid rgba(57,231,255,.35);border-radius:4px;pointer-events:none}
+.cert-card::after{content:"";position:absolute;inset:11px;border:1px dashed rgba(57,231,255,.2);border-radius:2px;pointer-events:none}
+.cert-corner{position:absolute;width:16px;height:16px;border:2px solid var(--cyan);pointer-events:none}
+.cert-corner.tl{top:11px;left:11px;border-right:none;border-bottom:none}
+.cert-corner.tr{top:11px;right:11px;border-left:none;border-bottom:none}
+.cert-corner.bl{bottom:11px;left:11px;border-right:none;border-top:none}
+.cert-corner.br{bottom:11px;right:11px;border-left:none;border-top:none}
+.cert-crest{margin:0 auto 10px;width:68px;height:68px;display:flex;align-items:center;justify-content:center;color:var(--cyan);filter:drop-shadow(0 0 12px rgba(57,231,255,.6))}
+.cert-title{font:700 clamp(22px,3vw,34px) 'Rajdhani',serif;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);text-shadow:0 0 18px rgba(57,231,255,.5);margin-bottom:2px}
+.cert-sub1{font:700 10.5px var(--mono);letter-spacing:.3em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.cert-name{font:700 clamp(26px,3.8vw,40px) 'Rajdhani',sans-serif;letter-spacing:.08em;color:#fff;text-shadow:0 0 20px rgba(255,255,255,.7),0 0 35px var(--cyan);border-bottom:2px solid var(--cyan);display:inline-block;padding:2px 24px 4px;margin:6px 0 12px;text-transform:uppercase}
+.cert-stmt{font:500 12px var(--mono);color:var(--txt);max-width:540px;margin:0 auto 6px;line-height:1.55}
+.cert-role{font:700 clamp(16px,2vw,20px) var(--disp);letter-spacing:.12em;color:var(--cyan);text-transform:uppercase;text-shadow:0 0 12px rgba(57,231,255,.4)}
+.cert-at{font:600 10.5px var(--mono);letter-spacing:.18em;color:var(--dim);margin:5px 0 3px}
+.cert-org{font:700 14px var(--disp);letter-spacing:.12em;color:var(--white);text-transform:uppercase}
+.cert-footer{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:end;margin-top:24px;padding-top:14px;border-top:1px solid rgba(57,231,255,.25);font:500 10.5px var(--mono);text-align:left}
+.cert-f-left{color:var(--dim)}
+.cert-f-left b{display:block;color:var(--white);font-size:11.5px;margin-top:2px}
+.cert-seal{width:56px;height:56px;color:var(--cyan);margin:0 auto;display:flex;align-items:center;justify-content:center}
+.cert-f-right{text-align:right}
+.cert-signature{font-family:'Courier New',monospace;font-size:16px;font-weight:700;font-style:italic;color:var(--cyan);text-shadow:0 0 8px var(--cyan);letter-spacing:1px}
+.cert-sig-line{border-top:1px solid rgba(57,231,255,.5);margin-top:4px;padding-top:2px;font-size:9px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.cert-card.theme-green{border-color:var(--green);box-shadow:0 0 35px rgba(61,220,132,.18)}
+.cert-card.theme-green .cert-title,.cert-card.theme-green .cert-crest,.cert-card.theme-green .cert-name,.cert-card.theme-green .cert-role,.cert-card.theme-green .cert-signature,.cert-card.theme-green .cert-seal{color:var(--green);text-shadow:0 0 16px rgba(61,220,132,.6)}
+.cert-card.theme-green .cert-name{border-color:var(--green)}
+.cert-card.theme-amber{border-color:var(--amber);box-shadow:0 0 35px rgba(255,180,84,.18)}
+.cert-card.theme-amber .cert-title,.cert-card.theme-amber .cert-crest,.cert-card.theme-amber .cert-name,.cert-card.theme-amber .cert-role,.cert-card.theme-amber .cert-signature,.cert-card.theme-amber .cert-seal{color:var(--amber);text-shadow:0 0 16px rgba(255,180,84,.6)}
+.cert-card.theme-amber .cert-name{border-color:var(--amber)}
+.cert-card.theme-red{border-color:var(--red);box-shadow:0 0 35px rgba(255,77,94,.18)}
+.cert-card.theme-red .cert-title,.cert-card.theme-red .cert-crest,.cert-card.theme-red .cert-name,.cert-card.theme-red .cert-role,.cert-card.theme-red .cert-signature,.cert-card.theme-red .cert-seal{color:var(--red);text-shadow:0 0 16px rgba(255,77,94,.6)}
+.cert-card.theme-red .cert-name{border-color:var(--red)}
+.cg-m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:18px 0}
+.cg-m-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:4px;background:#050A14;font:500 12px var(--mono)}
+.cg-m-item.done{border-color:#1E4A36;background:rgba(61,220,132,.06);color:var(--green)}
+.cg-m-item.lock{border-color:var(--line);color:var(--dim2);opacity:.6}
+
+/* ---------- CYBER GIFT LOOT BOX & CYBERSPACE TRANSITION ---------- */
+#cyber-modal-ov{position:fixed;inset:0;z-index:9999;background:rgba(2,4,9,.94);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;flex-direction:column;opacity:0;transition:opacity .4s ease}
+#cyber-modal-ov.show{display:flex;opacity:1}
+.cbox-wrap{text-align:center;max-width:540px;padding:32px 24px;position:relative}
+.cbox-title{font:700 28px var(--disp);letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;text-shadow:0 0 20px var(--cyan);margin-bottom:6px}
+.cbox-sub{font:500 13px var(--mono);color:var(--txt);margin-bottom:28px}
+.cbox-3d{width:160px;height:160px;margin:0 auto 28px;position:relative;cursor:pointer;perspective:800px}
+.cbox-cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:cboxFloat 3s ease-in-out infinite}
+@keyframes cboxFloat{0%,100%{transform:rotateY(-20deg) rotateX(15deg) translateY(0)}50%{transform:rotateY(25deg) rotateX(5deg) translateY(-14px)}}
+.cbox-face{position:absolute;width:160px;height:160px;border:2px solid var(--cyan);background:rgba(6,17,34,.85);box-shadow:inset 0 0 30px rgba(57,231,255,.3),0 0 20px rgba(0,166,255,.2);display:flex;align-items:center;justify-content:center;color:var(--cyan)}
+.cbox-face.front{transform:translateZ(80px)}
+.cbox-face.back{transform:rotateY(180deg) translateZ(80px)}
+.cbox-face.right{transform:rotateY(90deg) translateZ(80px)}
+.cbox-face.left{transform:rotateY(-90deg) translateZ(80px)}
+.cbox-face.top{transform:rotateX(90deg) translateZ(80px);background:rgba(0,166,255,.3);box-shadow:0 0 35px var(--cyan)}
+.cbox-face.bottom{transform:rotateX(-90deg) translateZ(80px)}
+.cbox-glow-btn{display:inline-flex;align-items:center;gap:10px;font:700 15px var(--disp);letter-spacing:.18em;padding:14px 34px;background:linear-gradient(180deg,var(--cyan),var(--blue));color:#02131F;border:none;border-radius:4px;cursor:pointer;box-shadow:0 0 30px rgba(57,231,255,.6);transition:all .2s;text-transform:uppercase}
+.cbox-glow-btn:hover{transform:scale(1.05);box-shadow:0 0 45px rgba(57,231,255,.9)}
+/* Cyberspace Warp Portal */
+#cyberspace-warp{position:fixed;inset:0;z-index:10000;background:#000;display:none;align-items:center;justify-content:center;flex-direction:column;overflow:hidden}
+#cyberspace-warp.warp{display:flex}
+.warp-tunnel{position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0%,#010309 85%),repeating-conic-gradient(from 0deg,rgba(57,231,255,.15) 0deg 10deg,transparent 10deg 20deg);animation:warpSpin .6s linear infinite}
+@keyframes warpSpin{0%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.8) rotate(180deg)}100%{transform:scale(3) rotate(360deg)}}
+.warp-center{position:relative;z-index:2;text-align:center;padding:20px}
+.warp-text{font:700 clamp(32px,5vw,56px) var(--disp);letter-spacing:.28em;color:var(--cyan);text-shadow:0 0 35px var(--cyan),0 0 70px var(--blue);text-transform:uppercase;animation:warpPulse .8s ease-in-out infinite alternate}
+@keyframes warpPulse{0%{transform:scale(.95);opacity:.85}100%{transform:scale(1.06);opacity:1}}
+.warp-dest{font:600 15px var(--mono);color:var(--white);letter-spacing:.14em;margin-top:16px;text-shadow:0 0 10px rgba(255,255,255,.8)}
+.setrow{display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px solid var(--line);border-radius:6px;margin-bottom:10px;background:var(--panel)}
+.setrow .st{flex:1}.setrow .st b{color:var(--white);font:700 14px var(--disp);letter-spacing:.08em;display:block}
+.setrow .st span{font:500 12px var(--mono);color:var(--dim)}
+.tgl{width:46px;height:24px;border-radius:12px;border:1px solid var(--line2);background:#0A1322;position:relative;flex:none;transition:all .2s;cursor:pointer}
+.tgl::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--dim2);transition:all .2s}
+.tgl.on{border-color:var(--blue);background:rgba(0,166,255,.18)}.tgl.on::after{left:25px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+#game{height:100%;display:flex;flex-direction:column}
+.hud{flex:none;display:flex;align-items:center;gap:18px;padding:10px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#081120,#050A13);flex-wrap:wrap}
+.hud .hmission{min-width:0}.hud .hmission b{font:700 14px var(--disp);letter-spacing:.12em;color:var(--white);text-transform:uppercase;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud .hmission span{font:500 10px var(--mono);color:var(--dim2);letter-spacing:.1em}
+.hud .hrank{display:flex;align-items:center;gap:10px}.hud .hrank .rname{font:700 11px var(--disp);letter-spacing:.16em;color:var(--cyan);text-transform:uppercase}
+.hud .hrank .xpbar{width:110px;margin:0}
+.hud .htimer{font:700 15px var(--mono);color:var(--white);letter-spacing:.06em;display:flex;align-items:center;gap:7px}
+.hud .htimer.warn{color:var(--red);text-shadow:0 0 10px rgba(255,77,94,.5)}
+.hud .hprog{display:flex;gap:5px}.hud .hprog i{width:9px;height:9px;border:1px solid var(--line2);transform:rotate(45deg)}
+.hud .hprog i.on{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 6px rgba(57,231,255,.7)}
+.hud .hspace{flex:1}
+.icobtn{color:var(--dim);padding:7px;border:1px solid transparent;border-radius:4px}.icobtn:hover{color:var(--cyan);border-color:var(--line2)}.icobtn.act{color:var(--cyan)}
+.work{flex:1;min-height:0;display:grid;grid-template-columns:296px minmax(0,1fr) 318px;gap:0}
+.brief{border-right:1px solid var(--line);overflow-y:auto;padding:16px;background:rgba(5,9,17,.6)}
+.intel{border-left:1px solid var(--line);overflow-y:auto;padding:16px;background:rgba(5,9,17,.6)}
+.brief h4,.intel h4{font:700 11px var(--mono);letter-spacing:.22em;color:var(--dim2);margin:20px 0 10px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.brief h4::before,.intel h4::before{content:"";width:8px;height:1px;background:var(--blue)}.brief h4:first-child{margin-top:2px}
+.mtitle{font:700 19px var(--disp);letter-spacing:.08em;color:var(--white);text-transform:uppercase}
+.mtitle small{display:block;font:700 10px var(--mono);letter-spacing:.2em;color:var(--cyan);margin-bottom:4px}
+.brieftext{font-size:14.5px;color:var(--txt);border-left:2px solid var(--line2);padding-left:12px;margin-top:8px}
+.obj{display:flex;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:4px;margin-bottom:7px;font:500 12.5px var(--mono);color:var(--dim);align-items:flex-start;transition:all .2s}
+.obj .obox{flex:none;width:14px;height:14px;border:1px solid var(--line2);margin-top:2px;position:relative}
+.obj.done{color:var(--green);border-color:#1E4A36;background:rgba(61,220,132,.05)}
+.obj.done .obox{border-color:var(--green)}.obj.done .obox::after{content:"";position:absolute;inset:3px;background:var(--green);box-shadow:0 0 6px var(--green)}
+.obj.bon .obox{border-style:dashed}
+.hintslot{border:1px solid var(--line);border-radius:4px;margin-bottom:8px;overflow:hidden}
+.hintslot>.hbtn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:9px 12px;font:700 11px var(--mono);letter-spacing:.14em;color:var(--dim)}
+.hintslot>.hbtn:hover{color:var(--cyan)}
+.hintslot .hbody{padding:10px 12px;font-size:13.5px;color:var(--txt);border-top:1px solid var(--line);background:rgba(0,166,255,.04)}
+.rewardline{display:flex;justify-content:space-between;font:600 11px var(--mono);color:var(--dim);padding:4px 0}.rewardline b{color:var(--amber)}
+.refcard{border:1px solid var(--line);border-radius:4px;padding:10px 12px;margin-bottom:9px}
+.refcard b{font:700 13px var(--mono);color:var(--cyan)}.refcard .syn{font:500 11px var(--mono);color:var(--dim);margin:3px 0}
+.refcard p{font-size:12.5px;color:var(--txt)}
+.evid{font:500 12px var(--mono);color:var(--txt);border-left:2px solid var(--cyan);padding:6px 10px;margin-bottom:7px;background:rgba(57,231,255,.05);animation:evid .5s ease}
+@keyframes evid{from{background:rgba(57,231,255,.3)}}
+.note{font-size:12.5px;color:var(--dim);border-bottom:1px solid var(--line);padding:7px 2px}.note b{color:var(--cyan);font-family:var(--mono);font-size:11.5px}
+.termwrap{position:relative;display:flex;flex-direction:column;min-width:0;background:#04070E}
+.termhead{flex:none;display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid var(--line);font:600 10px var(--mono);letter-spacing:.18em;color:var(--dim2)}
+.termhead .tpath{color:var(--cyan);letter-spacing:.04em;text-transform:none}
+.termember{position:absolute;inset:auto 0 0 0;height:90px;pointer-events:none;background:radial-gradient(60% 100% at 50% 100%,rgba(0,110,220,.16),transparent 75%);overflow:hidden}
+body.rm .termember{display:none}
+.termout{flex:1;min-height:0;overflow-y:auto;padding:14px 18px 8px;font:400 13.5px/1.62 var(--mono)}
+.tl{white-space:pre-wrap;word-break:break-word}.tl.cmd{color:var(--white)}.tl.err{color:var(--red)}.tl.ok{color:var(--green)}.tl.sys{color:var(--blue)}.tl.hi{color:var(--cyan)}.tl.dim{color:var(--dim2)}
+.p-u{color:var(--green)}.p-s{color:var(--dim2)}.p-p{color:var(--blue)}.p-d{color:var(--cyan)}
+.term-line{flex:none;display:flex;align-items:center;gap:0;padding:6px 18px 14px;font:400 13.5px var(--mono);background:#04070E}
+.term-line input{flex:1;background:transparent;border:none;outline:none;font:inherit;color:var(--white);caret-color:var(--cyan);min-width:40px}
+.term-line input::selection{background:rgba(0,166,255,.4)}
+#pauseov{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;background:rgba(2,4,9,.82);backdrop-filter:blur(3px)}
+#pauseov.on{display:flex}#pauseov b{font:700 30px var(--disp);letter-spacing:.3em;color:var(--cyan)}
+#flash{position:fixed;inset:0;z-index:70;pointer-events:none;background:radial-gradient(80% 60% at 50% 50%,rgba(57,231,255,.28),transparent 70%);opacity:0}
+#flash.go{animation:flgo .9s ease}@keyframes flgo{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+#stamp{position:fixed;left:50%;top:38%;z-index:71;transform:translate(-50%,-50%) rotate(-4deg);pointer-events:none;font:700 clamp(28px,5vw,54px) var(--disp);letter-spacing:.3em;color:var(--cyan);border:3px solid var(--cyan);padding:14px 34px;text-shadow:0 0 30px rgba(57,231,255,.7);box-shadow:0 0 50px rgba(0,166,255,.35),inset 0 0 30px rgba(0,166,255,.15);opacity:0}
+#stamp.go{animation:stgo 1.5s ease}@keyframes stgo{0%{opacity:0;transform:translate(-50%,-50%) rotate(-4deg) scale(1.6)}14%{opacity:1;transform:translate(-50%,-50%) rotate(-4deg) scale(1)}80%{opacity:1}100%{opacity:0}}
+body.rm #flash,body.rm #stamp{display:none}
+.res-rows{display:grid;grid-template-columns:1fr 1fr;gap:8px 26px;margin:14px 0}
+.res-kv{display:flex;justify-content:space-between;font:600 12.5px var(--mono);border-bottom:1px solid var(--line);padding:6px 2px}
+.res-kv span{color:var(--dim)}.res-kv b{color:var(--white)}.res-kv b.plus{color:var(--green)}
+.restat{display:flex;gap:26px;margin:16px 0;flex-wrap:wrap}.restat>div{text-align:center}
+.restat .rn{font:700 26px var(--mono);color:var(--cyan)}.restat .rl{font:700 9.5px var(--mono);letter-spacing:.2em;color:var(--dim2)}
+.objres{font:500 12.5px var(--mono);padding:6px 0;border-bottom:1px solid var(--line);display:flex;gap:10px}
+.objres .mk{color:var(--green)}.objres .mk.no{color:var(--dim2)}
+.stampbox{margin:18px 0 6px;border:1px solid #1E4A36;background:rgba(61,220,132,.06);border-radius:5px;padding:14px 18px}
+.stampbox b{color:var(--green);font:700 13px var(--mono);letter-spacing:.16em}.stampbox p{color:var(--txt);font-size:14px;margin-top:6px}
+#keysbar{display:none;flex:none;gap:6px;padding:8px 10px;border-top:1px solid var(--line);background:#050B15;overflow-x:auto}
+#keysbar button{flex:none;font:600 13px var(--mono);border:1px solid var(--line2);border-radius:4px;color:var(--cyan);padding:7px 13px;background:#081221}
+#boot{display:none!important}
+.mtopbtn{display:none}
+.drawerbar{display:none}
+@media(max-width:1100px){.work{grid-template-columns:1fr}.brief,.intel{position:fixed;top:0;bottom:0;width:min(340px,86vw);z-index:40;background:#060C17;transition:transform .25s;box-shadow:0 0 60px rgba(0,0,0,.8)}.brief{left:0;transform:translateX(-105%)}.intel{right:0;transform:translateX(105%)}.brief.open,.intel.open{transform:none}.drawerbar{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);background:#050A13}.drawerbar button{flex:1;font:700 11px var(--mono);letter-spacing:.16em;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:8px}.hero-grid{grid-template-columns:1fr}.aca-grid,.lib-grid{grid-template-columns:1fr}.lib-list{max-height:34vh}}
+@media(max-width:860px){#rail{position:fixed;left:0;top:0;bottom:0;z-index:60;transform:translateX(-100%);transition:transform .25s;width:232px}body.railopen #rail{transform:none}#railback{position:fixed;inset:0;z-index:55;background:rgba(2,4,9,.6);display:none}body.railopen #railback{display:block}.mtopbtn{display:inline-flex}#view .wrap{padding:22px 16px 60px}.hero{padding:26px 20px}#keysbar{display:flex}.termout{font-size:12.5px}.hud{gap:10px;padding:8px 12px}}
+@media(max-width:520px){.mrow{flex-wrap:wrap}.mrow .mside{width:100%;flex-direction:row;justify-content:space-between;align-items:center}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div id="scan"></div><div id="vignette"></div>
+<div id="app">
+  <div id="railback" onclick="document.body.classList.remove('railopen')"></div>
+  <aside id="rail">
+    <div class="logo">
+      <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="3.5" width="19" height="17" rx="1.5"/><path d="M6 8.5l4 3.5-4 3.5M12.5 16H18" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 3.5h19" stroke="#39E7FF"/></svg>
+      <b>TERMINAL<i>//</i>ZERO</b>
+    </div>
+    <div style="padding:10px 12px;border-bottom:1px solid var(--line);">
+      <a href="portfolio.html" style="display:flex;align-items:center;gap:8px;color:var(--cyan);font:600 11.5px var(--mono);text-decoration:none;letter-spacing:1px;padding:6px 10px;border:1px solid var(--line2);border-radius:4px;background:rgba(0,166,255,.07);width:100%;justify-content:center;transition:all .15s;">&larr; PORTFOLIO</a>
+    </div>
+    <button id="railmin" class="icobtn" aria-label="Collapse" onclick="document.body.classList.toggle('railmin')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <nav id="nav"></nav>
+    <div id="railfoot">BUILD 4.11.0 // SANDBOXED<br>NO REAL SHELL ACCESS</div>
+  </aside>
+  <div id="main"><div id="view" role="main"></div></div>
+</div>
+<div id="modal-root" role="dialog" aria-modal="true"></div>
+<div id="toast-root" aria-live="polite"></div>
+<div id="flash"></div><div id="stamp">OPERATION COMPLETE</div>
+<div id="boot" style="display:none!important;"><pre id="bootlog"></pre></div>
+
+<!-- CYBER GIFT LOOT BOX MODAL -->
+<div id="cyber-modal-ov">
+  <div class="cbox-wrap">
+    <div class="cbox-title">SPECIAL GIFT UNLOCKED</div>
+    <div class="cbox-sub">You have attained the Digital Hacker Certificate.<br>A classified cyberspace transmission has been intercepted for you.</div>
+    <div class="cbox-3d" id="cyber-cube-btn" onclick="CyberGift.openBox()">
+      <div class="cbox-cube">
+        <div class="cbox-face front"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 13h18"/><path d="M12 8c-2-3-6-3-6 0s4 3 6 3c2 0 6-3 6-3s-4-3-6 0z"/></svg></div>
+        <div class="cbox-face back"><svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div class="cbox-face right"><svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="cbox-face left"><svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg></div>
+        <div class="cbox-face top"><span style="font:700 12px var(--mono);letter-spacing:2px;color:#fff;">[ OPEN ]</span></div>
+        <div class="cbox-face bottom"><span style="font:700 10px var(--mono);">ZERO</span></div>
+      </div>
+    </div>
+    <div>
+      <button class="cbox-glow-btn" onclick="CyberGift.openBox()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"/></svg>
+        OPEN CYBER BOX
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CYBERSPACE WARP PORTAL OVERLAY -->
+<div id="cyberspace-warp">
+  <div class="warp-tunnel"></div>
+  <div class="warp-center">
+    <div style="font:700 13px var(--mono);color:var(--green);letter-spacing:4px;margin-bottom:8px;">[ TRANSMISSION SYNCHRONIZED ]</div>
+    <div class="warp-text">MOVING TO CYBER SPACE...</div>
+    <div class="warp-dest">ENTERING: <span style="color:var(--cyan)">cyber_game.html</span></div>
+    <div style="margin-top:24px;font:500 12px var(--mono);color:var(--dim);">QUANTUM TUNNEL ESTABLISHED &bull; JUMP IN PROGRESS</div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   TERMINAL//ZERO — single-file cyber training game
+   ============================================================ */
+
+/* ---------- 1. UTIL ---------- */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad2=n=>String(n).padStart(2,'0');
+const fmtMS=ms=>{const s=Math.max(0,Math.floor(ms/1000));return pad2(Math.floor(s/60))+':'+pad2(s%60)};
+const hashStr=s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h};
+const todayKey=()=>new Date().toISOString().slice(0,10);
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function humanSize(n){if(n<1024)return n+' B';if(n<1048576)return(n/1024).toFixed(1)+' K';return(n/1048576).toFixed(1)+' M';}
+function pad(s,n){s=String(s);return s+' '.repeat(Math.max(1,n-s.length));}
+function fmtDate(mt){const d=new Date(mt||Date.now());return MON[d.getUTCMonth()]+' '+pad2(d.getUTCDate())+' '+pad2(d.getUTCHours())+':'+pad2(d.getUTCMinutes());}
+function fmtDateFull(mt){const d=new Date(mt||Date.now());return d.getUTCFullYear()+'-'+pad2(d.getUTCMonth()+1)+'-'+pad2(d.getUTCDate())+' '+pad2(d.getUTCHours())+':'+pad2(d.getUTCMinutes())+':'+pad2(d.getUTCSeconds())+' +0000';}
+
+const ICONS={
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+ target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/>',
+ book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+ term:'<path d="M4 17l6-5-6-5M12 19h8"/>',
+ zap:'<path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>',
+ trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 6H4a3 3 0 0 0 3 5M17 6h3a3 3 0 0 1-3 5"/>',
+ gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>',
+ x:'<path d="M18 6L6 18M6 6l12 12"/>',play:'<path d="M6 4l14 8-14 8V4z"/>',
+ refresh:'<path d="M1 4v6h6"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/>',
+ vol:'<path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>',
+ volx:'<path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/>',
+ pause:'<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+ shield:'<path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+ folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11z"/>',
+ key:'<path d="M21 2l-2 2m-7.6 7.6a5.5 5.5 0 1 1-7.8 7.8 5.5 5.5 0 0 1 7.8-7.8zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3"/>',
+ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',check:'<path d="M20 6L9 17l-5-5"/>',
+ menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',flag:'<path d="M4 22V4c4-2 8 2 12 0v11c-4 2-8-2-12 0"/>',
+ cpu:'<rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+ layers:'<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>'
+};
+function icon(n,s=16,sw=1.8){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+sw+'" stroke-linecap="round" stroke-linejoin="round">'+ICONS[n]+'</svg>';}
+function toast(msg,type){const t=document.createElement('div');t.className='toast '+(type||'');t.innerHTML=msg;$('#toast-root').appendChild(t);setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),350)},3400);}
+function openModal(html,wide){const r=$('#modal-root');r.classList.add('open');r.innerHTML='<div class="modal'+(wide?' wide':'')+'" role="document">'+html+'</div>';r.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModal);return r;}
+function closeModal(){$('#modal-root').classList.remove('open');$('#modal-root').innerHTML='';}
+function confirmModal(title,msg,okLabel,cb,danger){openModal(
+ '<div class="mhead"><h3>'+esc(title)+'</h3><button class="x" data-close>'+icon('x')+'</button></div>'+
+ '<div class="mbody"><p style="color:var(--txt);margin-bottom:20px">'+msg+'</p><div style="display:flex;gap:12px;justify-content:flex-end"><button class="btn ghost sm" data-close>CANCEL</button><button class="btn sm '+(danger?'danger':'primary')+'" id="cm-ok">'+esc(okLabel)+'</button></div></div>');
+ $('#cm-ok').onclick=()=>{closeModal();cb();};}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal-root').classList.contains('open'))closeModal();});
+$('#modal-root').addEventListener('click',e=>{if(e.target.id==='modal-root')closeModal();});
+
+/* ---------- 2. AUDIO ---------- */
+const AudioX={ctx:null,on:false,amb:null,
+ boot(){if(!this.ctx){try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume();},
+ tone(f,dur,type,gain,when,slide){if(!this.on||!this.ctx)return;const t=this.ctx.currentTime+(when||0);
+   const o=this.ctx.createOscillator(),g=this.ctx.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+dur);
+   g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(gain||0.08,t+0.012);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+   o.connect(g).connect(this.ctx.destination);o.start(t);o.stop(t+dur+0.05);},
+ key(){this.tone(1150+Math.random()*260,0.035,'square',0.022);},
+ ok(){this.tone(540,0.09,'sine',0.06);this.tone(810,0.12,'sine',0.055,0.07);},
+ err(){this.tone(150,0.16,'sawtooth',0.05,0,110);},
+ hint(){this.tone(660,0.08,'triangle',0.05);this.tone(440,0.1,'triangle',0.045,0.08);},
+ win(){[523,659,784,1046].forEach((f,i)=>this.tone(f,0.22,'sine',0.08,i*0.11));this.tone(784,0.5,'triangle',0.05,0.45);},
+ rank(){[392,523,659,784,1046].forEach((f,i)=>this.tone(f,0.3,'triangle',0.07,i*0.1));},
+ setEnabled(v){this.on=v;if(v){this.boot();this.startAmb();}else this.stopAmb();},
+ startAmb(){if(!this.on||!this.ctx||this.amb)return;const c=this.ctx,g=c.createGain();g.gain.value=0.014;
+   const f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=180;
+   const o1=c.createOscillator();o1.type='sine';o1.frequency.value=52;const o2=c.createOscillator();o2.type='sine';o2.frequency.value=52.7;
+   o1.connect(f);o2.connect(f);f.connect(g).connect(c.destination);o1.start();o2.start();this.amb={o1,o2,g};},
+ stopAmb(){if(this.amb){try{this.amb.o1.stop();this.amb.o2.stop();}catch(e){}this.amb=null;}}
+};
+
+/* ---------- 3. SAVE ---------- */
+const RANKS=[{n:'SCRIPT KIDDIE',xp:0},{n:'TERMINAL ROOKIE',xp:200},{n:'SHELL OPERATOR',xp:500},{n:'SYSTEM ANALYST',xp:1000},{n:'CYBER SPECIALIST',xp:1800},{n:'ROOT ARCHITECT',xp:3000},{n:'ZERO OPERATOR',xp:5000}];
+const SAVE_KEY='terminalzero.save.v1';
+const Save={d:null,
+ def(){return{v:1,xp:0,missions:{},ach:{},stats:{cmds:0,ok:0,hints:0,evidence:0},ch:{done:{},best:{},streak:0,lastDay:''},set:{sound:false,overlay:true,particles:true,rm:false,timer:true}};},
+ load(){let raw;try{raw=localStorage.getItem(SAVE_KEY)}catch(e){}this.d=this.def();if(raw){try{const p=JSON.parse(raw);if(p&&p.v===1){this.d={...this.def(),...p,stats:{...this.def().stats,...p.stats},set:{...this.def().set,...p.set},ch:{...this.def().ch,...p.ch}};}}catch(e){}}document.body.classList.toggle('rm',this.d.set.rm);},
+ write(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(this.d))}catch(e){}},
+ rankIdx(){let i=0;for(let k=0;k<RANKS.length;k++)if(this.d.xp>=RANKS[k].xp)i=k;return i;},
+ nextRank(){const i=this.rankIdx();return i<RANKS.length-1?RANKS[i+1]:null;},
+ rankProgress(){const i=this.rankIdx();if(i>=RANKS.length-1)return 1;const lo=RANKS[i].xp,hi=RANKS[i+1].xp;return(this.d.xp-lo)/(hi-lo);},
+ addXP(n){if(n<=0)return{rankedUp:false};const before=this.rankIdx();this.d.xp+=n;this.write();const after=this.rankIdx();return{rankedUp:after>before,rank:RANKS[after]};},
+ reset(){this.d=this.def();try{localStorage.removeItem(SAVE_KEY)}catch(e){}this.write();}
+};
+const ACH=[
+ {id:'first_cmd',n:'FIRST COMMAND',d:'Execute your first command.',c:s=>s.stats.cmds>=1},
+ {id:'nav',n:'FILESYSTEM NAVIGATOR',d:'Complete Mission 02.',c:s=>!!s.missions.m02},
+ {id:'detective',n:'LOG DETECTIVE',d:'Complete Mission 03.',c:s=>!!s.missions.m03},
+ {id:'perm',n:'PERMISSION MASTER',d:'Complete Mission 04.',c:s=>!!s.missions.m04},
+ {id:'pipe',n:'PIPELINE PRO',d:'Complete Mission 05.',c:s=>!!s.missions.m05},
+ {id:'net',n:'NETWORK ANALYST',d:'Complete Mission 06.',c:s=>!!s.missions.m06},
+ {id:'warden',n:'PROCESS WARDEN',d:'Complete Mission 07.',c:s=>!!s.missions.m07},
+ {id:'responder',n:'FIRST RESPONDER',d:'Complete Mission 08.',c:s=>!!s.missions.m08},
+ {id:'ice',n:'BLACK ICE BREAKER',d:'Complete Mission 09.',c:s=>!!s.missions.m09},
+ {id:'zero',n:'ZERO OPERATOR',d:'Complete Mission 10.',c:s=>!!s.missions.m10},
+ {id:'flawless',n:'CLEAN RUN',d:'Complete any mission without hints.',c:s=>Object.values(s.missions).some(m=>m.hints===0)},
+ {id:'cent',n:'CENTURION',d:'Execute 100 commands.',c:s=>s.stats.cmds>=100},
+ {id:'streak3',n:'DAILY DRILL',d:'Reach a 3-day challenge streak.',c:s=>s.ch.streak>=3}
+];
+function evalAch(){const d=Save.d;let any=false;for(const a of ACH){if(!d.ach[a.id]&&a.c(d)){d.ach[a.id]=todayKey();any=true;toast(icon('trophy')+' ACHIEVEMENT — '+a.n,'am');AudioX.hint();}}if(any)Save.write();}
+
+/* ---------- 4. VIRTUAL FILESYSTEM ---------- */
+function mkDir(ch,o){o=o||{};return{t:'d',ch:ch||{},m:o.m!==undefined?o.m:0o755,o:o.o||'operator',g:o.g||'operator',mt:o.mt||Date.now()};}
+function mkFile(c,o){o=o||{};return{t:'f',c:c||'',m:o.m!==undefined?o.m:0o644,o:o.o||'operator',g:o.g||'operator',mt:o.mt||Date.now()};}
+function fsR(ctx,p){if(p===undefined||p===null||p==='')p='.';p=String(p);let abs;
+  if(p==='~')abs=ctx.home;else if(p.startsWith('~/'))abs=ctx.home+p.slice(1);
+  else if(p.startsWith('/'))abs=p;else abs=(ctx.cwd==='/'?'':ctx.cwd)+'/'+p;
+  const st=[];for(const q of abs.split('/')){if(!q||q==='.')continue;if(q==='..')st.pop();else st.push(q);}return '/'+st.join('/');}
+function fsNode(ctx,path){const abs=fsR(ctx,path);if(abs==='/')return ctx.root;let cur=ctx.root;
+  for(const q of abs.split('/').slice(1)){if(!cur||cur.t!=='d')return null;cur=cur.ch[q];}return cur||null;}
+function fsSplit(abs){const i=abs.lastIndexOf('/');return{dir:i<=0?'/':abs.slice(0,i),name:abs.slice(i+1)};}
+function can(node,bit,user){if(user==='root')return true;const sh=node.o===user?6:0;return((node.m>>sh)&bit)!==0||(node.m&bit)!==0;}
+const canR=(c,n)=>can(n,4,c.user),canW=(c,n)=>can(n,2,c.user),canX=(c,n)=>can(n,1,c.user);
+function modeStr(n){let s=n.t==='d'?'d':'-';for(let sh=6;sh>=0;sh-=3){const b=(n.m>>sh)&7;s+=(b&4?'r':'-')+(b&2?'w':'-')+(b&1?'x':'-');}return s;}
+function nodeSize(n){if(n.t==='f')return(n.c||'').length;let s=4096;for(const k in n.ch)s+=nodeSize(n.ch[k]);return s;}
+function fsWrite(ctx,path,data,append){const abs=fsR(ctx,path);const{dir,name}=fsSplit(abs);if(!name)return'invalid target';
+  const dn=fsNode(ctx,dir);if(!dn||dn.t!=='d')return'No such file or directory';
+  const ex=dn.ch[name];if(ex){if(ex.t==='d')return'Is a directory';ex.c=append?ex.c+data:data;ex.mt=Date.now();}
+  else{dn.ch[name]=mkFile(data,{o:ctx.user,g:ctx.group,mt:Date.now()});}return null;}
+function cloneNode(n){const c={t:n.t,m:n.m,o:n.o,g:n.g,mt:Date.now()};if(n.t==='f')c.c=n.c;else{c.ch={};for(const k in n.ch)c.ch[k]=cloneNode(n.ch[k]);}return c;}
+function readText(ctx,p){const n=fsNode(ctx,p);if(!n)return{err:'No such file or directory'};if(n.t==='d')return{err:'Is a directory'};if(!canR(ctx,n))return{err:'Permission denied'};return{t:n.c};}
+function walkTree(ctx,path,fn){const start=fsNode(ctx,path);if(!start)return;const abs0=fsR(ctx,path);
+  const rec=(node,abs)=>{fn(node,abs);if(node.t==='d'){for(const k of Object.keys(node.ch).sort())rec(node.ch[k],abs+(abs==='/'?'':'/')+k);}};rec(start,abs0);}
+function baseTree(){
+  const T=(s,o)=>mkFile(s,{o:'root',g:'root',...o});
+  return mkDir({
+    bin:mkDir({bash:mkFile('\x7fELF-sim',{o:'root'}),ls:mkFile('\x7fELF-sim',{o:'root'})},{o:'root'}),
+    etc:mkDir({
+      hostname:T('zero\n'),'os-release':T('NAME="ZERO Relay OS"\nVERSION="4.11 (training)"\nID=zero\n'),
+      hosts:T('127.0.0.1\tlocalhost\n10.0.42.7\tzero\n'),
+      passwd:T('root:x:0:0:root:/root:/bin/bash\noperator:x:1000:1000:Operator:/home/operator:/bin/bash\nsvc:x:110:110::/home/svc:/usr/sbin/nologin\ndeploy:x:120:120::/home/deploy:/bin/bash\nwww-data:x:33:33::/var/www:/usr/sbin/nologin\n'),
+      shadow:T('root:!:19700:::::::\noperator:$6$ZER0$sim:19700:::::::\n',{m:0o640})
+    },{o:'root'}),
+    home:mkDir({operator:mkDir({'.bashrc':mkFile('# ZERO training profile\nexport PS1="\\u@\\h:\\w$ "\nalias ll="ls -la"\n')})}),
+    tmp:mkDir({},{m:0o777,o:'root'}),
+    var:mkDir({log:mkDir({'boot.log':T('Jun 10 08:00:01 zero kernel: ZERO relay node online\nJun 10 08:00:02 zero systemd[1]: Reached target Multi-User System\n')},{o:'root'})},{o:'root'})
+  },{o:'root',m:0o755});}
+
+function mergeEnv(root,cwd,env){
+  const abs=cwd==='/home/operator'?'/home/operator':cwd;
+  let target=root;
+  for(const q of abs.split('/').filter(Boolean)){
+    if(!target.ch[q])target.ch[q]=mkDir({});target=target.ch[q];}
+  for(const k in env){target.ch[k]=env[k];}
+}
+
+/* ---------- 5. COMMAND DOCS ---------- */
+const DOCS={
+ pwd:{c:'FS',d:'Print current directory',s:'pwd',e:['pwd']},
+ ls:{c:'FS',d:'List directory contents',s:'ls [-l] [-a] [path...]',e:['ls','ls -la','ls -l /etc']},
+ cd:{c:'FS',d:'Change directory',s:'cd [path]',e:['cd ~/training','cd ..','cd /var/log']},
+ tree:{c:'FS',d:'Display directory tree',s:'tree [path]',e:['tree ~/recovery']},
+ mkdir:{c:'FS',d:'Create directories',s:'mkdir [-p] dir...',e:['mkdir evidence']},
+ touch:{c:'FS',d:'Create empty file or update timestamp',s:'touch file...',e:['touch report.txt']},
+ cp:{c:'FS',d:'Copy files and directories',s:'cp [-r] src... dst',e:['cp file.txt backup/']},
+ mv:{c:'FS',d:'Move or rename files',s:'mv src... dst',e:['mv old.txt new.txt']},
+ rm:{c:'FS',d:'Remove files or directories',s:'rm [-r] [-f] path...',e:['rm temp.txt','rm -r drafts/']},
+ cat:{c:'FS',d:'Concatenate and print files',s:'cat [file...]',e:['cat notes.txt']},
+ less:{c:'FS',d:'Page through a file',s:'less file',e:['less auth.log']},
+ head:{c:'FS',d:'Print first N lines',s:'head [-n N] [file]',e:['head -n 5 log.txt']},
+ tail:{c:'FS',d:'Print last N lines',s:'tail [-n N] [file]',e:['tail -n 3 log.txt']},
+ find:{c:'FS',d:'Search for files',s:'find [path] [-name pat] [-type f|d]',e:['find . -name "*.log"']},
+ file:{c:'FS',d:'Identify file type',s:'file path',e:['file script.sh']},
+ stat:{c:'FS',d:'Show file metadata',s:'stat path',e:['stat authorized.txt']},
+ grep:{c:'TX',d:'Search text for patterns',s:'grep [-i] [-n] [-c] [-v] [-r] pattern [file...]',e:['grep "error" sys.log']},
+ sort:{c:'TX',d:'Sort lines',s:'sort [-n] [-r] [-u] [file]',e:['sort -u ips.txt']},
+ uniq:{c:'TX',d:'Remove duplicate lines',s:'uniq [-c] [-d]',e:['sort data | uniq -c']},
+ wc:{c:'TX',d:'Count lines, words, bytes',s:'wc [-l|-w|-c] [file]',e:['wc -l access.log']},
+ cut:{c:'TX',d:'Extract fields',s:'cut -d DELIM -f FIELDS',e:['cut -d: -f1 /etc/passwd']},
+ echo:{c:'TX',d:'Print text',s:'echo [-n] text...',e:['echo "hello" > file.txt']},
+ tee:{c:'TX',d:'Write stdin to file and stdout',s:'tee [-a] file',e:['cmd | tee output.txt']},
+ whoami:{c:'SYS',d:'Print current user',s:'whoami',e:['whoami']},
+ id:{c:'SYS',d:'Print user/group IDs',s:'id',e:['id']},
+ uname:{c:'SYS',d:'Print system info',s:'uname [-a]',e:['uname -a']},
+ hostname:{c:'SYS',d:'Print hostname',s:'hostname',e:['hostname']},
+ date:{c:'SYS',d:'Print date and time',s:'date',e:['date']},
+ uptime:{c:'SYS',d:'Show system uptime',s:'uptime',e:['uptime']},
+ history:{c:'SYS',d:'Show command history',s:'history',e:['history']},
+ ps:{c:'SYS',d:'List processes',s:'ps [aux]',e:['ps aux']},
+ top:{c:'SYS',d:'Process monitor',s:'top',e:['top']},
+ df:{c:'SYS',d:'Filesystem usage',s:'df [-h]',e:['df -h']},
+ du:{c:'SYS',d:'Directory sizes',s:'du [-s] [-h] [path]',e:['du -sh .']},
+ free:{c:'SYS',d:'Memory usage',s:'free [-h|-m]',e:['free -h']},
+ clear:{c:'SYS',d:'Clear terminal',s:'clear',e:['clear']},
+ man:{c:'SYS',d:'Show command manual',s:'man command',e:['man grep']},
+ help:{c:'SYS',d:'List all commands',s:'help',e:['help']},
+ chmod:{c:'PM',d:'Change file permissions',s:'chmod MODE file...',e:['chmod 600 secret.txt','chmod u+r file']},
+ chown:{c:'PM',d:'Change file owner (needs sudo)',s:'sudo chown user file...',e:['sudo chown operator file.txt']},
+ umask:{c:'PM',d:'Show/set permission mask',s:'umask [octal]',e:['umask','umask 077']},
+ sudo:{c:'PM',d:'Run command as root',s:'sudo command...',e:['sudo cat /etc/shadow']},
+ ip:{c:'NW',d:'Show network config',s:'ip addr | ip route',e:['ip a','ip route']},
+ ping:{c:'NW',d:'Test host connectivity',s:'ping host',e:['ping 10.0.42.1']},
+ ss:{c:'NW',d:'List sockets',s:'ss [-tulpn]',e:['ss -tulpn']},
+ curl:{c:'NW',d:'Fetch URL',s:'curl url',e:['curl http://intranet.zero.local']},
+ dig:{c:'NW',d:'DNS lookup',s:'dig name',e:['dig filesrv.zero.local']},
+ nslookup:{c:'NW',d:'DNS lookup (simple)',s:'nslookup name',e:['nslookup filesrv.zero.local']},
+ traceroute:{c:'NW',d:'Trace network path',s:'traceroute host',e:['traceroute 10.0.42.23']},
+ export:{c:'SH',d:'Set environment variable',s:'export KEY=value',e:['export STAGE=nightfall']},
+ env:{c:'SH',d:'Print environment variables',s:'env',e:['env']},
+ submit:{c:'SH',d:'Submit mission answer',s:'submit ANSWER',e:['submit 203.0.113.42']},
+ exit:{c:'SH',d:'End session',s:'exit',e:['exit']}
+};
+const CATN={FS:'FILESYSTEM',TX:'TEXT PIPELINE',SYS:'SYSTEM',PM:'PERMISSIONS',NW:'NETWORK',SH:'SHELL'};
+
+/* ---------- 6. NETWORK/PROCESS SIM ---------- */
+const DEF_NET={
+  localIP:'10.0.42.7',ifname:'eth0',
+  dns:{'filesrv.zero.local':{ip:'10.0.42.23'},'intranet.zero.local':{ip:'10.0.42.12'},'zero.local':{ip:'10.0.42.1'}},
+  responsive:['10.0.42.1','10.0.42.7','10.0.42.12','10.0.42.23','127.0.0.1','localhost'],
+  http:{'intranet.zero.local':{status:200,body:'<!doctype html>\n<html><head><title>ZERO INTRANET</title></head>\n<body>\n<h1>ZERO INTRANET</h1>\n<p>Status: OPERATIONAL</p>\n<ul>\n  <li>node-23 filesrv.zero.local - ssh(22), nfs(2049)</li>\n</ul>\n[MAINTENANCE: filesrv credential rotation pending]\n\\x3c/body\\x3e\\x3c/html\\x3e\n'},
+       'localhost':{status:200,body:'ZERO relay node. All systems nominal.\n'}},
+  sock:[{net:'tcp',st:'LISTEN',l:'0.0.0.0:22',p:'0.0.0.0:*',pr:'sshd(pid=411)'},
+        {net:'tcp',st:'LISTEN',l:'10.0.42.7:8080',p:'0.0.0.0:*',pr:'log-agent(pid=2201)'},
+        {net:'tcp',st:'ESTAB',l:'10.0.42.7:51301',p:'10.0.42.23:22',pr:'sshd(pid=681)'}],
+  routes:['default via 10.0.42.1 dev eth0','10.0.42.0/24 dev eth0 proto kernel scope link src 10.0.42.7']
+};
+const DEF_PROCS=[
+ ['root',1,0.0,0.3,167312,11840,'?','Ss','08:00','0:02','/sbin/init'],
+ ['root',411,0.0,0.1,15420,5120,'?','Ss','08:00','0:00','/usr/sbin/sshd -D'],
+ ['operator',681,0.0,0.0,19204,4900,'?','S','08:12','0:00','sshd: operator@pts/0'],
+ ['operator',682,0.0,0.0,7360,3800,'pts/0','Ss','08:12','0:00','-bash'],
+ ['root',890,0.0,0.0,61320,8400,'?','Ss','08:05','0:01','/usr/sbin/cron -f'],
+ ['root',2201,0.2,0.2,84200,9600,'?','S','08:06','0:03','/usr/bin/python3 /usr/local/bin/logrotate-agent'],
+ ['operator',3199,0.0,0.0,12100,3100,'pts/0','R+','09:14','0:00','ps aux']];
+
+/* ---------- 7. COMMANDS ---------- */
+const CMD={};
+function def(name,fn){CMD[name]={run:fn};}
+function fl(argv){const s=new Set(),r=[];for(const a of argv){if(a.length>1&&a[0]==='-'&&a[1]!=='-'&&isNaN(Number(a))){for(const ch of a.slice(1))s.add(ch);}else r.push(a);}return{s,r};}
+function pat2re(p){let out='';for(const ch of p){if(ch==='*')out+='.*';else if(ch==='?')out+='.';else out+=ch.replace(/[.+^${}()|[\]\\]/g,'\\$&');}return new RegExp('^'+out+'$');}
+
+def('pwd',(a,c)=>({out:c.cwd+'\n'}));
+def('whoami',(a,c)=>({out:c.user+'\n'}));
+def('hostname',()=>({out:'zero\n'}));
+def('id',(a,c)=>{if(c.user==='root')return{out:'uid=0(root) gid=0(root) groups=0(root)\n'};return{out:'uid=1000(operator) gid=1000(operator) groups=1000(operator),27(sudo)\n'};});
+def('uname',(a)=>{const f=fl(a);return{out:f.s.has('a')?'Linux zero 6.6.0-zero #1 SMP x86_64 GNU/Linux\n':'Linux\n'};});
+def('uptime',(a,c)=>{const up=Math.floor((Date.now()-(c.bootTime||Date.now()-3600000))/60000);return{out:' up '+up+' min, 1 user, load average: 0.42, 0.38, 0.31\n'};});
+def('date',()=>{const d=new Date();return{out:d.toUTCString()+'\n'};});
+def('clear',()=>({clear:true}));
+def('history',(a,c)=>{let out='';c.history.forEach((h,i)=>{out+='  '+(i+1)+'  '+h+'\n';});return{out};});
+def('echo',(a)=>{const f=fl(a);const noNL=f.s.has('n');const text=a.filter(x=>x!=='-n').join(' ');return{out:text+(noNL?'':'\n')};});
+def('export',(a,c)=>{for(const arg of a){const eq=arg.indexOf('=');if(eq>0){c.env[arg.slice(0,eq)]=arg.slice(eq+1);}}return{out:''};});
+def('env',(a,c)=>{let out='';for(const k in c.env)out+=k+'='+c.env[k]+'\n';return{out};});
+
+def('ls',(a,c)=>{
+  const f=fl(a);const long=f.s.has('l'),all=f.s.has('a');
+  const paths=f.r.length?f.r:['.'];let out='',err='';
+  for(const p of paths){
+    const node=fsNode(c,p);
+    if(!node){err+='ls: cannot access \''+p+'\': No such file or directory\n';continue;}
+    let entries=[];
+    if(node.t==='f'){entries=[[fsSplit(fsR(c,p)).name,node]];}
+    else{if(!canR(c,node)){err+='ls: cannot open \''+p+'\': Permission denied\n';continue;}
+      entries=Object.keys(node.ch).sort().map(k=>[k,node.ch[k]]);
+      if(!all)entries=entries.filter(e=>!e[0].startsWith('.'));
+      if(all)entries.unshift(['.',null],['..',null]);}
+    if(paths.length>1)out+=p+':\n';
+    if(long){const lines=[];for(const[nm,n]of entries){if(!n){lines.push('drwxr-xr-x  ? ?        ?        ?    ? '+nm);continue;}
+      const lnk=n.t==='d'?2:1;lines.push(modeStr(n)+' '+lnk+' '+pad(n.o,9)+pad(n.g,9)+pad(String(n.t==='f'?(n.c||'').length:4096),6)+' '+fmtDate(n.mt)+' '+nm);}
+      out+=lines.join('\n')+'\n';
+    }else{out+=entries.map(e=>e[0]+(e[1]&&e[1].t==='d'?'/':'')).join('  ')+'\n';}
+  }return{out,err};});
+
+def('cd',(a,c)=>{const t=a[0]||'~';const node=fsNode(c,t);
+  if(!node)return{err:'cd: '+t+': No such file or directory\n'};
+  if(node.t!=='d')return{err:'cd: '+t+': Not a directory\n'};
+  c.cwd=fsR(c,t);return{out:''};});
+
+def('cat',(a,c)=>{if(!a.length)return{out:c.stdin||''};
+  let out='',err='';for(const p of a){const r=readText(c,p);if(r.err){err+='cat: '+p+': '+r.err+'\n';}else out+=r.t;}return{out,err};});
+def('less',(a,c)=>{if(!a.length)return{err:'less: missing operand\n'};const r=readText(c,a[0]);if(r.err)return{err:'less: '+a[0]+': '+r.err+'\n'};return{out:r.t+'(END)\n'};});
+def('head',(a,c)=>{const f=fl(a);let n=10;if(f.s.has('n')&&f.r[0]){n=parseInt(f.r.shift())||10;}
+  let text=c.stdin||'';if(f.r.length){const r=readText(c,f.r[0]);if(r.err)return{err:'head: '+r.err+'\n'};text=r.t;}
+  return{out:text.split('\n').slice(0,n).join('\n')+(text.includes('\n')?'\n':'')};});
+def('tail',(a,c)=>{const f=fl(a);let n=10;if(f.s.has('n')&&f.r[0]){n=parseInt(f.r.shift())||10;}
+  let text=c.stdin||'';if(f.r.length){const r=readText(c,f.r[0]);if(r.err)return{err:'tail: '+r.err+'\n'};text=r.t;}
+  const lines=text.split('\n');if(lines[lines.length-1]==='')lines.pop();return{out:lines.slice(-n).join('\n')+'\n'};});
+
+def('tree',(a,c)=>{const rootP=a[0]||'.';const start=fsNode(c,rootP);
+  if(!start)return{err:'tree: No such file or directory\n'};if(start.t==='f')return{out:rootP+'\n'};
+  let nd=0,nf=0;const lines=['.'];
+  const rec=(node,pre)=>{const keys=Object.keys(node.ch).sort();keys.forEach((k,i)=>{const last=i===keys.length-1;const ch=node.ch[k];
+    lines.push(pre+(last?'└── ':'├── ')+k+(ch.t==='d'?'/':''));
+    if(ch.t==='d'){nd++;rec(ch,pre+(last?'    ':'│   '));}else nf++;});};
+  rec(start,'');return{out:lines.join('\n')+'\n\n'+nd+' directories, '+nf+' files\n'};});
+
+def('mkdir',(a,c)=>{if(!a.length)return{err:'mkdir: missing operand\n'};let err='';
+  const f=fl(a);const mkp=f.s.has('p');
+  for(const p of f.r){
+    if(mkp){let cur=c.root;const parts=fsR(c,p).split('/').filter(Boolean);
+      for(const part of parts){if(!cur.ch[part])cur.ch[part]=mkDir({},{o:c.user,g:c.group,mt:Date.now()});cur=cur.ch[part];}
+    }else{const abs=fsR(c,p);const{dir,name}=fsSplit(abs);const dn=fsNode(c,dir);
+      if(!dn){err+='mkdir: cannot create \''+p+'\': No such file or directory\n';continue;}
+      if(dn.ch[name]){err+='mkdir: cannot create \''+p+'\': File exists\n';continue;}
+      dn.ch[name]=mkDir({},{o:c.user,g:c.group,mt:Date.now()});
+    }
+  }return{out:'',err};});
+
+def('touch',(a,c)=>{if(!a.length)return{err:'touch: missing operand\n'};let err='';
+  for(const p of a){const abs=fsR(c,p);const{dir,name}=fsSplit(abs);const dn=fsNode(c,dir);
+    if(!dn){err+='touch: cannot touch \''+p+'\': No such file or directory\n';continue;}
+    if(dn.ch[name])dn.ch[name].mt=Date.now();else dn.ch[name]=mkFile('',{o:c.user,g:c.group,mt:Date.now()});}return{out:'',err};});
+
+def('cp',(a,c)=>{if(a.length<2)return{err:'cp: missing operand\n'};
+  const f=fl(a);const rec=f.s.has('r')||f.s.has('R');const args=f.r;if(args.length<2)return{err:'cp: missing destination\n'};
+  const dstP=args[args.length-1],srcs=args.slice(0,-1);let err='';const dst=fsNode(c,dstP);const dstDir=dst&&dst.t==='d'?dst:null;
+  for(const sP of srcs){const sn=fsNode(c,sP);if(!sn){err+='cp: \''+sP+'\': No such file or directory\n';continue;}
+    if(sn.t==='d'&&!rec){err+='cp: omitting directory \''+sP+'\'\n';continue;}
+    let tPath;if(dstDir){tPath=fsR(c,dstP)+'/'+fsSplit(fsR(c,sP)).name;}else{tPath=fsR(c,dstP);}
+    const{dir,name}=fsSplit(tPath);const dn=fsNode(c,dir);if(!dn){err+='cp: cannot create \''+tPath+'\'\n';continue;}
+    dn.ch[name]=cloneNode(sn);}return{out:'',err};});
+
+def('mv',(a,c)=>{if(a.length<2)return{err:'mv: missing operand\n'};
+  const dstP=a[a.length-1],srcs=a.slice(0,-1);let err='';const dst=fsNode(c,dstP);const dstDir=dst&&dst.t==='d'?dst:null;
+  for(const sP of srcs){const absS=fsR(c,sP);const sn=fsNode(c,sP);if(!sn){err+='mv: \''+sP+'\': No such file or directory\n';continue;}
+    const{dir:sdir,name:sname}=fsSplit(absS);const sdn=fsNode(c,sdir);
+    let tAbs=dstDir?fsR(c,dstP)+'/'+sname:fsR(c,dstP);const sp=fsSplit(tAbs);const tn=fsNode(c,sp.dir);
+    if(!tn){err+='mv: cannot move \''+sP+'\'\n';continue;}
+    delete sdn.ch[sname];tn.ch[sp.name]=sn;}return{out:'',err};});
+
+def('rm',(a,c)=>{const f=fl(a);const rec=f.s.has('r')||f.s.has('R'),force=f.s.has('f');if(!f.r.length)return{err:'rm: missing operand\n'};let err='';
+  for(const p of f.r){const abs=fsR(c,p);const n=fsNode(c,abs);const{dir,name}=fsSplit(abs);const dn=fsNode(c,dir);
+    if(!n){if(!force)err+='rm: \''+p+'\': No such file or directory\n';continue;}
+    if(n.t==='d'&&!rec){err+='rm: \''+p+'\': Is a directory\n';continue;}
+    if(dn)delete dn.ch[name];}return{out:'',err};});
+
+def('find',(a,c)=>{let paths=['.'],preds=[];
+  for(let i=0;i<a.length;i++){const t=a[i];
+    if(t==='-name'||t==='-type'||t==='-mtime'){preds.push([t,a[i+1]]);i++;}
+    else if(!t.startsWith('-'))paths=[t];else return{err:'find: unknown predicate \''+t+'\'\n'};}
+  let out='';for(const p of paths){walkTree(c,p,(node,abs)=>{
+    let ok=true;for(const[pred,val]of preds){
+      if(pred==='-name'){if(!pat2re(val).test(fsSplit(abs).name))ok=false;}
+      if(pred==='-type'){if(val==='f'&&node.t!=='f')ok=false;if(val==='d'&&node.t!=='d')ok=false;}
+      if(pred==='-mtime'){const days=parseInt(val);if(!isNaN(days)){const diff=(Date.now()-node.mt)/86400000;if(diff>Math.abs(days))ok=false;}}
+    }if(ok)out+=abs+'\n';});}return{out};});
+
+def('file',(a,c)=>{if(!a.length)return{err:'file: missing operand\n'};let out='';
+  for(const p of a){const n=fsNode(c,p);if(!n){out+=p+': cannot open\n';continue;}
+    if(n.t==='d'){out+=p+': directory\n';continue;}
+    const d=n.c||'';if(d.startsWith('\x7fELF'))out+=p+': ELF executable\n';
+    else if(d.includes('<?php'))out+=p+': PHP script, ASCII text\n';
+    else if(d.includes('<html')||d.includes('<!doctype'))out+=p+': HTML document, ASCII text\n';
+    else if(d.startsWith('#!'))out+=p+': script, ASCII text executable\n';
+    else out+=p+': ASCII text\n';}return{out};});
+
+def('stat',(a,c)=>{if(!a.length)return{err:'stat: missing operand\n'};let out='';
+  for(const p of a){const n=fsNode(c,p);if(!n){out+='stat: \''+p+'\': No such file or directory\n';continue;}
+    const abs=fsR(c,p);out+='  File: '+abs+'\n  Size: '+(n.t==='f'?(n.c||'').length:4096)+'\tType: '+(n.t==='d'?'directory':'regular file')+
+    '\nAccess: (0'+n.m.toString(8).slice(-3)+'/'+modeStr(n)+')  Owner: '+n.o+'  Group: '+n.g+
+    '\nModify: '+fmtDateFull(n.mt)+'\n';}return{out};});
+
+def('grep',(a,c)=>{const f=fl(a);const icase=f.s.has('i'),nums=f.s.has('n'),count=f.s.has('c'),invert=f.s.has('v'),recurse=f.s.has('r');
+  if(!f.r.length)return{err:'grep: missing pattern\n'};const pattern=f.r[0];const files=f.r.slice(1);
+  let re;try{re=new RegExp(pattern,icase?'i':'');}catch(e){return{err:'grep: invalid pattern\n'};}
+  let out='',matchCount=0;
+  const searchText=(text,label)=>{const lines=text.split('\n');let mc=0;lines.forEach((line,i)=>{const m=re.test(line);
+    if(m&&!invert||!m&&invert){mc++;if(!count){const prefix=(label?label+':':'')+(nums?(i+1)+':':'');out+=prefix+line+'\n';}}});matchCount+=mc;
+    if(count)out+=(label?label+':':'')+mc+'\n';};
+  if(!files.length&&c.stdin){searchText(c.stdin,'');}
+  else if(recurse){const p=files[0]||'.';walkTree(c,p,(node,abs)=>{if(node.t==='f'&&canR(c,node))searchText(node.c,abs);});}
+  else{for(const fp of(files.length?files:['.'])){const r=readText(c,fp);if(r.err){out+='grep: '+fp+': '+r.err+'\n';continue;}searchText(r.t,files.length>1?fp:'');}}
+  return{out,code:matchCount?0:1};});
+
+def('sort',(a,c)=>{const f=fl(a);let text=c.stdin||'';
+  if(f.r.length){const r=readText(c,f.r[0]);if(r.err)return{err:'sort: '+r.err+'\n'};text=r.t;}
+  let lines=text.split('\n');if(lines[lines.length-1]==='')lines.pop();
+  if(f.s.has('n'))lines.sort((a,b)=>(parseFloat(a)||0)-(parseFloat(b)||0));else lines.sort();
+  if(f.s.has('r'))lines.reverse();if(f.s.has('u'))lines=[...new Set(lines)];
+  return{out:lines.join('\n')+'\n'};});
+
+def('uniq',(a,c)=>{const f=fl(a);let text=c.stdin||'';
+  if(f.r.length){const r=readText(c,f.r[0]);if(r.err)return{err:r.err+'\n'};text=r.t;}
+  let lines=text.split('\n');if(lines[lines.length-1]==='')lines.pop();
+  const result=[];let prev=null,cnt=0;
+  for(const line of lines){if(line===prev){cnt++;}else{if(prev!==null)result.push([cnt,prev]);prev=line;cnt=1;}}
+  if(prev!==null)result.push([cnt,prev]);
+  let out='';if(f.s.has('c')){for(const[n,l]of result)out+=pad(String(n),7)+' '+l+'\n';}
+  else if(f.s.has('d')){for(const[n,l]of result)if(n>1)out+=l+'\n';}
+  else{for(const[,l]of result)out+=l+'\n';}return{out};});
+
+def('wc',(a,c)=>{const f=fl(a);const doL=f.s.has('l'),doW=f.s.has('w'),doC=f.s.has('c');const doAll=!doL&&!doW&&!doC;
+  let text=c.stdin||'';const files=f.r;let out='';
+  const count=(t,label)=>{const l=t.split('\n').length-(t.endsWith('\n')?1:0);const w=t.split(/\s+/).filter(Boolean).length;const b=t.length;
+    let line='';if(doAll||doL)line+=pad(String(l),6);if(doAll||doW)line+=pad(String(w),6);if(doAll||doC)line+=pad(String(b),6);
+    out+=line+(label?' '+label:'')+'\n';};
+  if(files.length){for(const fp of files){const r=readText(c,fp);if(r.err){out+='wc: '+fp+': '+r.err+'\n';continue;}count(r.t,fp);}}
+  else count(text,'');return{out};});
+
+def('cut',(a,c)=>{let delim='\t',fields='';const args=[...a];let text=c.stdin||'';const files=[];
+  for(let i=0;i<args.length;i++){if(args[i]==='-d'&&args[i+1]){delim=args[++i];}else if(args[i]==='-f'&&args[i+1]){fields=args[++i];}else if(!args[i].startsWith('-'))files.push(args[i]);}
+  if(!fields)return{err:'cut: you must specify a list of fields\n'};
+  if(files.length){const r=readText(c,files[0]);if(r.err)return{err:r.err+'\n'};text=r.t;}
+  const flist=[];for(const part of fields.split(',')){if(part.includes('-')){const[a,b]=part.split('-').map(Number);for(let i=a;i<=b;i++)flist.push(i);}else flist.push(parseInt(part));}
+  let out='';for(const line of text.split('\n')){if(!line)continue;const parts=line.split(delim);out+=flist.map(i=>parts[i-1]||'').join(delim)+'\n';}return{out};});
+
+def('tee',(a,c)=>{const f=fl(a);const append=f.s.has('a');const text=c.stdin||'';
+  if(f.r.length)fsWrite(c,f.r[0],text,append);return{out:text};});
+
+def('man',(a,c)=>{if(!a.length)return{err:'What manual page do you want?\n'};const cmd=a[0];const d=DOCS[cmd];
+  if(!d)return{err:'No manual entry for '+cmd+'\n'};
+  return{out:cmd.toUpperCase()+'(1)\n\nNAME\n    '+cmd+' — '+d.d+'\n\nSYNOPSIS\n    '+d.s+'\n\nDESCRIPTION\n    '+d.d+'\n\nEXAMPLES\n    '+d.e.join('\n    ')+'\n'};});
+
+def('help',()=>{let out='TERMINAL//ZERO — Available Commands\n\n';
+  const groups={};for(const k in DOCS){const cat=DOCS[k].c;if(!groups[cat])groups[cat]=[];groups[cat].push(k);}
+  for(const cat in groups){out+='  '+CATN[cat]+':\n    '+groups[cat].join(', ')+'\n\n';}
+  out+='Type `man <command>` for details.\n';return{out};});
+
+def('ps',(a,c)=>{const procs=c.procs||DEF_PROCS;let out=pad('USER',9)+pad('PID',7)+pad('%CPU',6)+pad('%MEM',6)+pad('VSZ',8)+pad('RSS',7)+pad('TTY',8)+pad('STAT',6)+pad('START',7)+pad('TIME',7)+'COMMAND\n';
+  for(const p of procs){out+=pad(p[0],9)+pad(String(p[1]),7)+pad(p[2].toFixed(1),6)+pad(p[3].toFixed(1),6)+pad(String(p[4]),8)+pad(String(p[5]),7)+pad(p[6],8)+pad(p[7],6)+pad(p[8],7)+pad(p[9],7)+p[10]+'\n';}return{out};});
+
+def('top',(a,c)=>{const procs=[...(c.procs||DEF_PROCS)].sort((a,b)=>b[2]-a[2]);
+  let out='top — Tasks: '+procs.length+' total\n\n'+pad('PID',7)+pad('USER',9)+pad('%CPU',7)+pad('%MEM',7)+'COMMAND\n';
+  for(const p of procs.slice(0,15)){out+=pad(String(p[1]),7)+pad(p[0],9)+pad(p[2].toFixed(1),7)+pad(p[3].toFixed(1),7)+p[10]+'\n';}return{out};});
+
+def('df',()=>{return{out:'Filesystem     1K-blocks    Used Available Use% Mounted on\n/dev/sda1       51200000 8234560  42965440  17% /\ntmpfs            4096000       0   4096000   0% /tmp\n'};});
+def('du',(a,c)=>{const f=fl(a);const p=f.r[0]||'.';const n=fsNode(c,p);if(!n)return{err:'du: \''+p+'\': No such file or directory\n'};
+  const h=f.s.has('h'),summary=f.s.has('s');let out='';
+  if(summary){const sz=nodeSize(n);out+=(h?humanSize(sz):sz)+'\t'+p+'\n';}
+  else{walkTree(c,p,(node,abs)=>{if(node.t==='d'){const sz=nodeSize(node);out+=(h?humanSize(sz):sz)+'\t'+abs+'\n';}});}return{out};});
+def('free',()=>({out:'              total        used        free      shared  buff/cache   available\nMem:        8151332     1245680     4523412      102344     2382240     6543212\nSwap:       2097148           0     2097148\n'}));
+
+def('chmod',(a,c)=>{if(a.length<2)return{err:'chmod: missing operand\n'};const mode=a[0];const files=a.slice(1);let err='';
+  for(const p of files){const n=fsNode(c,p);if(!n){err+='chmod: \''+p+'\': No such file or directory\n';continue;}
+    if(n.o!==c.user&&c.user!=='root'){err+='chmod: \''+p+'\': Operation not permitted\n';continue;}
+    const octal=parseInt(mode,8);if(!isNaN(octal)&&mode.length>=3){n.m=octal;}
+    else{/* symbolic: parse u/g/o/a +/-/= r/w/x */
+      for(const part of mode.split(',')){const mm=part.match(/^([ugoa]*)([-+=])([rwx]*)$/);if(!mm)continue;
+        let who=mm[1]||'a',op=mm[2],bits=0;if(mm[3].includes('r'))bits|=4;if(mm[3].includes('w'))bits|=2;if(mm[3].includes('x'))bits|=1;
+        const shifts=[];if(who.includes('u')||who.includes('a'))shifts.push(6);if(who.includes('g')||who.includes('a'))shifts.push(3);if(who.includes('o')||who.includes('a'))shifts.push(0);
+        for(const sh of shifts){if(op==='+')n.m|=(bits<<sh);else if(op==='-')n.m&=~(bits<<sh);else{n.m&=~(7<<sh);n.m|=(bits<<sh);}}}}}return{out:'',err};});
+
+def('chown',(a,c)=>{if(c.user!=='root')return{err:'chown: Operation not permitted (use sudo)\n'};
+  if(a.length<2)return{err:'chown: missing operand\n'};const newOwner=a[0];const files=a.slice(1);let err='';
+  for(const p of files){const n=fsNode(c,p);if(!n){err+='chown: \''+p+'\': No such file or directory\n';continue;}n.o=newOwner;}return{out:'',err};});
+def('umask',(a,c)=>{if(!a.length)return{out:'0'+(c.umask||0o022).toString(8)+'\n'};c.umask=parseInt(a[0],8);return{out:''};});
+
+def('sudo',(a,c)=>{if(!a.length)return{err:'usage: sudo command\n'};
+  const origUser=c.user,origGroup=c.group;c.user='root';c.group='root';
+  const cmdName=a[0],cmdArgs=a.slice(1);const handler=CMD[cmdName];
+  if(!handler){c.user=origUser;c.group=origGroup;return{err:'sudo: '+cmdName+': command not found\n'};}
+  const result=handler.run(cmdArgs,c);c.user=origUser;c.group=origGroup;return result;});
+
+def('ip',(a,c)=>{const net=c.net||DEF_NET;const sub=a[0]||'addr';
+  if(sub==='addr'||sub==='a'){return{out:'1: lo: <LOOPBACK,UP>\n    inet 127.0.0.1/8 scope host lo\n2: '+net.ifname+': <BROADCAST,MULTICAST,UP>\n    inet '+net.localIP+'/24 brd 10.0.42.255 scope global '+net.ifname+'\n'};}
+  if(sub==='route'){return{out:(net.routes||['default via 10.0.42.1 dev eth0']).join('\n')+'\n'};}
+  return{err:'ip: unknown sub-command \''+sub+'\'\n'};});
+
+def('ping',(a,c)=>{if(!a.length)return{err:'ping: missing host\n'};const net=c.net||DEF_NET;let host=a[0];
+  let ip=host;const dns=net.dns[host];if(dns)ip=dns.ip;
+  if(!net.responsive.includes(ip)&&!net.responsive.includes(host)){return{out:'PING '+host+' ('+ip+'):\nFrom '+net.localIP+' icmp_seq=1 Destination Host Unreachable\n'};}
+  let out='PING '+host+' ('+ip+') 56 data bytes\n';for(let i=0;i<4;i++){const ms=(1+Math.random()*8).toFixed(1);out+='64 bytes from '+ip+': icmp_seq='+(i+1)+' ttl=64 time='+ms+' ms\n';}
+  out+='\n--- '+host+' ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss\n';return{out};});
+
+def('ss',(a,c)=>{const net=c.net||DEF_NET;let out=pad('Netid',8)+pad('State',12)+pad('Local Address:Port',24)+pad('Peer Address:Port',24)+'Process\n';
+  for(const s of net.sock){out+=pad(s.net,8)+pad(s.st,12)+pad(s.l,24)+pad(s.p,24)+(s.pr||'')+'\n';}return{out};});
+
+def('curl',(a,c)=>{if(!a.length)return{err:'curl: missing URL\n'};const net=c.net||DEF_NET;let url=a[0];
+  const m=url.match(/^https?:\/\/([^/]+)/);const host=m?m[1]:'';const entry=net.http[host];
+  if(!entry)return{err:'curl: (6) Could not resolve host: '+host+'\n'};return{out:entry.body};});
+
+def('dig',(a,c)=>{if(!a.length)return{err:'dig: missing name\n'};const net=c.net||DEF_NET;const name=a[0];
+  const entry=net.dns[name];if(!entry)return{out:';; QUESTION SECTION:\n;'+name+'.\t\tIN\tA\n\n;; ANSWER SECTION:\n;; (no results)\n'};
+  return{out:';; QUESTION SECTION:\n;'+name+'.\t\tIN\tA\n\n;; ANSWER SECTION:\n'+name+'.\t300\tIN\tA\t'+entry.ip+'\n'};});
+def('nslookup',(a,c)=>{if(!a.length)return{err:'nslookup: missing name\n'};const net=c.net||DEF_NET;const name=a[0];
+  const entry=net.dns[name];if(!entry)return{out:'** server can\'t find '+name+'\n'};
+  return{out:'Server:\t\t10.0.42.1\nAddress:\t10.0.42.1#53\n\nName:\t'+name+'\nAddress: '+entry.ip+'\n'};});
+def('traceroute',(a,c)=>{if(!a.length)return{err:'traceroute: missing host\n'};const net=c.net||DEF_NET;const host=a[0];
+  let ip=host;const dns=net.dns[host];if(dns)ip=dns.ip;
+  return{out:'traceroute to '+host+' ('+ip+'), 30 hops max\n 1  10.0.42.1  1.2 ms  1.1 ms  1.0 ms\n 2  '+ip+'  2.4 ms  2.3 ms  2.1 ms\n'};});
+
+def('submit',(a,c)=>{if(!a.length)return{err:'submit: provide an answer\n'};
+  const answer=a.join(' ');c.lastSubmit=answer;return{out:'[SUBMIT] Answer recorded: "'+answer+'"\n'};});
+def('exit',()=>({exit:true}));
+/* ---------- 8. MISSIONS ---------- */
+const whenRun=cmds=>(n,a,r,M,c)=>{if(cmds.includes(n))M.flags['run:'+n]=true;};
+const MISSIONS=[
+ {id:'m01',num:'01',title:'FIRST CONTACT',diff:1,xp:100,bonusXP:20,tags:['pwd','ls','cd','whoami'],
+  brief:'Welcome to the ZERO relay network. This is your first training terminal. Explore the system, confirm your identity, and locate the training directory.',
+  concepts:['whoami prints your username','pwd prints your location','ls lists files','cd changes directory'],
+  cwd:'/home/operator',
+  ref:['whoami','pwd','ls','cd','cat'],
+  env:{'training':mkDir({'welcome.txt':mkFile('Welcome to TERMINAL//ZERO training.\nYour operator callsign is confirmed.\nProceed to the training modules.\n')})},
+  objectives:[
+   {t:'Run whoami to confirm your identity.',check:(M)=>!!M.flags['run:whoami']},
+   {t:'Run pwd to see your current location.',check:(M)=>!!M.flags['run:pwd']},
+   {t:'List the contents of your home directory.',check:(M)=>!!M.flags['run:ls']},
+   {t:'Navigate into the training directory.',check:(M,c)=>c.cwd.endsWith('/training')},
+   {t:'Read the welcome message (cat welcome.txt).',check:(M)=>!!M.flags['run:cat']}
+  ],
+  hints:['Your identity command is `whoami`. Location is `pwd`. List files with `ls`.','Use `cd training` to enter the directory.','Run `cat welcome.txt` to read the file.'],
+  onCommand:whenRun(['whoami','pwd','ls','cd','cat'])
+ },
+ {id:'m02',num:'02',title:'FILESYSTEM EXPLORER',diff:1,xp:120,bonusXP:25,tags:['mkdir','touch','cp','cat'],
+  brief:'A classified report was fragmented. Reconstruct the recovery structure, assemble the fragments, and produce the complete report.',
+  cwd:'/home/operator',
+  ref:['mkdir','cp','cat','rm'],
+  env:{'recovery':mkDir({'frag_01.txt':mkFile('SECTION A: Perimeter breach detected at 03:17 UTC.\n'),'frag_02.txt':mkFile('SECTION B: Lateral movement confirmed via SSH tunnel.\n'),'frag_03.txt':mkFile('SECTION C: Data exfiltration volume estimated at 2.4 GB.\n')})},
+  objectives:[
+   {t:'Navigate to the recovery directory.',check:(M,c)=>c.cwd.endsWith('/recovery')},
+   {t:'Create a compiled/ subdirectory.',check:(M,c)=>!!fsNode(c,'/home/operator/recovery/compiled')},
+   {t:'Copy all fragments into compiled/.',check:(M,c)=>{const d=fsNode(c,'/home/operator/recovery/compiled');return d&&d.ch['frag_01.txt']&&d.ch['frag_02.txt']&&d.ch['frag_03.txt'];}},
+   {t:'Concatenate fragments into full_report.txt.',check:(M,c)=>{const f=fsNode(c,'/home/operator/recovery/compiled/full_report.txt')||fsNode(c,'/home/operator/recovery/full_report.txt');return f&&f.c.includes('SECTION C');}},
+   {t:'Clean up: remove the original fragment files.',check:(M,c)=>{const d=fsNode(c,'/home/operator/recovery');return d&&!d.ch['frag_01.txt']&&!d.ch['frag_02.txt'];},bon:true}
+  ],
+  hints:['Use `cd recovery` then `mkdir compiled`.','Use `cp frag_01.txt frag_02.txt frag_03.txt compiled/`.','Use `cat frag_01.txt frag_02.txt frag_03.txt > full_report.txt`.'],
+  onCommand:whenRun(['cd','mkdir','cp','cat','rm'])
+ },
+ {id:'m03',num:'03',title:'LOG HUNTER',diff:2,xp:150,bonusXP:30,tags:['grep','find','head','wc'],
+  brief:'Security logs indicate anomalous activity. Analyze the auth.log, identify failed login attempts, and determine the attacking IP address.',
+  cwd:'/home/operator',
+  ref:['find','wc','grep','submit'],
+  env:{'logs':mkDir({'auth.log':mkFile('May 14 10:22:01 zero sshd[102]: Accepted publickey for operator\nMay 14 10:25:12 zero sshd[109]: Failed password for root from 203.0.113.42 port 4432\nMay 14 10:25:14 zero sshd[109]: Failed password for root from 203.0.113.42 port 4432\nMay 14 10:25:16 zero sshd[109]: Failed password for root from 203.0.113.42 port 4432\n'),'access.log':mkFile('127.0.0.1 - - [14/May/2026:10:22:00] "GET / HTTP/1.1" 200\n')})},
+  objectives:[
+   {t:'Find all log files in the logs directory.',check:(M)=>!!M.flags['run:find']||!!M.flags['run:ls']},
+   {t:'Count the total lines in auth.log.',check:(M)=>!!M.flags['run:wc']},
+   {t:'Search for failed login attempts in auth.log.',check:(M)=>!!M.flags['run:grep']},
+   {t:'Submit the attacking IP address.',ans:['203.0.113.42'],check:()=>false}
+  ],
+  hints:['Use `find logs/ -name "*.log"` or `ls logs/`.','Use `wc -l logs/auth.log` to count lines. Use `grep "Failed" logs/auth.log`.','The IP appears after "from" in the failed password lines. `submit 203.0.113.42`.'],
+  onCommand:whenRun(['find','ls','wc','grep'])
+ },
+ {id:'m04',num:'04',title:'PERMISSION PROTOCOL',diff:2,xp:160,bonusXP:30,tags:['chmod','chown','stat'],
+  brief:'A critical authorization file has incorrect permissions. Fix the permissions using least-privilege principles, and verify access.',
+  cwd:'/home/operator',
+  ref:['ls','stat','id','chmod','chown','sudo'],
+  env:{'vault':mkDir({'authorized.txt':mkFile('AUTH_TOKEN=ZT-44921-PRIV\nCLEARANCE=LEVEL_3\n',{o:'root',g:'root',m:0o000}),'vault_note.txt':mkFile('Fix permissions on authorized.txt. The operator needs read access only. Do not grant world access.\n')})},
+  objectives:[
+   {t:'Inspect current permissions of authorized.txt.',check:(M)=>!!M.flags['run:ls']||!!M.flags['run:stat']},
+   {t:'Determine your user and group.',check:(M)=>!!M.flags['run:id']},
+   {t:'Fix permissions so operator can read the file.',check:(M,c)=>{const f=fsNode(c,'/home/operator/vault/authorized.txt');return f&&canR(c,f);}},
+   {t:'Read the authorization token.',check:(M)=>!!M.flags['run:cat']},
+   {t:'Ensure the file is not world-readable.',check:(M,c)=>{const f=fsNode(c,'/home/operator/vault/authorized.txt');return f&&((f.m&0o004)===0);},bon:true}
+  ],
+  hints:['Use `ls -l vault/` or `stat vault/authorized.txt` to see permissions.','You need to either `sudo chown operator vault/authorized.txt` then `chmod 400 vault/authorized.txt`, or `sudo chmod 640 vault/authorized.txt`.','After fixing permissions, `cat vault/authorized.txt` to read the token.'],
+  onCommand:whenRun(['ls','stat','id','cat'])
+ },
+ {id:'m05',num:'05',title:'PIPELINE ENGINEER',diff:2,xp:180,bonusXP:35,tags:['grep','sort','uniq','wc','cut','tee'],
+  brief:'Network traffic logs need analysis. Extract critical events, sort and deduplicate the source IPs, count them, and save the report.',
+  cwd:'/home/operator',
+  ref:['grep','cut','sort','uniq','wc','tee'],
+  env:{'pipeline':mkDir({'traffic.log':mkFile('10:00 INFO SRC_IP=10.0.0.1 DST_PORT=80\n10:01 CRITICAL SRC_IP=192.168.1.5 DST_PORT=443\n10:02 CRITICAL SRC_IP=192.168.1.5 DST_PORT=443\n10:03 INFO SRC_IP=10.0.0.2 DST_PORT=80\n10:04 CRITICAL SRC_IP=172.16.0.10 DST_PORT=22\n10:05 CRITICAL SRC_IP=192.168.1.5 DST_PORT=443\n10:06 CRITICAL SRC_IP=10.0.0.99 DST_PORT=8080\n10:07 CRITICAL SRC_IP=172.16.0.10 DST_PORT=22\n10:08 CRITICAL SRC_IP=10.10.10.10 DST_PORT=80\n')})},
+  objectives:[
+   {t:'Extract all CRITICAL events from traffic.log.',check:(M)=>!!M.flags['run:grep']},
+   {t:'Extract just the source IPs from critical events.',check:(M)=>!!M.flags['run:cut']},
+   {t:'Sort and deduplicate the IPs.',check:(M)=>!!M.flags['run:sort']&&!!M.flags['run:uniq']},
+   {t:'Count the unique critical source IPs and submit.',ans:['4'],check:()=>false},
+   {t:'Save the sorted unique IPs to report.txt.',check:(M,c)=>!!fsNode(c,'/home/operator/report.txt')||!!fsNode(c,'/home/operator/pipeline/report.txt')}
+  ],
+  hints:['Use `grep CRITICAL pipeline/traffic.log` to find critical events.','Pipe through `cut` to extract IPs: `grep CRITICAL pipeline/traffic.log | cut -d= -f2 | cut -d" " -f1 | sort -u`.','Use `wc -l` to count, `tee report.txt` or `> report.txt` to save. `submit 4`.'],
+  onCommand:whenRun(['grep','cut','sort','uniq','tee'])
+ },
+ {id:'m06',num:'06',title:'NETWORK RECON LAB',diff:3,xp:200,bonusXP:40,tags:['ip','ping','ss','dig'],
+  brief:'Map the local network segment. Identify your IP, discover services, resolve hostnames, and find the file server.',
+  cwd:'/home/operator',
+  ref:['ip','ping','ss','dig','submit'],
+  env:{},
+  objectives:[
+   {t:'Determine your IP address.',check:(M)=>!!M.flags['run:ip']},
+   {t:'Ping the gateway (10.0.42.1).',check:(M)=>!!M.flags['run:ping']},
+   {t:'List listening services on this node.',check:(M)=>!!M.flags['run:ss']},
+   {t:'Resolve filesrv.zero.local.',check:(M)=>!!M.flags['run:dig']||!!M.flags['run:nslookup']},
+   {t:'Submit the file server IP.',ans:['10.0.42.23'],check:()=>false}
+  ],
+  hints:['`ip addr` or `ip a` shows your network config.','`ss -tulpn` shows listening sockets. `dig filesrv.zero.local` resolves the hostname.','The file server IP is in the DNS response. `submit 10.0.42.23`.'],
+  onCommand:whenRun(['ip','ping','ss','dig','nslookup'])
+ },
+ {id:'m07',num:'07',title:'PROCESS WATCH',diff:3,xp:220,bonusXP:40,tags:['ps','top','grep'],
+  brief:'An impostor process is masquerading as a kernel worker. Inspect the process table, find it, and report its details.',
+  cwd:'/home/operator',
+  ref:['ps','top','grep','submit'],
+  env:{},
+  procs:[...DEF_PROCS,['svc',4172,87.3,15.2,184200,62400,'?','R','08:31','42:17','/tmp/.x/kworker2:9']],
+  objectives:[
+   {t:'Inspect the process table.',check:(M)=>!!M.flags['run:ps']||!!M.flags['run:top']},
+   {t:'Submit the PID of the impostor.',ans:['4172'],check:()=>false},
+   {t:'Submit the full path of its binary.',ans:['/tmp/.x/kworker2:9','/tmp/.x/kworker2'],check:()=>false},
+   {t:'Submit the account running it.',ans:['svc'],check:()=>false}
+  ],
+  hints:['`ps aux` and look at the %CPU column — the impostor will stand out.','Kernel workers run as root, not as svc. The binary in /tmp/.x/ is suspicious.','`submit 4172`, `submit /tmp/.x/kworker2:9`, `submit svc`.'],
+  onCommand:whenRun(['ps','top'])
+ },
+ {id:'m08',num:'08',title:'INCIDENT RESPONSE',diff:3,xp:300,bonusXP:50,tags:['find','stat','grep','cp'],
+  brief:'A DMZ workstation was compromised. Investigate the incident image, find the intrusion evidence, and write a report.',
+  cwd:'/home/operator/incident',
+  ref:['find','grep','cp','echo','cat','ls'],
+  env:{'incident':mkDir({
+   'brief.txt':mkFile('INCIDENT BRIEF\nFind compromised account, hidden webshell in web root, and persistence cron job.\n'),
+   'auth.log':mkFile('May 14 10:25:12 zero sshd[109]: Accepted password for deploy from 198.51.100.77 port 4432\nMay 14 10:26:00 zero sudo:   deploy : TTY=pts/0 ; COMMAND=/bin/bash\n'),
+   'spool':mkDir({'cron':mkDir({'deploy':mkFile('*/5 * * * * php /srv/www/.webshell.php >/dev/null 2>&1\n',{o:'deploy',g:'deploy'})},{o:'root'})},{o:'root'}),
+   'srv':mkDir({'www':mkDir({'index.html':mkFile('<html><body>DMZ node zero-dmz-1\x3c/body\x3e\x3c/html\x3e\n',{o:'www-data',g:'www-data'}),'assets':mkDir({'app.js':mkFile('console.log("v3");\n')},{o:'www-data',g:'www-data'}),'.webshell.php':mkFile('<?php system($_GET["cmd"]); ?>',{o:'deploy',g:'deploy'})},{o:'www-data'})})
+  })},
+  objectives:[
+   {t:'Identify the compromised account from auth.log.',ans:['deploy'],check:()=>false},
+   {t:'Find the hidden artifact in the web root.',check:(M)=>!!M.flags['run:find']||!!M.flags['run:ls']},
+   {t:'Submit the artifact filename.',ans:['.webshell.php'],check:()=>false},
+   {t:'Submit the persistence mechanism.',ans:['*/5 * * * * php /srv/www/.webshell.php >/dev/null 2>&1','cron','crontab'],check:()=>false},
+   {t:'Create evidence/ directory and copy at least 2 evidence files.',check:(M,c)=>{const d=fsNode(c,'/home/operator/incident/evidence');return d&&Object.keys(d.ch).length>=2;}},
+   {t:'Write evidence/report.txt mentioning the account and artifact.',check:(M,c)=>{const f=fsNode(c,'/home/operator/incident/evidence/report.txt');return f&&f.c.includes('deploy')&&f.c.includes('webshell');}}
+  ],
+  hints:['`grep -i "accepted" auth.log` shows login patterns. Look for unusual accounts.','`find srv/www -name ".*"` or `ls -la srv/www/` reveals hidden files. Check `spool/cron/deploy` for persistence.','Create evidence with `mkdir evidence`, `cp srv/www/.webshell.php evidence/`, write report with `echo "deploy .webshell.php" > evidence/report.txt`.'],
+  onCommand:whenRun(['find','ls'])
+ },
+ {id:'m09',num:'09',title:'BLACK ICE CHALLENGE',diff:4,xp:400,bonusXP:60,tags:['grep','chmod','cat'],
+  brief:'Decrypt an encoded access sequence by navigating a deep directory tree, fixing permissions, and using pipeline skills.',
+  cwd:'/home/operator/blackice',
+  ref:['cat','grep','chmod','sudo','submit'],
+  env:{'blackice':mkDir({
+   'manifest.txt':mkFile('Challenge stages: 1) Read clue in level1 2) Decode level2 3) Unlock level3.\n'),
+   'level1':mkDir({'clue.txt':mkFile('Proceed to level2. The key is ALPHA.\n')}),
+   'level2':mkDir({'encoded.txt':mkFile('BETA: 1234\nALPHA: 5678\nGAMMA: 9012\n'),'decoder_key.txt':mkFile('Match the key from level1.\n')}),
+   'level3':mkDir({'config.dat':mkFile('NIGHTFALL-7749\n',{o:'root',m:0o000})})
+  })},
+  objectives:[
+   {t:'Read the manifest and navigate to level1.',check:(M)=>!!M.flags['run:cat']},
+   {t:'Find the encoded message in level2.',check:(M)=>!!M.flags['run:cat']},
+   {t:'Decode using the key (grep for the matching pattern).',check:(M)=>!!M.flags['run:grep']},
+   {t:'Fix permissions on the locked config in level3.',check:(M,c)=>{const f=fsNode(c,'/home/operator/blackice/level3/config.dat');return f&&canR(c,f);}},
+   {t:'Submit the final access code.',ans:['NIGHTFALL-7749','5678'],check:()=>false}
+  ],
+  hints:['Read manifest.txt first, then `cd level1` and `cat clue.txt`.','`cat level2/encoded.txt` shows encoded data. `grep` for a pattern from decoder_key.txt.','`sudo chmod 644 level3/config.dat` then `cat level3/config.dat` to find the code.'],
+  onCommand:whenRun(['cat','grep'])
+ },
+ {id:'m10',num:'10',title:'ZERO-DAY SIMULATION',diff:5,xp:500,bonusXP:80,tags:['full skill test'],
+  brief:'Final capstone. Map the network, identify the compromised service, trace the exploit payload, fix permissions, neutralize the threat.',
+  cwd:'/home/operator/zeroday',
+  ref:['ls','cat','cp','rm','chmod','submit'],
+  env:{'zeroday':mkDir({
+   'notes.txt':mkFile('Survey recon data, identify exploited service, quarantine payload, find attacker IP.\n'),
+   'recon':mkDir({'hosts_scan.txt':mkFile('10.0.42.7: 22 (ssh), 8080 (httpd)\n'),'services.txt':mkFile('httpd running outdated version.\n')}),
+   'exploit':mkDir({'payload_log.txt':mkFile('Execution from 198.51.100.77\n'),'dropper.sh':mkFile('#!/bin/bash\necho "pwned"\n',{m:0o755})}),
+   'quarantine':mkDir({})
+  })},
+  objectives:[
+   {t:'Survey the recon data.',check:(M)=>!!M.flags['run:cat']},
+   {t:'Identify the exploited service and submit it.',ans:['8080','httpd','apache'],check:()=>false},
+   {t:'Find the exploit payload file.',check:(M)=>!!M.flags['run:cat']},
+   {t:'Quarantine the payload (copy to quarantine/ and remove original).',check:(M,c)=>{const q=fsNode(c,'/home/operator/zeroday/quarantine');const e=fsNode(c,'/home/operator/zeroday/exploit');return q&&q.ch['dropper.sh']&&e&&!e.ch['dropper.sh'];}},
+   {t:'Fix permissions on quarantine to prevent execution.',check:(M,c)=>{const f=fsNode(c,'/home/operator/zeroday/quarantine/dropper.sh');return f&&((f.m&0o111)===0);}},
+   {t:'Submit the attacker IP from the payload log.',ans:['198.51.100.77'],check:()=>false}
+  ],
+  hints:['`ls recon/` and `cat recon/hosts_scan.txt` to survey. Look for unusual ports.','`cat exploit/payload_log.txt` reveals the exploit. `cp exploit/dropper.sh quarantine/` then `rm exploit/dropper.sh`.','`chmod 600 quarantine/dropper.sh`. Check payload_log.txt for the source IP.'],
+  onCommand:whenRun(['cat','ls'])
+ },
+ {id:'m11',num:'11',title:'SQL INJECTION AUDIT [OWASP A03]',diff:4,xp:550,bonusXP:90,tags:['grep','cat','find','submit'],tier:2,
+  brief:'OWASP TOP 10 INJECTION: The internal operator portal (/var/www/auth.php) has been targeted by SQLi probes. Inspect the vulnerable code, find the unparameterized query, identify the bypass payload in access logs, and report the compromised database table.',
+  cwd:'/var/www',
+  ref:['grep','cat','find','submit','ls'],
+  env:{
+   'auth.php':mkFile('<?php\n// Portal Authentication Gateway\n$conn = new mysqli("localhost", "dbuser", "p@ssword", "zero_sec");\n$username = $_POST[\'user\'];\n$password = $_POST[\'pass\'];\n// VULNERABLE: Direct concatenation allowing SQL Injection\n$query = "SELECT * FROM users_tbl WHERE username = \'" . $username . "\' AND password = \'" . $password . "\'";\n$result = $conn->query($query);\n?>\n',{m:0o644,o:'root',g:'root'}),
+   'sql_audit.log':mkFile('[2026-05-18 03:14:02] PROBE DETECTED: admin\' OR \'1\'=\'1\' -- [STATUS: 200 OK]\n[2026-05-18 03:14:15] DUMP ATTEMPT: \' UNION SELECT null, table_name FROM information_schema.tables -- [TABLE FOUND: users_tbl]\n[2026-05-18 03:15:00] EXFILTRATION DETECTED: SELECT secret_token FROM operator_credentials_tbl\n',{m:0o644,o:'root'}),
+   'remediation_notes.txt':mkFile('REMEDIATION REQUIREMENTS:\n1. Audit auth.php for dynamic SQL concatenation\n2. Extract the target sensitive database table name targeted by attacker\n3. Identify the SQLi authentication bypass payload string\n')
+  },
+  objectives:[
+   {t:'Audit auth.php and inspect the vulnerable query string.',check:(M)=>!!M.flags['run:cat']||!!M.flags['run:grep']},
+   {t:'Analyze sql_audit.log for SQLi signatures.',check:(M)=>!!M.flags['run:grep']||!!M.flags['run:cat']},
+   {t:'Submit the SQLi authentication bypass payload.',ans:['admin\' OR \'1\'=\'1\' --','\' OR \'1\'=\'1\' --','admin\' OR \'1\'=\'1\'','\' OR \'1\'=\'1'],check:()=>false},
+   {t:'Submit the sensitive table targeted for credential exfiltration.',ans:['operator_credentials_tbl'],check:()=>false}
+  ],
+  hints:['Use `cat auth.php` or `grep -n "SELECT" auth.php` to see the insecure SQL concatenation.','`grep PROBE sql_audit.log` reveals the exact bypass payload used by the adversary.','`grep EXFILTRATION sql_audit.log` shows the sensitive table. Run `submit operator_credentials_tbl`.'],
+  onCommand:whenRun(['cat','grep','find','ls'])
+ },
+ {id:'m12',num:'12',title:'BROKEN ACCESS CONTROL & IDOR [OWASP A01]',diff:4,xp:600,bonusXP:100,tags:['grep','find','stat','chmod','submit'],tier:2,
+  brief:'OWASP TOP 10 BROKEN ACCESS CONTROL: An insecure API gateway routing configuration exposes administrative user profiles via predictable IDs (IDOR). Audit the route definition file, find the unprotected master key file, and fix the ACL.',
+  cwd:'/etc/nginx',
+  ref:['grep','cat','chmod','stat','submit'],
+  env:{
+   'api.conf':mkFile('server {\n  listen 8080;\n  # VULNERABLE: Direct object reference without session validation\n  location /api/v1/user/ {\n    proxy_pass http://internal-id-service:5000/records/;\n    # MISSING: auth_jwt_key or role check\n  }\n  location /api/v1/master_override/ {\n    alias /etc/nginx/keys/master.key;\n    # CRITICAL: Publicly accessible root key\n  }\n}\n',{m:0o644,o:'root'}),
+   'keys':mkDir({
+    'master.key':mkFile('MASTER_SECRET_KEY=SEC_IDOR_JWT_9921_BYPASS\nALLOWED_ROLES=SUPERADMIN,ROOT\n',{m:0o644,o:'root',g:'root'})
+   },{o:'root',m:0o755})
+  },
+  objectives:[
+   {t:'Inspect api.conf to discover the vulnerable master route.',check:(M)=>!!M.flags['run:cat']||!!M.flags['run:grep']},
+   {t:'Locate and read the exposed master key file.',check:(M)=>!!M.flags['run:cat']},
+   {t:'Submit the exposed MASTER_SECRET_KEY value.',ans:['SEC_IDOR_JWT_9921_BYPASS'],check:()=>false},
+   {t:'Harden permissions on master.key so only root can access (0600).',check:(M,c)=>{const f=fsNode(c,'/etc/nginx/keys/master.key');return f&&((f.m&0o077)===0);}}
+  ],
+  hints:['Use `cat api.conf` to check the endpoints. Notice `/api/v1/master_override/` pointing to `keys/master.key`.','Use `cat keys/master.key` to find the secret token. `submit SEC_IDOR_JWT_9921_BYPASS`.','Use `sudo chmod 600 keys/master.key` to lock down permissions so world and group have zero access.'],
+  onCommand:whenRun(['cat','grep','chmod','stat'])
+ },
+ {id:'m13',num:'13',title:'SECURITY MISCONFIGURATION [OWASP A05]',diff:4,xp:650,bonusXP:100,tags:['ss','grep','find','cat','submit'],tier:2,
+  brief:'OWASP TOP 10 SECURITY MISCONFIGURATION: Server audits revealed exposed debug services, unencrypted admin management ports, and insecure default flags enabled in production. Discover the listening debug port and sanitize the config.',
+  cwd:'/home/operator/audit',
+  net:{...DEF_NET,
+   sock:[...DEF_NET.sock,
+    {net:'tcp',st:'LISTEN',l:'0.0.0.0:9099',p:'0.0.0.0:*',pr:'python3-debug(pid=3340)'},
+    {net:'tcp',st:'LISTEN',l:'127.0.0.1:6379',p:'0.0.0.0:*',pr:'redis-server(pid=1420)'}
+   ]
+  },
+  ref:['ss','cat','grep','submit'],
+  env:{'audit':mkDir({
+   'app.env':mkFile('ENVIRONMENT=production\nDEBUG=TRUE\nSTACK_TRACE=VERBOSE\nSECRET_KEY=default_insecure_development_key_123\nCORS_ALLOW_ALL=*\nADMIN_PORT=9099\n',{m:0o644}),
+   'audit_instructions.txt':mkFile('MISCONFIGURATION AUDIT CHECKLIST:\n1. Run `ss -tulpn` to detect unhardened debug listening socket\n2. Inspect app.env for high-risk flags\n3. Submit the unhardened debug port number\n4. Submit the default insecure secret key\n')
+  })},
+  objectives:[
+   {t:'Survey listening sockets on all interfaces using ss.',check:(M)=>!!M.flags['run:ss']},
+   {t:'Inspect app.env configuration variables.',check:(M)=>!!M.flags['run:cat']||!!M.flags['run:grep']},
+   {t:'Submit the exposed debug port listening on 0.0.0.0.',ans:['9099'],check:()=>false},
+   {t:'Submit the default development SECRET_KEY from app.env.',ans:['default_insecure_development_key_123'],check:()=>false}
+  ],
+  hints:['Run `ss -tulpn` and inspect the Local Address column for unfamiliar high ports.','`cat app.env` to check production settings. Notice `ADMIN_PORT=9099` and `DEBUG=TRUE`.','Run `submit 9099` then `submit default_insecure_development_key_123`.'],
+  onCommand:whenRun(['ss','cat','grep'])
+ },
+ {id:'m14',num:'14',title:'MALWARE TRIAGE & REVERSE STATIC ANALYSIS',diff:5,xp:700,bonusXP:120,tags:['file','stat','grep','cp','rm','submit'],tier:2,
+  brief:'DEFENSIVE MALWARE ANALYSIS & TRIAGE: An alert flagged a suspicious hidden binary in /tmp/.cache. Safely inspect its header, extract the command & control (C2) domain, isolate it to /home/operator/quarantine, and clean the infection directory.',
+  cwd:'/tmp/.cache',
+  ref:['file','stat','grep','cp','rm','submit','ls'],
+  env:{
+   '.cache':mkDir({
+    'updater_payload':mkFile('\x7fELF-sim\n# COMPILED ADVERSARY IMPLANT v2.4\n# ARCH: x86_64\n# C2_SERVER=c2.blackice-threat.net\n# BEACON_INTERVAL=60s\n# MUTEX=Global\\0x992B1\n# PAYLOAD=exec_meterpreter_rev_tcp\n',{m:0o755,o:'deploy',g:'deploy'}),
+    'telemetry.tmp':mkFile('LAST_HEARTBEAT: SUCCESS\nTARGET_IP: 10.0.42.7\nSTATUS: ACTIVE_IMPLANT\n',{m:0o644})
+   },{o:'deploy',m:0o777}),
+   'quarantine':mkDir({})
+  },
+  objectives:[
+   {t:'Verify the file format of the suspicious payload using file.',check:(M)=>!!M.flags['run:file']},
+   {t:'Inspect payload strings or content to extract C2 infrastructure.',check:(M)=>!!M.flags['run:cat']||!!M.flags['run:grep']},
+   {t:'Submit the adversary Command & Control (C2) domain.',ans:['c2.blackice-threat.net'],check:()=>false},
+   {t:'Isolate the artifact (copy updater_payload to /home/operator/quarantine/).',check:(M,c)=>{const q=fsNode(c,'/home/operator/quarantine');return q&&q.ch['updater_payload'];}},
+   {t:'Neutralize the source by removing the original infected binary.',check:(M,c)=>{const s=fsNode(c,'/tmp/.cache/updater_payload');return !s;}}
+  ],
+  hints:['Run `file updater_payload` to identify binary type.','Run `grep "C2" updater_payload` or `cat updater_payload` to discover the C2 server address.','`submit c2.blackice-threat.net`. Then copy with `cp updater_payload /home/operator/quarantine/` and clean with `rm updater_payload`.'],
+  onCommand:whenRun(['file','stat','grep','cat','cp','rm'])
+ },
+ {id:'m15',num:'15',title:'RED TEAM APEX & LOGGING FAILURE [OWASP A09]',diff:5,xp:800,bonusXP:150,tags:['grep','wc','cat','submit','all-skills'],tier:2,
+  brief:'OWASP TOP 10 LOGGING & DETECTION FAILURE // RED TEAM ASSESSMENT: An APT staged lateral movement via compromised SSH keys and cleared session history. Reconstruct the attack timeline from syslog, detect missing security logging controls, and submit the threat actor identifier.',
+  cwd:'/var/log',
+  ref:['grep','cat','wc','submit','find'],
+  env:{
+   'syslog':mkFile('May 20 01:10:01 zero cron[890]: (root) CMD (/usr/local/bin/logrotate-agent)\nMay 20 01:12:44 zero sshd[4401]: Accepted publickey for deploy from 198.51.100.99 port 51221 ssh2: RSA SHA256:dZ9k\nMay 20 01:13:00 zero sudo: deploy : TTY=pts/1 ; PWD=/home/deploy ; USER=root ; COMMAND=/bin/su -\nMay 20 01:13:30 zero su[4412]: Successful su for root by deploy\nMay 20 01:14:05 zero kernel: [9912.4] APT_BEACON: Threat-Actor="NIGHTFALL-APT29" Target="zero.relay"\nMay 20 01:15:00 zero auditd: [CRITICAL_FAILURE] Audit daemon halted - Log tamper detected\n',{m:0o644,o:'root'}),
+   'ir_briefing.txt':mkFile('INCIDENT RESPONSE APEX REPORT:\n1. Reconstruct the lateral movement timeline.\n2. Identify the Threat-Actor signature identifier logged in kernel traces.\n3. Identify the account used for privilege escalation.\n4. Submit Threat Actor callsign.\n')
+  },
+  objectives:[
+   {t:'Analyze syslog to identify the initial lateral movement login.',check:(M)=>!!M.flags['run:grep']||!!M.flags['run:cat']},
+   {t:'Trace privilege escalation events from deploy to root.',check:(M)=>!!M.flags['run:grep']||!!M.flags['run:cat']},
+   {t:'Submit the compromised pivot account used to escalate to root.',ans:['deploy'],check:()=>false},
+   {t:'Submit the identified APT Threat Actor name.',ans:['NIGHTFALL-APT29','APT29'],check:()=>false}
+  ],
+  hints:['Use `grep sudo syslog` or `grep su syslog` to see which user escalated privileges.','Look for the kernel beacon line containing `Threat-Actor="...`.','Submit the answers with `submit deploy` and `submit NIGHTFALL-APT29`.'],
+  onCommand:whenRun(['grep','cat','wc','find'])
+ }
+];
+
+/* ---------- 9. ENGINES ---------- */
+const MissionEngine={
+ current:null,ctx:null,startTime:0,timerInterval:null,paused:false,flags:{},hintsUsed:0,objDone:[],
+ init(mid){
+  this.current=MISSIONS.find(m=>m.id===mid);
+  const root=baseTree();
+  this.ctx={root,fs:root,cwd:this.current.cwd,home:'/home/operator',user:'operator',group:'operator',uid:1000,gid:1000,umask:0o022,
+   env:{USER:'operator',HOME:'/home/operator',HOSTNAME:'zero',PATH:'/bin:/usr/bin'},history:[],net:this.current.net||DEF_NET,procs:this.current.procs||DEF_PROCS,
+   now:Date.now,bootTime:Date.now()-3600000,lastSubmit:''};
+  mergeEnv(root,this.current.cwd,this.current.env);
+  this.flags={};this.hintsUsed=0;this.objDone=this.current.objectives.map(()=>false);this.startTime=Date.now();
+  Shell.init(this.ctx);Terminal.init();
+  if(this.timerInterval)clearInterval(this.timerInterval);
+  this.timerInterval=setInterval(()=>this.tick(),1000);
+ },
+ tick(){if(!this.paused)UI.updateHUD();},
+ getMission(){return this.current;},
+ checkObjectives(){
+  if(!this.current)return;
+  let allDone=true;
+  this.current.objectives.forEach((obj,i)=>{
+   if(this.objDone[i])return;
+   let done=false;
+   if(obj.ans){
+    if(this.ctx.lastSubmit&&obj.ans.some(a=>this.ctx.lastSubmit.toLowerCase().includes(a.toLowerCase())))done=true;
+   }else if(obj.check(this,this.ctx)){done=true;}
+   if(done){this.objDone[i]=true;AudioX.ok();toast('OBJECTIVE COMPLETE','ok');UI.renderMissionObj(i);}
+   if(!obj.bon&&!this.objDone[i])allDone=false;
+  });
+  if(allDone)this.complete();
+ },
+ useHint(i){this.hintsUsed++;AudioX.hint();UI.revealHint(i);},
+ complete(){
+  clearInterval(this.timerInterval);
+  const xp=this.current.xp+(this.hintsUsed===0?this.current.bonusXP:0);
+  const res=Save.addXP(xp);
+  Save.d.missions[this.current.id]={done:true,xp,hints:this.hintsUsed,time:Date.now()-this.startTime};
+  Save.write();evalAch();
+  AudioX.win();if(res.rankedUp)setTimeout(()=>AudioX.rank(),1500);
+  UI.showResults(this.current,xp,res.rankedUp);
+ },
+ abort(){clearInterval(this.timerInterval);UI.go('missions');},
+ togglePause(){this.paused=!this.paused;$('#pauseov').classList.toggle('on',this.paused);},
+ handleCommand(name,args,res){
+  if(this.current.onCommand)this.current.onCommand(name,args,res,this,this.ctx);
+  this.checkObjectives();
+ }
+};
+
+const Shell={
+ ctx:null,
+ init(ctx){this.ctx=ctx;},
+ parseLine(line){
+  const pipes=line.split('|').map(s=>s.trim());
+  return pipes.map(p=>{
+   let redir=null;
+   const outAppend=p.match(/>>\s*([^\s]+)/);
+   const outWrite=p.match(/>\s*([^\s]+)/);
+   if(outAppend){redir={type:'>>',target:outAppend[1]};p=p.replace(outAppend[0],'');}
+   else if(outWrite){redir={type:'>',target:outWrite[1]};p=p.replace(outWrite[0],'');}
+   const parts=p.match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g)||[];
+   const args=parts.map(x=>x.replace(/^["']|["']$/g,''));
+   return {cmd:args.shift(),args,redir};
+  });
+ },
+ exec(line){
+  line=line.trim();if(!line)return'';
+  this.ctx.history.push(line);Save.d.stats.cmds++;Save.write();
+  const segments=this.parseLine(line);
+  let lastOut='',exitFlag=false,clearFlag=false;
+  this.ctx.stdin='';
+  for(let i=0;i<segments.length;i++){
+   const seg=segments[i];if(!seg.cmd)continue;
+   const handler=CMD[seg.cmd];
+   if(!handler){lastOut=seg.cmd+': command not found\n';break;}
+   const res=handler.run(seg.args,this.ctx);
+   if(res.err){lastOut=res.err;break;}
+   if(res.exit)exitFlag=true;if(res.clear)clearFlag=true;
+   lastOut=res.out||'';
+   if(seg.redir){fsWrite(this.ctx,seg.redir.target,lastOut,seg.redir.type==='>>');lastOut='';}
+   this.ctx.stdin=lastOut;
+   if(i===segments.length-1)MissionEngine.handleCommand(seg.cmd,seg.args,res);
+  }
+  if(clearFlag)Terminal.clear();
+  if(exitFlag)MissionEngine.abort();
+  return lastOut;
+ },
+ prompt(){
+  let p=this.ctx.cwd.replace('/home/operator','~');
+  return `<span class="p-u">${this.ctx.user}</span><span class="p-s">@</span><span class="p-p">${this.ctx.env.HOSTNAME}</span><span class="p-s">:</span><span class="p-d">${p}</span><span class="p-s">$ </span>`;
+ }
+};
+
+const Terminal={
+ init(){
+  this.out=$('.termout');this.inp=$('.term-line input');this.prmt=$('.term-line .prompt');
+  this.inp.value='';this.updatePrompt();
+  this.inp.onkeydown=e=>{
+   if(e.key==='Enter'){
+    const v=this.inp.value;this.print(Shell.prompt()+esc(v),'cmd');
+    const out=Shell.exec(v);
+    if(out)this.print(esc(out));
+    this.inp.value='';this.updatePrompt();this.scrollBottom();
+   }else if(e.key==='l'&&e.ctrlKey){e.preventDefault();this.clear();}
+  };
+ },
+ updatePrompt(){if(this.prmt)this.prmt.innerHTML=Shell.prompt();},
+ print(html,cls=''){const d=document.createElement('div');d.className='tl '+cls;d.innerHTML=html;this.out.appendChild(d);},
+ clear(){this.out.innerHTML='';},
+ scrollBottom(){this.out.scrollTop=this.out.scrollHeight;},
+ focus(){this.inp.focus();}
+};
+
+const CertState = {
+  name: (function(){ try { return localStorage.getItem('tz_cert_name') || 'Mayank'; }catch(e){ return 'Mayank'; } })(),
+  role: 'Security Researcher',
+  org: 'BlackShield Labs',
+  date: todayKey(),
+  expiry: (new Date(Date.now() + 31536000000)).toISOString().slice(0,10),
+  color: 'cyan',
+  showLogo: true,
+  bypass: false,
+  filename: 'certificate.png'
+};
+
+const CertGen = {
+  updatePreview(){
+    const name = ($('#cg-name')?.value || CertState.name || 'Mayank').trim();
+    const role = ($('#cg-role')?.value || CertState.role || 'Security Researcher').trim();
+    const org = ($('#cg-org')?.value || CertState.org || 'BlackShield Labs').trim();
+    const date = ($('#cg-date')?.value || CertState.date || todayKey()).trim();
+    const expiry = ($('#cg-expiry')?.value || CertState.expiry || '').trim();
+
+    CertState.name = name; CertState.role = role; CertState.org = org; CertState.date = date; CertState.expiry = expiry;
+    try { localStorage.setItem('tz_cert_name', name); } catch(e){}
+
+    const pName = $('#pv-name'); if(pName) pName.innerText = name || 'OPERATOR NAME';
+    const pRole = $('#pv-role'); if(pRole) pRole.innerText = role;
+    const pOrg = $('#pv-org'); if(pOrg) pOrg.innerText = org;
+    const pDate = $('#pv-date'); if(pDate) pDate.innerText = date;
+    const pExp = $('#pv-expiry'); if(pExp) pExp.innerText = expiry;
+    const pSig = $('#pv-sig'); if(pSig) pSig.innerText = name || 'Authorized Signature';
+
+    const card = $('#cert-card-el');
+    if(card){
+      card.className = 'cert-card ' + (CertState.color !== 'cyan' ? 'theme-' + CertState.color : '');
+    }
+    const crest = $('#pv-crest');
+    if(crest) crest.style.display = CertState.showLogo ? 'flex' : 'none';
+  },
+
+  setColor(col){
+    CertState.color = col;
+    $$('.cg-color-btn').forEach(b => b.classList.toggle('on', b.dataset.col === col));
+    this.updatePreview();
+  },
+
+  setRole(r){
+    const el = $('#cg-role');
+    if(el) { el.value = r; this.updatePreview(); }
+  },
+
+  log(msg){
+    const l = $('#cg-term-log');
+    if(l) l.innerHTML = msg;
+  },
+
+  downloadPNG(){
+    const coreIds = ['m01','m02','m03','m04','m05','m06','m07','m08','m09','m10'];
+    if(!coreIds.every(id => Save.d?.missions?.[id]?.done)){
+      toast('[!] ACCESS DENIED: Complete all 10 core operations first.', 'rd');
+      UI.go('certificate');
+      return;
+    }
+    this.updatePreview();
+    const filename = ($('#cg-filename')?.value || 'certificate.png').trim();
+    this.log('[*] Compiling vector assets and rendering canvas (1200x800)...<br>root@kali:~# ');
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 800;
+    const ctx = canvas.getContext('2d');
+
+    const colors = {
+      cyan: { pri: '#39E7FF', glow: 'rgba(57,231,255,0.4)', bgGlow: 'rgba(0,166,255,0.14)' },
+      green: { pri: '#3DDC84', glow: 'rgba(61,220,132,0.4)', bgGlow: 'rgba(61,220,132,0.14)' },
+      amber: { pri: '#FFB454', glow: 'rgba(255,180,84,0.4)', bgGlow: 'rgba(255,180,84,0.14)' },
+      red: { pri: '#FF4D5E', glow: 'rgba(255,77,94,0.4)', bgGlow: 'rgba(255,77,94,0.14)' }
+    };
+    const c = colors[CertState.color] || colors.cyan;
+
+    ctx.fillStyle = '#030712';
+    ctx.fillRect(0, 0, 1200, 800);
+
+    const rad = ctx.createRadialGradient(600, 360, 40, 600, 360, 520);
+    rad.addColorStop(0, c.bgGlow);
+    rad.addColorStop(1, 'rgba(3,7,18,0)');
+    ctx.fillStyle = rad;
+    ctx.fillRect(0, 0, 1200, 800);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+    ctx.lineWidth = 1;
+    for(let x=40; x<1200; x+=40){ ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 800); ctx.stroke(); }
+    for(let y=40; y<800; y+=40){ ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1200, y); ctx.stroke(); }
+
+    ctx.strokeStyle = c.pri;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(30, 30, 1140, 740);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(42, 42, 1116, 716);
+
+    ctx.setLineDash([8, 6]);
+    ctx.strokeStyle = c.glow;
+    ctx.strokeRect(52, 52, 1096, 696);
+    ctx.setLineDash([]);
+
+    const drawBracket = (x, y, dx, dy) => {
+      ctx.strokeStyle = c.pri;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(x, y + dy * 24);
+      ctx.lineTo(x, y);
+      ctx.lineTo(x + dx * 24, y);
+      ctx.stroke();
+    };
+    drawBracket(22, 22, 1, 1);
+    drawBracket(1178, 22, -1, 1);
+    drawBracket(22, 778, 1, -1);
+    drawBracket(1178, 778, -1, -1);
+
+    if(CertState.showLogo){
+      ctx.save();
+      ctx.translate(600, 115);
+      ctx.strokeStyle = c.pri;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, -32);
+      ctx.lineTo(26, -18);
+      ctx.lineTo(26, 8);
+      ctx.quadraticCurveTo(24, 28, 0, 40);
+      ctx.quadraticCurveTo(-24, 28, -26, 8);
+      ctx.lineTo(-26, -18);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.fillStyle = c.pri;
+      ctx.fillRect(-10, -2, 20, 18);
+      ctx.beginPath();
+      ctx.arc(0, -2, 6, Math.PI, 0);
+      ctx.strokeStyle = c.pri;
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.strokeStyle = c.pri;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(-34, 4, 24, 0.4*Math.PI, 1.4*Math.PI);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(34, 4, 24, -0.4*Math.PI, 0.6*Math.PI);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    ctx.textAlign = 'center';
+
+    ctx.font = 'bold 36px Rajdhani, sans-serif';
+    ctx.fillStyle = c.pri;
+    ctx.fillText('CERTIFICATE OF ACHIEVEMENT', 600, 215);
+
+    ctx.font = '600 13px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#74879F';
+    ctx.fillText('THIS CERTIFIES THAT', 600, 255);
+
+    ctx.font = 'bold 48px Rajdhani, sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText((CertState.name || 'OPERATOR ZERO').toUpperCase(), 600, 330);
+
+    ctx.strokeStyle = c.pri;
+    ctx.lineWidth = 2;
+    const nameWidth = Math.max(300, ctx.measureText((CertState.name || 'OPERATOR ZERO').toUpperCase()).width + 60);
+    ctx.beginPath();
+    ctx.moveTo(600 - nameWidth/2, 345);
+    ctx.lineTo(600 + nameWidth/2, 345);
+    ctx.stroke();
+
+    ctx.font = '500 15px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#C9D6E9';
+    ctx.fillText('Has successfully completed the requirements for', 600, 400);
+
+    ctx.font = 'bold 28px Rajdhani, sans-serif';
+    ctx.fillStyle = c.pri;
+    ctx.fillText((CertState.role || 'SECURITY RESEARCHER').toUpperCase(), 600, 448);
+
+    ctx.font = '600 13px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#74879F';
+    ctx.fillText('at', 600, 485);
+
+    ctx.font = 'bold 22px Rajdhani, sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText((CertState.org || 'BLACKSHIELD LABS').toUpperCase(), 600, 520);
+
+    ctx.strokeStyle = 'rgba(57,231,255,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(80, 610);
+    ctx.lineTo(1120, 610);
+    ctx.stroke();
+
+    ctx.textAlign = 'left';
+    ctx.font = 'bold 15px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(CertState.date, 100, 655);
+    ctx.font = '500 12px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#74879F';
+    ctx.fillText('ISSUE DATE', 100, 680);
+
+    ctx.save();
+    ctx.translate(600, 675);
+    ctx.strokeStyle = c.pri;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0, 0, 32, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.arc(0, 0, 26, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = c.pri;
+    ctx.font = 'bold 9.5px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('CERTIFIED', 0, -4);
+    ctx.fillText('ZERO-DAY', 0, 9);
+    ctx.restore();
+
+    ctx.textAlign = 'right';
+    ctx.font = 'bold 15px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(CertState.expiry, 1100, 655);
+    ctx.font = '500 12px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#74879F';
+    ctx.fillText('EXPIRY DATE', 1100, 680);
+
+    ctx.font = 'italic bold 20px "Courier New", monospace';
+    ctx.fillStyle = c.pri;
+    ctx.fillText(CertState.name || 'Mayank', 1100, 715);
+    ctx.font = '500 10px "JetBrains Mono", monospace';
+    ctx.fillStyle = '#74879F';
+    ctx.fillText('AUTHORIZED SIGNATURE', 1100, 730);
+
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
+
+      AudioX.win();
+      CertGen.log('[+] Certificate generated successfully: ' + esc(filename) + '<br>[+] Decrypting cyberspace reward transmission...<br>root@kali:~# <span class="blink">█</span>');
+      toast('CERTIFICATE GENERATED: ' + filename, 'ok');
+
+      // Trigger Cyber Gift Reward Box after short delay
+      setTimeout(() => {
+        CyberGift.showGift();
+      }, 1200);
+    }, 'image/png');
+  },
+
+  printCert(){
+    const coreIds = ['m01','m02','m03','m04','m05','m06','m07','m08','m09','m10'];
+    if(!coreIds.every(id => Save.d?.missions?.[id]?.done)){
+      toast('[!] ACCESS DENIED: Complete all 10 core operations first.', 'rd');
+      UI.go('certificate');
+      return;
+    }
+    window.print();
+    setTimeout(() => { CyberGift.showGift(); }, 1200);
+  }
+};
+
+const CyberGift = {
+  showGift(){
+    const m = $('#cyber-modal-ov');
+    if(m){
+      m.style.display = 'flex';
+      void m.offsetWidth;
+      m.classList.add('show');
+      AudioX.rank();
+    }
+  },
+
+  openBox(){
+    const btn = $('.cbox-glow-btn');
+    if(btn) btn.innerHTML = 'OPENING BOX...';
+    AudioX.ok();
+
+    // Box opening visual animation
+    const cube = $('.cbox-cube');
+    if(cube){
+      cube.style.animation = 'none';
+      cube.style.transform = 'scale(1.4) rotateY(360deg)';
+      cube.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    }
+
+    setTimeout(() => {
+      // Hide modal
+      const m = $('#cyber-modal-ov');
+      if(m) { m.classList.remove('show'); m.style.display = 'none'; }
+
+      // Launch Cyberspace Warp Portal
+      const warp = $('#cyberspace-warp');
+      if(warp){
+        warp.classList.add('warp');
+        AudioX.win();
+
+        // 3-second countdown to warp redirect
+        setTimeout(() => {
+          window.location.href = 'cyber_game.html';
+        }, 2800);
+      } else {
+        window.location.href = 'cyber_game.html';
+      }
+    }, 1000);
+  }
+};
+
+const UI={
+ init(){
+  const nav=$('#nav');
+  ['home','missions','library','certificate','settings'].forEach(p=>{
+   const b=document.createElement('button');b.className='navbtn';
+   b.innerHTML=icon(p==='home'?'grid':p==='missions'?'target':p==='library'?'term':p==='certificate'?'trophy':'gear')+' '+(p==='certificate'?'CERTIFICATE':p);
+   b.onclick=()=>this.go(p);nav.appendChild(b);
+  });
+  this.go('home');
+ },
+ go(page){
+  if(page==='achievements') page='certificate';
+  $$('.navbtn').forEach(b=>b.classList.toggle('on',b.innerText.toLowerCase().trim()===page));
+  const v=$('#view');v.classList.remove('glitching');void v.offsetWidth;v.classList.add('glitching');
+  v.innerHTML='';
+  if(this['render_'+page])this['render_'+page](v);
+ },
+ render_home(v){
+  const comp=MISSIONS.filter(m=>Save.d.missions[m.id]?.done).length;
+  v.innerHTML=`<div class="wrap">
+   <div class="hero"><div class="flamefield"><div class="flame f1"></div><div class="flame f2"></div><div class="flame f3"></div></div>
+   <div class="hero-grid"><div>
+    <div class="sysdot">SYSTEM ONLINE</div>
+    <h1 class="title">THINK LIKE A HACKER.<br><span class="t2">MASTER THE TERMINAL.</span></h1>
+    <p class="lead">Learn real Linux concepts inside a safe, simulated cyber environment.</p>
+    <div class="cta-row">
+      <button class="btn primary" onclick="UI.go('missions')">INITIALIZE SESSION</button>
+      <button class="btn sm ghost" onclick="UI.go('certificate')">${icon('trophy')} HACKER CERTIFICATE ${comp===10?'[QUALIFIED]':'['+comp+'/10 LOCKED]'}</button>
+    </div>
+   </div>
+   <div class="side-col"><div class="panel pcard">
+    <div class="plabel">OPERATOR PROFILE</div>
+    <div class="rows">
+     <div class="kv"><span class="k">RANK</span><span class="v" style="color:var(--cyan)">${RANKS[Save.rankIdx()].n}</span></div>
+     <div class="kv"><span class="k">XP</span><span class="v">${Save.d.xp}</span></div>
+    </div>
+    <div class="xpbar"><i style="width:${Save.rankProgress()*100}%"></i></div>
+   </div></div></div></div></div>`;
+ },
+ render_missions(v){
+  const first10Done = ['m01','m02','m03','m04','m05','m06','m07','m08','m09','m10'].every(id => Save.d.missions[id]?.done);
+  let h='<div class="wrap"><div class="pagehead"><h2>Training Operations Hub</h2><p>Execute real-world cybersecurity protocols. Clear Tier 1 (M01-M10) to unlock Tier 2 Advanced OWASP & Malware operations.</p></div>';
+  
+  h+='<h3 style="font:700 13.5px var(--mono);color:var(--cyan);letter-spacing:3px;margin:20px 0 12px;display:flex;align-items:center;gap:8px;">[ TIER 1: CORE OPERATOR PROTOCOLS // M01 - M10 ]</h3>';
+  MISSIONS.slice(0, 10).forEach((m)=>{
+   const done=Save.d.missions[m.id]?.done;
+   h+=`<div class="mrow ${done?'done':'avail'}" onclick="UI.startMission('${m.id}')">
+    <div class="mnum">${m.num}</div>
+    <div class="mmain"><b>${m.title}</b><div class="mtags">${m.tags.map(t=>'<span class="chip cy">'+t+'</span>').join('')}</div></div>
+    <div class="mside"><span class="mxp">${m.xp} XP</span><span class="mbest" style="color:${done?'var(--green)':'var(--dim2)'}">${done?'CLEARED':'AVAILABLE'}</span></div>
+   </div>`;
+  });
+
+  h+=`<h3 style="font:700 13.5px var(--mono);color:${first10Done?'var(--amber)':'var(--dim2)'};letter-spacing:3px;margin:32px 0 12px;display:flex;align-items:center;gap:8px;">[ TIER 2: ADVANCED OWASP TOP 10 & OFFENSIVE RED TEAMING // M11 - M15 ] ${first10Done?'':'<span style="font-size:10px;color:var(--amber);background:rgba(255,180,84,.12);padding:2px 8px;border-radius:3px;border:1px solid rgba(255,180,84,.3);">LOCKED &bull; CLEAR M01-M10 FIRST</span>'}</h3>`;
+  MISSIONS.slice(10).forEach((m)=>{
+   const done=Save.d.missions[m.id]?.done;
+   const locked=!first10Done;
+   h+=`<div class="mrow ${done?'done':locked?'locked':'avail'}" style="${locked?'cursor:not-allowed;opacity:.55;':''}" onclick="${locked?'toast(\'[!] LOCKED: Complete Tier 1 (M01-M10) first.\',\'err\')':'UI.startMission(\''+m.id+'\')'}">
+    <div class="mnum" style="color:${locked?'var(--dim2)':'var(--amber)'}">${m.num}</div>
+    <div class="mmain"><b>${m.title}</b><div class="mtags">${m.tags.map(t=>'<span class="chip '+(locked?'dim':'am')+'">'+t+'</span>').join('')}</div></div>
+    <div class="mside"><span class="mxp" style="color:${locked?'var(--dim2)':'var(--amber)'}">${m.xp} XP</span><span class="mbest" style="color:${done?'var(--green)':locked?'var(--red)':'var(--amber)'}">${done?'CLEARED':locked?'LOCKED':'AVAILABLE'}</span></div>
+   </div>`;
+  });
+
+  v.innerHTML=h+'</div>';
+ },
+ render_library(v){
+  let h='<div class="wrap"><h2>Command Library</h2><div class="lib-list">';
+  for(let k in DOCS)h+=`<div class="lib-item"><b>${k}</b><span>${DOCS[k].d}</span></div>`;
+  v.innerHTML=h+'</div></div>';
+ },
+ render_certificate(v){
+   const coreMissions = ['m01','m02','m03','m04','m05','m06','m07','m08','m09','m10'];
+    const completedCore = coreMissions.filter(id => Save.d?.missions?.[id]?.done).length;
+    const isQualified = completedCore === 10;
+
+   if(!isQualified){
+    v.innerHTML=`<div class="cg-wrap">
+     <div class="cg-term-head"><span>root@zero:~# certgen --verify-clearance</span><span class="cg-badge warn">LOCKED</span></div>
+     <div class="cg-term-box">
+      <div class="cg-ascii" style="color:var(--amber);">
+ [!] CLEARANCE CHECK IN PROGRESS...
+ [*] REQUIRED       : Completion of all 10 Operations (M01 - M10)
+ [*] CURRENT STATUS : ${completedCore} / 10 Operations Completed
+      </div>
+      <div class="xpbar" style="margin:16px 0 20px;height:8px;"><i style="width:${(completedCore/10)*100}%;"></i></div>
+      <div class="cg-m-grid">
+       ${MISSIONS.map(m=>{
+        const done=Save.d?.missions?.[m.id]?.done;
+        return `<div class="cg-m-item ${done?'done':'lock'}">
+         <span>${done?'[✔]':'[✗]'}</span>
+         <b>M${m.num}</b>
+         <span style="flex:1;">${m.title}</span>
+         <span style="font-size:10px;">${done?'CLEARED':'PENDING'}</span>
+        </div>`;
+       }).join('')}
+      </div>
+      <div style="margin:20px 0;padding:14px;border:1px solid rgba(255,180,84,.3);background:rgba(255,180,84,.05);border-radius:4px;font:500 13px var(--mono);color:var(--amber);">
+       [!] ACCESS DENIED: Complete all 10 operations in the <a href="javascript:void(0)" onclick="UI.go('missions')" style="color:var(--cyan);text-decoration:underline;">Missions Hub</a> to unlock and generate your official digital hacker certificate.
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+       <button class="btn primary sm" onclick="UI.go('missions')">CONTINUE OPERATIONS (${10 - completedCore} REMAINING)</button>
+      </div>
+     </div>
+    </div>`;
+    return;
+   }
+
+   // FULL TUI CERTIFICATE GENERATOR (Inspired by Kali certgen)
+   v.innerHTML=`<div class="cg-wrap" id="cert-print-area">
+    <div class="cg-term-head">
+     <span>root@kali:~# certgen</span>
+     <span class="cg-badge ok">OPERATOR QUALIFIED [10/10 CLEARED]</span>
+    </div>
+    <div class="cg-term-box">
+     <div class="cg-top-grid">
+      <div>
+       <div class="cg-ascii">
+ ██████╗███████╗██████╗ ████████╗ ██████╗ ███████╗███╗   ██╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔════╝ ██╔════╝████╗  ██║
+██║     █████╗  ██████╔╝   ██║   ██║  ███╗█████╗  ██╔██╗ ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██║   ██║██╔══╝  ██║╚██╗██║
+╚██████╗███████╗██║  ██║   ██║   ╚██████╔╝███████╗██║ ╚████║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝╚═╝  ╚═══╝</div>
+       <div class="cg-sub">[-] Create custom certificates for your needs. Fast. Simple. Terminal-based.</div>
+      </div>
+      <div class="cg-meta">
+       <div><span class="cy">[*] Tool</span>   : CertGen v1.0</div>
+       <div><span class="cy">[*] Author</span> : Anonymous / ZERO Relay</div>
+       <div><span class="cy">[*] Mode</span>   : Terminal GUI</div>
+       <div><span class="cy">[*] Status</span> : <span style="color:var(--green)">Ready</span></div>
+      </div>
+     </div>
+
+     <div class="cg-grid">
+      <!-- LEFT COLUMN: CONTROLS -->
+      <div>
+       <div class="cg-box">
+        <div class="cg-box-title">[ 1. ] Certificate Details</div>
+        <div class="cg-field-row">
+         <label class="cg-label">Subject Name:</label>
+         <input class="cg-input" id="cg-name" value="${esc(CertState.name)}" placeholder="Mayank" oninput="CertGen.updatePreview()">
+        </div>
+        <div class="cg-field-row">
+         <label class="cg-label">Title / Role:</label>
+         <input class="cg-input" id="cg-role" value="${esc(CertState.role)}" placeholder="Security Researcher" oninput="CertGen.updatePreview()">
+         <div class="cg-chips">
+          <span class="cg-chip" onclick="CertGen.setRole('Security Researcher')">Researcher</span>
+          <span class="cg-chip" onclick="CertGen.setRole('Certified Zero Operator')">Zero Operator</span>
+          <span class="cg-chip" onclick="CertGen.setRole('Penetration Tester')">Pen Tester</span>
+          <span class="cg-chip" onclick="CertGen.setRole('Root Security Architect')">Root Architect</span>
+         </div>
+        </div>
+        <div class="cg-field-row">
+         <label class="cg-label">Organization:</label>
+         <input class="cg-input" id="cg-org" value="${esc(CertState.org)}" placeholder="BlackShield Labs" oninput="CertGen.updatePreview()">
+        </div>
+        <div class="cg-field-row">
+         <label class="cg-label">Issue Date (YYYY-MM-DD):</label>
+         <input class="cg-input" id="cg-date" value="${esc(CertState.date)}" oninput="CertGen.updatePreview()">
+        </div>
+        <div class="cg-field-row">
+         <label class="cg-label">Expiry Date (YYYY-MM-DD):</label>
+         <input class="cg-input" id="cg-expiry" value="${esc(CertState.expiry)}" oninput="CertGen.updatePreview()">
+        </div>
+       </div>
+
+       <div class="cg-box">
+        <div class="cg-box-title">[ 2. ] Options</div>
+        <div class="cg-field-row">
+         <label class="cg-label">Certificate Theme Color:</label>
+         <div class="cg-color-row">
+          <button class="cg-color-btn c-cyan ${CertState.color==='cyan'?'on':''}" data-col="cyan" onclick="CertGen.setColor('cyan')"></button>
+          <button class="cg-color-btn c-green ${CertState.color==='green'?'on':''}" data-col="green" onclick="CertGen.setColor('green')"></button>
+          <button class="cg-color-btn c-amber ${CertState.color==='amber'?'on':''}" data-col="amber" onclick="CertGen.setColor('amber')"></button>
+          <button class="cg-color-btn c-red ${CertState.color==='red'?'on':''}" data-col="red" onclick="CertGen.setColor('red')"></button>
+         </div>
+        </div>
+        <div class="cg-field-row" style="margin-top:10px;">
+         <label class="cg-label">Include Logo / Crest:</label>
+         <label style="display:inline-flex;align-items:center;gap:6px;font:500 12px var(--mono);color:var(--txt);cursor:pointer;">
+          <input type="checkbox" id="cg-logo-chk" checked onchange="CertState.showLogo=this.checked;CertGen.updatePreview();"> [x] Yes
+         </label>
+        </div>
+       </div>
+
+       <div class="cg-box">
+        <div class="cg-box-title">[ 3. ] Output</div>
+        <div class="cg-field-row">
+         <label class="cg-label">File Name:</label>
+         <input class="cg-input" id="cg-filename" value="${esc(CertState.filename)}">
+        </div>
+        <div class="cg-actions">
+         <button class="btn primary" style="width:100%;justify-content:center;" onclick="CertGen.downloadPNG()">[ GENERATE CERTIFICATE ]</button>
+         <button class="btn ghost sm" style="width:100%;justify-content:center;" onclick="CertGen.printCert()">[ PRINT / SAVE PDF ]</button>
+        </div>
+       </div>
+
+       <div class="cg-log-box" id="cg-term-log">
+        [+] System initialized. Fill details and click Generate.<br>
+        root@kali:~# <span class="blink">█</span>
+       </div>
+      </div>
+
+      <!-- RIGHT COLUMN: LIVE TERMINAL PREVIEW -->
+      <div class="cert-preview-wrap">
+       <div style="font:700 12px var(--mono);color:var(--cyan);letter-spacing:.18em;margin-bottom:10px;">[ Preview ]</div>
+       <div class="cert-card ${CertState.color!=='cyan'?'theme-'+CertState.color:''}" id="cert-card-el">
+        <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
+        <div class="cert-corner bl"></div><div class="cert-corner br"></div>
+
+        <div class="cert-crest" id="pv-crest">
+         <svg width="68" height="68" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M50 14 L80 28 L80 56 Q78 80 50 90 Q22 80 20 56 L20 28 Z" fill="rgba(57,231,255,0.05)" stroke="currentColor" stroke-width="3"/>
+          <rect x="40" y="48" width="20" height="18" rx="2" fill="currentColor"/>
+          <path d="M44 48 V42 A6 6 0 0 1 56 42 V48" stroke="currentColor" stroke-width="3" fill="none"/>
+          <circle cx="50" cy="55" r="2.5" fill="#030712"/>
+          <path d="M12 40 Q8 65 24 82" stroke="currentColor" stroke-width="2"/>
+          <path d="M88 40 Q92 65 76 82" stroke="currentColor" stroke-width="2"/>
+         </svg>
+        </div>
+
+        <div class="cert-title">Certificate of Achievement</div>
+        <div class="cert-sub1">THIS CERTIFIES THAT</div>
+        <div class="cert-name" id="pv-name">${esc(CertState.name)}</div>
+        <div class="cert-stmt">Has successfully completed the requirements for</div>
+        <div class="cert-role" id="pv-role">${esc(CertState.role)}</div>
+        <div class="cert-at">at</div>
+        <div class="cert-org" id="pv-org">${esc(CertState.org)}</div>
+
+        <div class="cert-footer">
+         <div class="cert-f-left">
+          <span id="pv-date">${esc(CertState.date)}</span>
+          <b>Issue Date</b>
+         </div>
+         <div class="cert-seal">
+          <svg width="50" height="50" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2">
+           <circle cx="30" cy="30" r="26" stroke="currentColor" stroke-width="2"/>
+           <circle cx="30" cy="30" r="21" stroke-dasharray="3 3"/>
+           <path d="M26 30 h8 v9 h-8 z" fill="currentColor"/>
+           <path d="M28 30 v-4 a2 2 0 0 1 4 0 v4" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+         </div>
+         <div class="cert-f-right">
+          <span id="pv-expiry">${esc(CertState.expiry)}</span>
+          <b style="color:var(--white);margin-bottom:6px;display:block;">Expiry Date</b>
+          <div class="cert-signature" id="pv-sig">${esc(CertState.name)}</div>
+          <div class="cert-sig-line">Authorized Signature</div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>`;
+   setTimeout(()=>CertGen.updatePreview(),10);
+  },
+  render_achievements(v){ this.render_certificate(v); },
+ render_settings(v){
+  v.innerHTML=`<div class="wrap"><h2>Settings</h2>
+   <div class="setrow"><div class="st"><b>Sound Effects</b></div><div class="tgl ${Save.d.set.sound?'on':''}" onclick="this.classList.toggle('on');Save.d.set.sound=!Save.d.set.sound;Save.write();AudioX.setEnabled(Save.d.set.sound)"></div></div>
+   <div class="setrow"><div class="st"><b>Reset Progress</b></div><button class="btn danger sm" onclick="confirmModal('RESET','Delete all progress?','RESET',()=>Save.reset())">RESET</button></div>
+  </div>`;
+ },
+ startMission(id){
+  const m=MISSIONS.find(x=>x.id===id);
+  const v=$('#view');
+  v.innerHTML=`<div id="game">
+   <div class="hud"><div class="hmission"><b>${m.title}</b></div><div class="htimer">00:00</div>
+   <button class="icobtn" onclick="MissionEngine.togglePause()">${icon('pause')}</button>
+   <button class="icobtn" onclick="MissionEngine.abort()">${icon('x')}</button></div>
+   <div class="work">
+    <div class="brief">
+     <div class="mtitle">${m.title}</div><div class="brieftext">${m.brief}</div>
+     <h4>OBJECTIVES</h4><div id="m-objs"></div>
+     <h4>HINTS</h4><div id="m-hints"></div>
+    </div>
+    <div class="termwrap">
+     <div class="termhead"><span class="tpath">terminal</span></div>
+     <div class="termout" onclick="Terminal.focus()"></div>
+     <div class="term-line"><span class="prompt"></span><input type="text" spellcheck="false" autocomplete="off"></div>
+    </div>
+    <div class="intel"><h4>INTEL</h4><div class="refcard"><b>${m.ref.join(', ')}</b><p>Commands available for this mission.</p></div></div>
+   </div>
+  </div>`;
+  MissionEngine.init(id);
+  const ob=$('#m-objs');m.objectives.forEach((o,i)=>{
+   ob.innerHTML+=`<div class="obj" id="obj-${i}"><div class="obox"></div><div>${o.bon?'<span class="olab">BONUS</span>':''}${o.t}</div></div>`;
+  });
+  const hi=$('#m-hints');m.hints.forEach((h,i)=>{
+   hi.innerHTML+=`<div class="hintslot" id="hint-${i}"><button class="hbtn" onclick="MissionEngine.useHint(${i})">HINT ${i+1} <span>USE (-XP)</span></button></div>`;
+  });
+ },
+ renderMissionObj(i){$(`#obj-${i}`).classList.add('done');},
+ revealHint(i){$(`#hint-${i}`).innerHTML=`<div class="hbody">${MissionEngine.current.hints[i]}</div>`;},
+ updateHUD(){
+  const t=Date.now()-MissionEngine.startTime;
+  const timer=$('.htimer');if(timer)timer.innerText=fmtMS(t);
+ },
+ showResults(m,xp,rankedUp){
+  $('#flash').classList.remove('go');void $('#flash').offsetWidth;$('#flash').classList.add('go');
+  $('#stamp').innerText='MISSION COMPLETE';$('#stamp').classList.remove('go');void $('#stamp').offsetWidth;$('#stamp').classList.add('go');
+  setTimeout(()=>{
+   const allDone=MISSIONS.every(mi=>Save.d.missions[mi.id]?.done);
+   if(allDone){
+     openModal(`<div style="text-align:center;"><h2 style="color:var(--cyan);font-size:22px;margin-bottom:8px;">ALL 10 OPERATIONS CLEARED!</h2><p style="font-size:14.5px;color:var(--white);margin-bottom:16px;">Earned ${xp} XP.<br>Congratulations, Operator! You have unlocked your Official Digital Hacker Certificate.</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;"><button class="btn ghost sm" onclick="closeModal();UI.go('missions')">OPERATIONS</button><button class="btn primary sm" onclick="closeModal();UI.go('certificate')">GENERATE CERTIFICATE</button></div></div>`);
+   } else {
+     openModal(`<h2>MISSION ACCOMPLISHED</h2><p>Earned ${xp} XP</p><br><button class="btn primary" onclick="closeModal();UI.go('missions')">CONTINUE</button>`);
+   }
+  },1500);
+ }
+};
+
+const FX={
+ init(){this.c=$('#fx');this.cx=this.c.getContext('2d');this.p=[];window.addEventListener('resize',()=>this.resize());this.resize();this.tick();},
+ resize(){this.c.width=window.innerWidth;this.c.height=window.innerHeight;},
+ tick(){
+  requestAnimationFrame(()=>this.tick());
+  if(document.body.classList.contains('nopfx')||document.body.classList.contains('rm'))return;
+  this.cx.clearRect(0,0,this.c.width,this.c.height);
+  if(Math.random()<0.05)this.p.push({x:Math.random()*this.c.width,y:this.c.height+10,vx:(Math.random()-0.5)*0.5,vy:-Math.random()-0.5,a:Math.random()*0.5,s:Math.random()*2+1});
+  this.cx.fillStyle='rgba(57,231,255,0.6)';
+  for(let i=this.p.length-1;i>=0;i--){const p=this.p[i];p.x+=p.vx;p.y+=p.vy;p.a-=0.002;
+   if(p.a<=0){this.p.splice(i,1);continue;}
+   this.cx.globalAlpha=p.a;this.cx.fillRect(p.x,p.y,p.s,p.s);}
+ }
+};
+
+function boot(){
+  const bootEl = $('#boot');
+  if(bootEl) bootEl.style.display = 'none';
+  UI.init();
+}
+
+const initApp = () => {
+  try { Save.load(); } catch(e){ console.warn('Save.load:', e); }
+  try { FX.init(); } catch(e){ console.warn('FX.init:', e); }
+  try { document.body.addEventListener('click',()=>AudioX.boot(),{once:true}); } catch(e){}
+  boot();
+};
+
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+</script></body></html>
+
